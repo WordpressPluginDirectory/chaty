@@ -1,9 +1,9 @@
 ﻿=== Floating Chat Widget: Contact Chat Icons, WhatsApp, Telegram Chat, Line Messenger, WeChat, Email, SMS, Call Button – Chaty ===
 Contributors: galdub, tomeraharon, premio
-Tags: whatsapp, whatsapp chat, facebook messenger, click to chat, chat, chat button, call now button, messenger, whatsapp button, chat icon, contact button, click to call
+Tags: whatsapp, whatsapp chat, facebook messenger, chat, chat button, call now button, messenger, whatsapp button, chat icon, contact button, click to call, click to chat
 Requires at least: 3.1
 Tested up to: 6.4
-Stable tag: 3.1.8
+Stable tag: 3.1.9
 Plugin URI: https://premio.io/downloads/chaty/
 
 🔥 WhatsApp chat, Facebook Messenger, Telegram, TikTok, Viber, Email, Line, WeChat Phone call, SMS, + 20 chat icons, with a WhatsApp chat pop up 💬
@@ -16,8 +16,8 @@ Display a chat button and communicate with your customers.</strong>
 <a href="https://premio.io/help/chaty/?utm_source=wordpressorg" target="_blank" title="Support">Support</a> | <a href="https://demo.premio.io/chaty/?utm_source=wordpressorg" target="_blank" title="Premio.io demo site">Demo</a> | <a href="https://premio.io/chaty-whatsapp/?utm_source=wordpressorg" target="_blank" title="WhatsApp Button Features">WhatsApp Button Features</a>
 <a href="https://premio.io/?utm_source=wordpressorg" target="_blank" title="WordPress plugins">Recommended Plugins</a> | <a href="https://premio.io/downloads/chaty/?utm_source=wordpressorg" target="_blank" title="Chaty Pro"><strong>Upgrade to Pro ⭐</strong></a>
 
-* Get leads and calls
-* Chat with you via their favorite channels like Facebook Messenger, WhatsApp, WhatsApp Business, Viber, Slack, Telegram, TikTok, and many other chat channels
+* Get WhatsApp, Facebook Messenger, and 20+ chat channels leads and calls
+* Chat with you via their favorite channels like Facebook Messenger, WhatsApp, WhatsApp Business, Viber, Slack, Telegram, TikTok, Line Messenger, and many other chat channels
 * Improve your customer support
 * Direct customers to your store's location
 
@@ -42,7 +42,11 @@ Chaty is the perfect chat plugin for you! With Chaty you can display a call widg
 * Available days and hours - show the widget only during your opening hours. You can also use it to show live chat options when you're available, and other chat channels when you're not (Pro feature).
 * Launch your favorite live chat app - you can use JavaScript as one of your chat channels to launch other live chat products like Tawk.to, Tidio, Chatra, Formilla, Zoho, Zendesk, LiveChat, Crisp, Intercom, JivoChat, Olark, and more.
 
-= ▶️ Live Demo =
+= 👩‍💻 Still looking for a Live Chat plugin? =
+If you're not looking for WhatsApp, Facebook Messenger, and other chat buttons, and instead prefer to use a live chat solution for your website, <a href="https://chatway.app/?utm_source=chatylisting" target="_blank" title="Chatway Live Chat">Chatway Live Chat</a> is the perfect solution for you. Implementing Chatway, a WordPress live chat solution, enhances your website's interactivity and customer engagement. Chatway facilitates real-time live chat communication, fostering instant support and resolving queries promptly. Chatway streamlines customer interactions, creating a seamless user experience that builds trust and loyalty.
+<a href="https://wordpress.org/plugins/chatway-live-chat/" target="_blank" title="Chatway Live Chat"><strong>Try Chatway Now 🔗</strong></a>
+
+= ▶️ Chaty Live Demo =
 A live demo of the Chaty plugin is available at <a href="https://demo.premio.io/chaty/?utm_source=wordpressorg" target="_blank" title="Premio.io demo site">Premio's demo site</a>. Keep in mind, besides the chat buttons that appear on the demo site, you can use any other chat icons and also add your own custom chat buttons.
 The agents feature for WhatsApp (it can be used for any other chat channel) is also available on this <a href="https://demo.premio.io/agents/?utm_source=wordpressorg" target="_blank" title="Agents for WhatsApp demo">demo page</a>.
 
@@ -304,6 +308,9 @@ Yes! You can even decide what chat buttons will show up on each device (desktop/
 
 
 == Changelog ==
+
+= 3.1.9 =
+User access fix
 
 = 3.1.8 =
 Accessibility improvements

@@ -1108,9 +1108,9 @@ class CHT_Frontend extends CHT_Admin_Base
                                 if (isset($fieldSetting['is_active']) && $fieldSetting['is_active'] == "yes") {
                                     $contactFields[] = [
                                         "field"       => "name",
-                                        "title"       => isset($fieldSetting['field_label'])? esc_attr($fieldSetting['field_label']) :esc_html__("Name", "chaty"),
+                                        "title"       => isset($fieldSetting['field_label'])? $this->sanitize_xss($fieldSetting['field_label']) :esc_html__("Name", "chaty"),
                                         "is_required" => (isset($fieldSetting['is_required']) && $fieldSetting['is_required'] == "yes") ? 1 : 0,
-                                        "placeholder" => isset($fieldSetting['placeholder']) ? esc_attr($fieldSetting['placeholder']) : esc_html__("Enter your name", "chaty"),
+                                        "placeholder" => isset($fieldSetting['placeholder']) ? $this->sanitize_xss($fieldSetting['placeholder']) : esc_html__("Enter your name", "chaty"),
                                         "type"        => "text",
                                     ];
                                 }
@@ -1119,9 +1119,9 @@ class CHT_Frontend extends CHT_Admin_Base
                                 if (isset($fieldSetting['is_active']) && $fieldSetting['is_active'] == "yes") {
                                     $contactFields[] = [
                                         "field"       => "email",
-                                        "title"       => isset($fieldSetting['field_label'])? esc_attr($fieldSetting['field_label']) : esc_html__("Email", "chaty"),
+                                        "title"       => isset($fieldSetting['field_label'])? $this->sanitize_xss($fieldSetting['field_label']) : esc_html__("Email", "chaty"),
                                         "is_required" => (isset($fieldSetting['is_required']) && $fieldSetting['is_required'] == "yes") ? 1 : 0,
-                                        "placeholder" => isset($fieldSetting['placeholder']) ? esc_attr($fieldSetting['placeholder']) : esc_html__("Enter your email", "chaty"),
+                                        "placeholder" => isset($fieldSetting['placeholder']) ? $this->sanitize_xss($fieldSetting['placeholder']) : esc_html__("Enter your email", "chaty"),
                                         "type"        => "email",
                                     ];
                                 }
@@ -1130,9 +1130,9 @@ class CHT_Frontend extends CHT_Admin_Base
                                 if (isset($fieldSetting['is_active']) && $fieldSetting['is_active'] == "yes") {
                                     $contactFields[] = [
                                         "field"       => "phone",
-                                        "title"       => isset($fieldSetting['field_label'])? esc_attr($fieldSetting['field_label']) : esc_html__("Phone", "chaty"),
+                                        "title"       => isset($fieldSetting['field_label'])? $this->sanitize_xss($fieldSetting['field_label']) : esc_html__("Phone", "chaty"),
                                         "is_required" => (isset($fieldSetting['is_required']) && $fieldSetting['is_required'] == "yes") ? 1 : 0,
-                                        "placeholder" => isset($fieldSetting['placeholder']) ? esc_attr($fieldSetting['placeholder']) : esc_html__("Enter your phone number", "chaty"),
+                                        "placeholder" => isset($fieldSetting['placeholder']) ? $this->sanitize_xss($fieldSetting['placeholder']) : esc_html__("Enter your phone number", "chaty"),
                                         "type"        => "text",
                                     ];
                                 }
@@ -1141,9 +1141,9 @@ class CHT_Frontend extends CHT_Admin_Base
                                 if (isset($fieldSetting['is_active']) && $fieldSetting['is_active'] == "yes") {
                                     $contactFields[] = [
                                         "field"       => "message",
-                                        "title"       => isset($fieldSetting['field_label'])? esc_attr($fieldSetting['field_label']) : esc_html__("Message", "chaty"),
+                                        "title"       => isset($fieldSetting['field_label'])? $this->sanitize_xss($fieldSetting['field_label']) : esc_html__("Message", "chaty"),
                                         "is_required" => (isset($fieldSetting['is_required']) && $fieldSetting['is_required'] == "yes") ? 1 : 0,
-                                        "placeholder" => isset($fieldSetting['placeholder']) ? esc_attr($fieldSetting['placeholder']) : esc_html__("Enter your message", "chaty"),
+                                        "placeholder" => isset($fieldSetting['placeholder']) ? $this->sanitize_xss($fieldSetting['placeholder']) : esc_html__("Enter your message", "chaty"),
                                         "type"        => "textarea",
                                     ];
                                 }
@@ -1151,10 +1151,10 @@ class CHT_Frontend extends CHT_Admin_Base
 
                             if (!empty($contactFields)) {
                                 $contactFormSettings = [
-                                    "button_text_color"  => isset($value['button_text_color']) ? esc_attr($value['button_text_color']) : "#ffffff",
-                                    "button_bg_color"    => isset($value['button_bg_color']) ? esc_attr($value['button_bg_color']) : "#A886CD",
-                                    "button_text"        => isset($value['button_text']) ? esc_attr($value['button_text']) : "Chat",
-                                    "contact_form_title" => isset($value['contact_form_title']) ? esc_attr($value['contact_form_title']) : "Contact Us",
+                                    "button_text_color"  => isset($value['button_text_color']) ? $this->sanitize_xss($value['button_text_color']) : "#ffffff",
+                                    "button_bg_color"    => isset($value['button_bg_color']) ? $this->sanitize_xss($value['button_bg_color']) : "#A886CD",
+                                    "button_text"        => isset($value['button_text']) ? $this->sanitize_xss($value['button_text']) : "Chat",
+                                    "contact_form_title" => isset($value['contact_form_title']) ? $this->sanitize_xss($value['contact_form_title']) : "Contact Us",
                                 ];
                             } else {
                                 $valid = false;
@@ -1162,15 +1162,15 @@ class CHT_Frontend extends CHT_Admin_Base
                         }//end if
 
                         if ($valid) {
-                            $preSetMessage      = isset($value['pre_set_message']) ? esc_attr($value['pre_set_message']) : "";
+                            $preSetMessage      = isset($value['pre_set_message']) ? $this->sanitize_xss($value['pre_set_message']) : "";
                             $isDefaultOpen      = (isset($value['is_default_open'])&&$value['is_default_open'] == "yes") ? 1 : 0;
                             $hasWelcomeMessage  = (isset($value['embedded_window'])&&$value['embedded_window'] == "yes") ? 1 : 0;
-                            $embeddedMessage    = isset($value['embedded_message']) ? $value['embedded_message'] : "";
-                            $channelAccountType = isset($value['link_type']) ? esc_attr($value['link_type']) : "personal";
-                            $mailSubject        = isset($value['mail_subject']) ? esc_attr($value['mail_subject']) : "";
+                            $embeddedMessage    = isset($value['embedded_message']) ? esc_attr($value['embedded_message']) : "";
+                            $channelAccountType = isset($value['link_type']) ? $this->sanitize_xss($value['link_type']) : "personal";
+                            $mailSubject        = isset($value['mail_subject']) ? $this->sanitize_xss($value['mail_subject']) : "";
                             $isUseWebVersion    = (isset($value['use_whatsapp_web']) && $value['use_whatsapp_web'] == "no") ? 0 : 1;
                             $isOpenNewTab       = (isset($value['is_open_new_tab']) && $value['is_open_new_tab'] == 0) ? 0 : 1;
-                            $channelType        = isset($value['channel_type']) && !empty($value['channel_type']) ? $value['channel_type'] : $social['slug'];
+                            $channelType        = isset($value['channel_type']) && !empty($value['channel_type']) ? $this->sanitize_xss($value['channel_type']) : $social['slug'];
                             $allowed_html    = [
                                 'a'      => [
                                     'href'  => [],
@@ -1193,39 +1193,39 @@ class CHT_Frontend extends CHT_Admin_Base
 
                             $data  = [
                                 "channel"               => $social['slug'],
-                                "value"                 => esc_attr(wp_unslash($val)),
-                                "hover_text"            => esc_attr(wp_unslash($value['title'])),
+                                "value"                 => $this->sanitize_xss(wp_unslash($val)),
+                                "hover_text"            => $this->sanitize_xss(wp_unslash($value['title'])),
                                 "svg_icon"              => $svg,
                                 "is_desktop"            => $isDesktop,
                                 "is_mobile"             => $isMobile,
-                                "icon_color"            => $bgColor,
-                                "icon_rgb_color"        => $rgbColor,
-                                "channel_type"          => esc_attr($channelType),
+                                "icon_color"            => $this->sanitize_xss($bgColor),
+                                "icon_rgb_color"        => $this->sanitize_xss($rgbColor),
+                                "channel_type"          => $this->sanitize_xss($channelType),
                                 "custom_image_url"      => esc_url($imageURL),
                                 "order"                 => "",
-                                "pre_set_message"       => esc_attr($preSetMessage),
-                                "is_use_web_version"    => esc_attr($isUseWebVersion),
-                                "is_open_new_tab"       => esc_attr($isOpenNewTab),
-                                "is_default_open"       => esc_attr($isDefaultOpen),
-                                "has_welcome_message"   => esc_attr($hasWelcomeMessage),
+                                "pre_set_message"       => $this->sanitize_xss($preSetMessage),
+                                "is_use_web_version"    => $this->sanitize_xss($isUseWebVersion),
+                                "is_open_new_tab"       => $this->sanitize_xss($isOpenNewTab),
+                                "is_default_open"       => $this->sanitize_xss($isDefaultOpen),
+                                "has_welcome_message"   => $this->sanitize_xss($hasWelcomeMessage),
                                 "chat_welcome_message"  => $embeddedMessage,
                                 "qr_code_image_url"     => esc_url($qrCodeImage),
-                                "mail_subject"          => esc_attr($mailSubject),
-                                "channel_account_type"  => esc_attr($channelAccountType),
+                                "mail_subject"          => $this->sanitize_xss($mailSubject),
+                                "channel_account_type"  => $this->sanitize_xss($channelAccountType),
                                 "contact_form_settings" => $contactFormSettings,
                                 "contact_fields"        => $contactFields,
                                 "url"                   => $url,
-                                "mobile_target"         => $mobileTarget,
-                                "desktop_target"        => $desktopTarget,
-                                "target"                => $desktopTarget,
+                                "mobile_target"         => $this->sanitize_xss($mobileTarget),
+                                "desktop_target"        => $this->sanitize_xss($desktopTarget),
+                                "target"                => $this->sanitize_xss($desktopTarget),
                                 "is_agent"              => 0,
                                 "agent_data"            => [],
                                 "header_text"           => '',
                                 "header_sub_text"       => '',
                                 "header_bg_color"       => '',
                                 "header_text_color"     => '',
-                                "widget_token"          => $widgetToken,
-                                "widget_index"          => $index,
+                                "widget_token"          => $this->sanitize_xss($widgetToken),
+                                "widget_index"          => $this->sanitize_xss($index),
                                 "click_event"           => $onClickFn,
                             ];
                             $arr[] = $data;
@@ -1237,6 +1237,21 @@ class CHT_Frontend extends CHT_Admin_Base
         return $arr;
 
     }//end get_social_icon_list()
+
+
+    /**
+     * Sanitizes a string by removing any HTML tags and converting special characters to their HTML entities.
+     *
+     * @param string $value The string to sanitize.
+     *
+     * @return string The sanitized string.
+     * @since 1.0.0
+     * @access public
+     *
+     */
+    function sanitize_xss($value) {
+        return esc_attr(htmlspecialchars(strip_tags($value)));
+    }
 
 
     function cleanStringForNumbers($string) {

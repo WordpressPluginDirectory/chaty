@@ -84,8 +84,31 @@ class CHT_Admin_Base
 
         add_action("admin_head", [$this, "admin_head"]);
 
+        add_action("admin_init", [$this, "check_for_redirection"]);
+
     }//end __construct()
 
+    function check_for_redirection() {
+        if(!defined("DOING_AJAX")) {
+            $chaty_status = get_option("cht_redirect");
+            if($chaty_status) {
+                delete_option("cht_redirect");
+                wp_redirect(admin_url("admin.php?page=chaty-app"));
+                exit;
+            }
+
+            $page = isset($_GET['page']) ? $_GET['page'] : "";
+            if (!empty($page)) {
+                if (in_array($page, ["widget-analytics", "chaty-contact-form-feed", "recommended-chaty-plugins", "chaty-app-upgrade"])) {
+                    $isShown = get_option("chaty_update_message");
+                    if ($isShown === false) {
+                        wp_redirect(admin_url("admin.php?page=chaty-app"));
+                        exit;
+                    }
+                }
+            }
+        }
+    }
 
     function admin_head() {
         ?>
@@ -688,7 +711,7 @@ class CHT_Admin_Base
     public function display_cht_admin_page()
     {
         $isShown = get_option("chaty_update_message");
-            if ($isShown === false) {
+        if ($isShown === false) {
             include_once CHT_DIR.'/views/admin/update.php';
         } else {
             $status = get_option("cht_active");

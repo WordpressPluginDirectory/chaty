@@ -75,7 +75,7 @@ if (! defined('ABSPATH')) {
                         jQuery("#chaty-help-form").hide();
                         jQuery(".chaty-help-header").hide();
                         jQuery(".help-form-footer").hide();
-                        jQuery(".chaty-form-response").html("<p class='error-p'><?php printf(esc_html__("There is some problem in sending request. Please send us mail on %s", 'chaty'), "<a href='mailto:contact@premio.io'>contact@premio.io</a>"); ?></p>");
+                        jQuery(".chaty-form-response").html("<p class='error-p'><?php printf(esc_html__("There is some problem in sending request. Please send us mail on %1\$s", 'chaty'), "<a href='mailto:contact@premio.io'>contact@premio.io</a>"); ?></p>");
                     }
                 }
             });
@@ -94,7 +94,7 @@ if (! defined('ABSPATH')) {
                 jQuery.ajax({
                     url: "<?php echo esc_url(admin_url('admin-ajax.php')) ?>",
                     data: {
-                        nonce: "<?php echo wp_create_nonce("hide_chaty_cta") ?>",
+                        nonce: "<?php echo esc_attr(wp_create_nonce("hide_chaty_cta")) ?>",
                         action: "hide_chaty_cta"
                     },
                     type: "post",

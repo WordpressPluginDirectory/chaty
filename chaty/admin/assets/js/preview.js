@@ -50,7 +50,7 @@ jQuery(document).ready(function(){
 
     jQuery(document).on("click", ".csaas-i-trigger:not(.single-channel)", function(){
         jQuery(this).closest(".csass").removeClass("form-open");
-        jQuery(this).closest(".csaas-widget").toggleClass("csaas-open");
+        jQuery(this).closest(".csaas-widget:not(.has-single)").toggleClass("csaas-open");
         jQuery(".csaas-outer-forms").removeClass("active");
         jQuery(".form-open").removeClass("form-open");
         jQuery(".chaty-preview").height(234);
@@ -79,7 +79,7 @@ jQuery(document).ready(function(){
                 if(jQuery(this).closest(".csaas").hasClass("form-open")) {
                     jQuery("#" + dataForm).removeClass("is-active");
 
-                    jQuery(this).closest(".csaas-widget").addClass("csaas-open");
+                    jQuery(this).closest(".csaas-widget:not(.has-single)").addClass("csaas-open");
                     jQuery(this).closest(".csaas").removeClass("form-open");
                     jQuery("#" + dataForm).removeClass("active");
                 } else {
@@ -90,7 +90,7 @@ jQuery(document).ready(function(){
                         jQuery(".chaty-preview").height(totalSize + 10);
                     }
 
-                    var buttonHtml = jQuery(this).html();
+                    var buttonHtml = jQuery(this).closest(".csaas-widget").find(".csaas-cta-close").find("button").html();
                     jQuery("#" + dataForm).addClass("is-active");
 
                     jQuery(this).closest(".csaas-widget").removeClass("csaas-open");
@@ -103,13 +103,29 @@ jQuery(document).ready(function(){
         }
     });
 
-    jQuery(document).on("click", ".csaas-close-button, .csaas-close-agent-list", function(e) {
+    jQuery(document).on("keyup", ".whatsapp-placeholder", function(){
+        jQuery("#csaas_whatsapp_input").attr("placeholder", jQuery(this).val());
+    });
+
+    jQuery(document).on("change", ".whatsapp-placeholder", function(){
+        jQuery("#csaas_whatsapp_input").attr("placeholder", jQuery(this).val());
+    });
+
+    jQuery(document).on("click", ".whatsapp-emoji", function(){
+        if(jQuery(this).is(":checked")) {
+            jQuery(".csaas-whatsapp-field").addClass("has-emoji");
+        } else {
+            jQuery(".csaas-whatsapp-field").removeClass("has-emoji");
+        }
+    });
+
+    jQuery(document).on("click", ".csaas-close-button, .csaas-close-agent-list, .whatsapp-form-close-btn", function(e) {
         e.preventDefault();
         e.stopPropagation();
         jQuery(".csaas-outer-forms").removeClass("active");
         jQuery("#csaas-widget-0").removeClass("form-open");
         if(jQuery("#csaas-widget-0").find(".csaas-widget").hasClass("csaas-no-close-button")) {
-            jQuery("#csaas-widget-0").find(".csaas-widget").addClass("csaas-open");
+            jQuery("#csaas-widget-0").find(".csaas-widget:not(.has-single)").addClass("csaas-open");
         }
         jQuery(".chaty-preview").height(234);
     });
@@ -126,7 +142,7 @@ jQuery(document).ready(function(){
                     jQuery(".chaty-preview").height(totalSize+10);
                 }
 
-                var buttonHtml = jQuery(this).html();
+                var buttonHtml = jQuery(this).closest(".csaas-widget").find(".csaas-cta-close").find("button").html();
 
                 jQuery(this).closest(".csaas-widget").removeClass("csaas-open");
                 jQuery(this).closest(".csaas").addClass("form-open");
@@ -151,7 +167,7 @@ jQuery(document).ready(function(){
                     jQuery(".preview .page").height(totalSize+26);
                 }
 
-                var buttonHtml = jQuery(this).html();
+                var buttonHtml = jQuery(this).closest(".csaas-widget").find(".csaas-cta-close").find("button").html();
 
                 jQuery(this).closest(".csaas-widget").removeClass("csaas-open");
                 jQuery(this).closest(".csaas").addClass("form-open");
@@ -163,6 +179,11 @@ jQuery(document).ready(function(){
                 jQuery(this).closest(".csaas-widget").find(".open-csaas-channel").html(buttonHtml);
             }
         }
+    });
+
+    jQuery(document).on("click", ".csaas-widget.has-single .csaas-i-trigger.single-channel .csaas-cta-close .csaas-cta-button", function(){
+        jQuery(this).closest(".csaas").removeClass("form-open");
+        jQuery(".csaas-outer-forms").removeClass("active");
     });
 
     jQuery(document).on("keyup", "#cht_social_message_Contact_Us_form_title", function(){
@@ -181,7 +202,7 @@ jQuery(document).ready(function(){
         jQuery(".csaas-top-content").text(jQuery(this).val().toHtmlEntities());
     });
 
-    jQuery(document).on("change", ".form-field-setting-col input[type='text']", function(){
+    jQuery(document).on("change", ".form-field-setting-col input[type='text'], .chaty-input-text", function(){
         change_custom_preview();
     });
 
@@ -212,7 +233,7 @@ jQuery(document).ready(function(){
         if(!isEmpty(dataForm)) {
             if(jQuery("#"+dataForm).length) {
                 if(jQuery(this).closest(".csaas").hasClass("form-open")) {
-                    jQuery(this).closest(".csaas-widget").addClass("csaas-open");
+                    jQuery(this).closest(".csaas-widget:not(.has-single)").addClass("csaas-open");
                     jQuery(this).closest(".csaas").removeClass("form-open");
                     jQuery("#" + dataForm).removeClass("active");
                 } else {
@@ -223,7 +244,7 @@ jQuery(document).ready(function(){
                         jQuery(".preview .page").height(totalSize + 26);
                     }
 
-                    var buttonHtml = jQuery(this).html();
+                    var buttonHtml = jQuery(this).closest(".csaas-widget").find(".csaas-cta-close").find("button").html();
                     jQuery("#" + dataForm).addClass("is-active");
 
                     jQuery(this).closest(".csaas-widget").removeClass("csaas-open");
@@ -252,7 +273,6 @@ jQuery(window).on("load", function(){
 
 
 function change_custom_preview() {
-
     var socialString = [];
     jQuery("#channels-selected-list > li.chaty-channel").each(function () {
         socialString.push(jQuery(this).attr("data-id"));
@@ -355,6 +375,25 @@ function change_custom_preview() {
         advanceCustomCSS = "";
         var activeChannels = getActiveChannels();
         if(activeChannels) {
+
+            if(activeChannels <= 1 && jQuery("input[name='cta_type']:checked").val() != "chat-view") {
+                jQuery('.chaty-widget-color').addClass('hidden');
+            } else {
+                jQuery('.chaty-widget-color').removeClass('hidden');
+            }
+
+            if(jQuery("#whatsapp_embedded_window_Whatsapp").length && jQuery("#whatsapp_embedded_window_Whatsapp").is(":checked")) {
+                jQuery('.chaty-widget-color').removeClass('hidden');
+            }
+
+            if(jQuery("#upload_qr_code_val-WeChat").length && jQuery("#upload_qr_code_val-WeChat").val() != "") {
+                jQuery('.chaty-widget-color').removeClass('hidden');
+            }
+
+            if(jQuery("#chaty-social-Contact_Us").length) {
+                jQuery('.chaty-widget-color').removeClass('hidden');
+            }
+
             var widgetPosition = getWidgetPosition();
             widgetPosition = (widgetPosition == "right") ? "right" : "left";
             var toolTipPosition = getToolTipPosition();
@@ -403,6 +442,17 @@ function change_custom_preview() {
                     jQuery("#csaas-widget-0 .csaas-i-trigger .csaas-channel").append("<span class='on-hover-text'>"+ctaText.toHtmlEntities()+"</span>").addClass("active").addClass("has-on-hover");
                     jQuery("#csaas-widget-0 .csaas-i-trigger .csaas-channel a").append("<span class='on-hover-text'>"+ctaText.toHtmlEntities()+"</span>").addClass("has-on-hover");
                 }
+
+                var closeHtml = '<div class="csaas-channel csaas-cta-close csaas-tooltip pos-' + toolTipPosition + '">' +
+                    '<div class="csaas-cta-button"><button type="button">' +
+                    '<span class="csaas-svg">' +
+                    '<svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="26" cy="26" rx="26" ry="26" fill="'+ jQuery("input[name='cht_color']:checked").val().toHtmlEntities() +'"></ellipse><rect width="27.1433" height="3.89857" rx="1.94928" transform="translate(18.35 15.6599) scale(0.998038 1.00196) rotate(45)" fill="#fff"></rect><rect width="27.1433" height="3.89857" rx="1.94928" transform="translate(37.5056 18.422) scale(0.998038 1.00196) rotate(135)" fill="#fff"></rect></svg>' +
+                    '</span>' +
+                    '<span class="sr-only">Hide csaas</span>' +
+                    '</button>' +
+                    '</div>' +
+                    '</div>';
+                jQuery("#csaas-widget-0 .csaas-i-trigger").append(closeHtml);
             } else {
                 for(i=0; i<previewChannelList.length; i++) {
                     var channel = previewChannelList[i];
@@ -473,10 +523,10 @@ function change_custom_preview() {
                     closeButtonText = htmlDecode(closeButtonText);
                 }
                 /* close button */
-                var closeHtml = '<div class="csaas-channel csaas-cta-close csaas-tooltip '+toolTipPosition+'" data-hover="'+closeButtonText.toHtmlEntities()+'">' +
+                var closeHtml = '<div class="csaas-channel csaas-cta-close '+toolTipPosition+'">' +
                     '<div class="csaas-cta-button"><button type="button">' +
                     '<span class="csaas-svg">' +
-                    '<svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="26" cy="26" rx="26" ry="26" fill="'+ jQuery("input[name='cht_color']:checked").val() +'"></ellipse><rect width="27.1433" height="3.89857" rx="1.94928" transform="translate(18.35 15.6599) scale(0.998038 1.00196) rotate(45)" fill="white"></rect><rect width="27.1433" height="3.89857" rx="1.94928" transform="translate(37.5056 18.422) scale(0.998038 1.00196) rotate(135)" fill="white"></rect></svg>' +
+                    '<svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="26" cy="26" rx="26" ry="26" fill="'+ jQuery("input[name='cht_color']:checked").val().toHtmlEntities() +'"></ellipse><rect width="27.1433" height="3.89857" rx="1.94928" transform="translate(18.35 15.6599) scale(0.998038 1.00196) rotate(45)" fill="white"></rect><rect width="27.1433" height="3.89857" rx="1.94928" transform="translate(37.5056 18.422) scale(0.998038 1.00196) rotate(135)" fill="white"></rect></svg>' +
                     '</span>' +
                     '</button>' +
                     '</div>' +
@@ -501,9 +551,9 @@ function change_custom_preview() {
                 jQuery("#csaas-widget-0").addClass("open-on-hover");
             } else if(jQuery("#chaty_default_state").val() == "open") {
                 jQuery("#csaas-widget-0 .csaas-widget").addClass("default-open");
-                jQuery("#csaas-widget-0 .csaas-widget").addClass("csaas-open");
+                jQuery("#csaas-widget-0 .csaas-widget:not(.has-single)").addClass("csaas-open");
                 if(!jQuery("#cht_close_button").is(":checked")) {
-                    jQuery("#csaas-widget-0 .csaas-widget").addClass("csaas-open");
+                    jQuery("#csaas-widget-0 .csaas-widget:not(.has-single)").addClass("csaas-open");
                 }
             }
 
@@ -537,6 +587,9 @@ function change_custom_preview() {
             advanceCustomCSS += "#csaas-widget-0 .csaas-channels .csaas-channel .custom-agent-image img {width: "+widgetSize+"px; height: "+widgetSize+"px; }";
             advanceCustomCSS += "#csaas-widget-0 .csaas-channels .csaas-channel .csaas-svg img {width: "+widgetSize+"px; height: "+widgetSize+"px; }";
             advanceCustomCSS += "#csaas-widget-0 .csaas-channels .csaas-channel .csaas-svg .csaas-custom-channel-icon {width: "+widgetSize+"px; height: "+widgetSize+"px; line-height: "+widgetSize+"px; display: block; font-size:"+(parseInt(widgetSize/2))+"px; }";
+
+            var wp_bottom_size = widgetSize + 15 + 5;
+            advanceCustomCSS += ".csaas-outer-forms.active { bottom: "+ wp_bottom_size +"px; }";
 
             if(jQuery("input[name='chaty_icons_view']:checked").val() == "horizontal" && jQuery("input[name='cta_type']:checked").val() == "simple-view") {
                 jQuery("#csaas-widget-0 .csaas-widget").addClass("hor-mode");
@@ -577,6 +630,7 @@ function change_custom_preview() {
 
             /* Contact Us Button */
             advanceCustomCSS += "#csaas-submit-button-0 {color: "+jQuery("#button_text_color_for_Contact_Us").val()+" !important; background: "+jQuery("#button_bg_color_for_Contact_Us").val()+" !important;}"
+            advanceCustomCSS += ".csaas-contact-form-box .csaas-contact-form-title {background-color: "+ jQuery("#title_bg_color_for_Contact_Us").val() +";}";
 
             updateWidgetViews();
 
@@ -585,7 +639,11 @@ function change_custom_preview() {
             jQuery(".csaas-outer-forms, .csaas-chat-view").addClass(widgetPosition);
 
             if(jQuery("#cht_widget_font").val() != "") {
-                jQuery("#csaas-widget-0").css("font-family", jQuery("#cht_widget_font").val());
+                var fontFamily = jQuery("#cht_widget_font").val();
+                if(fontFamily == "System Stack") {
+                    fontFamily = "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif";
+                }
+                jQuery("#csaas-widget-0").css("font-family", fontFamily);
             }
         }
     }
@@ -658,13 +716,13 @@ function checkForPendingMessage() {
     if(jQuery("#cht_pending_messages").is(":checked") && jQuery("#cht_number_of_messages").val() != "") {
         var attention_effect = jQuery("#chaty_attention_effect").val();
         if(jQuery("#csaas-widget-0 .csaas-widget").hasClass("has-single")) {
-            if (attention_effect == "bounce" || attention_effect == "jump" || attention_effect == "waggle" || attention_effect == "pulse" || attention_effect == "pulse-icon") {
-                jQuery("#csaas-widget-0 .csaas-i-trigger .csaas-channel .csaas-icon").append("<span class='ch-pending-msg'>" + jQuery("#cht_number_of_messages").val() + "</span>");
+            if (attention_effect == "bounce" || attention_effect == "jump" || attention_effect == "waggle" || attention_effect == "pulse" || attention_effect == "pulse-icon" || attention_effect == "floating") {
+                jQuery("#csaas-widget-0 .csaas-i-trigger .csaas-channel a").append("<span class='ch-pending-msg'>" + jQuery("#cht_number_of_messages").val() + "</span>");
             } else {
                 jQuery("#csaas-widget-0 .csaas-i-trigger .csaas-channel a").after("<span class='ch-pending-msg'>" + jQuery("#cht_number_of_messages").val() + "</span>");
             }
         } else {
-            if (attention_effect == "bounce" || attention_effect == "jump" || attention_effect == "waggle" || attention_effect == "pulse" || attention_effect == "pulse-icon") {
+            if (attention_effect == "bounce" || attention_effect == "jump" || attention_effect == "waggle" || attention_effect == "pulse" || attention_effect == "pulse-icon" || attention_effect == "floating") {
                 jQuery("#csaas-widget-0 .csaas-i-trigger .csaas-cta-main .csaas-cta-button").append("<span class='ch-pending-msg'>" + jQuery("#cht_number_of_messages").val() + "</span>");
             } else {
                 jQuery("#csaas-widget-0 .csaas-i-trigger .csaas-cta-main").append("<span class='ch-pending-msg'>" + jQuery("#cht_number_of_messages").val() + "</span>");
@@ -683,12 +741,12 @@ function getCTAWidgetIcon() {
     }
     if(widgetIcon == "chat-image") {
         if(jQuery("#elPreviewImage img").length) {
-            return "<span class='csaas-svg' style='background: "+jQuery("input[name='cht_color']:checked").val()+"'><img id='cta-image' src='"+jQuery("#elPreviewImage img").attr("src")+"' alt='Chaty Widget' /></span>";
+            return "<span class='csaas-svg' style='background: "+jQuery("input[name='cht_color']:checked").val().toHtmlEntities()+"'><img id='cta-image' src='"+jQuery("#elPreviewImage img").attr("src")+"' alt='Chaty Widget' /></span>";
         }
         widgetIcon = 'chat-base';
     }
 
-    return '<span class="csaas-svg">'+getSvgIcon(widgetIcon, jQuery("input[name='cht_color']:checked").val())+"</span>";
+    return '<span class="csaas-svg">'+getSvgIcon(widgetIcon, jQuery("input[name='cht_color']:checked").val().toHtmlEntities())+"</span>";
 }
 function getSvgIcon(iconName, widgetColor) {
     switch(iconName) {
@@ -727,7 +785,7 @@ function createAgentList(channel, widgetId) {
     formHtml += "<div style='display:none;' class='csaas-outer-forms csaas-agent-data csaas-agent-data-"+widgetId+" csaas-form-"+widgetId+"' data-channel='"+channel+"' id='csaas-form-"+widgetId+"-"+channel+"' data-widget='"+widgetId+"' data-index='"+widgetIndex+"'>";
     formHtml += "<div class='csaas-form'>";
     formHtml += "<div class='csaas-form-body'>";
-    formHtml += "<div role='button' class='csaas-close-agent-list'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 330 330' xmlns:v='https://vecta.io/nano'><path d='M325.607 79.393c-5.857-5.857-15.355-5.858-21.213.001l-139.39 139.393L25.607 79.393c-5.857-5.857-15.355-5.858-21.213.001s-5.858 15.355 0 21.213l150.004 150a15 15 0 0 0 21.212-.001l149.996-150c5.859-5.857 5.859-15.355.001-21.213z'/></svg></div>";
+    formHtml += "<div role='button' class='csaas-close-agent-list'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 330 330'><path d='M325.607 79.393c-5.857-5.857-15.355-5.858-21.213.001l-139.39 139.393L25.607 79.393c-5.857-5.857-15.355-5.858-21.213.001s-5.858 15.355 0 21.213l150.004 150a15 15 0 0 0 21.212-.001l149.996-150c5.859-5.857 5.859-15.355.001-21.213z'/></svg></div>";
     formHtml += "<div class='csaas-agent-header agent-info-"+widgetId+"-"+channel+"'>";
     if(!isEmpty(jQuery("#cht_social_agent_title_"+channel).val())) {
         formHtml += "<div class='agent-main-header'>"+jQuery("#cht_social_agent_title_"+channel).val().toHtmlEntities()+"</div>";
@@ -847,26 +905,43 @@ function startMakingContactForm(channel, widgetId) {
     formHtml += "<div class='csaas-contact-form-title'>"+jQuery("#cht_social_message_"+channel+"_form_title").val().toHtmlEntities()+"</div>";
     formHtml += "<div class='csaas-contact-inputs'>";
 
-    if(jQuery("#field_for_Contact_Us_name").is(":checked")) {
-        formHtml += "<div class='csaas-contact-input'>";
-        formHtml += "<input type='text' readonly class='csaas-input-field' placeholder='" + jQuery("#placeholder_for_Contact_Us_name").val().toHtmlEntities() + "' />";
-        formHtml += "</div>";
-    }
-    if(jQuery("#field_for_Contact_Us_email").is(":checked")) {
-        formHtml += "<div class='csaas-contact-input'>";
-        formHtml += "<input type='text' readonly class='csaas-input-field' placeholder='" + jQuery("#placeholder_for_Contact_Us_email").val().toHtmlEntities() + "' />";
-        formHtml += "</div>";
-    }
-    if(jQuery("#field_for_Contact_Us_phone").is(":checked")) {
-        formHtml += "<div class='csaas-contact-input'>";
-        formHtml += "<input type='text' readonly class='csaas-input-field' placeholder='" + jQuery("#placeholder_for_Contact_Us_phone").val().toHtmlEntities() + "' />";
-        formHtml += "</div>";
-    }
-    if(jQuery("#field_for_Contact_Us_message").is(":checked")) {
-        formHtml += "<div class='csaas-contact-input'>";
-        formHtml += "<textarea type='text' readonly class='csaas-textarea-field' placeholder='" + jQuery("#placeholder_for_Contact_Us_message").val().toHtmlEntities() + "' ></textarea>";
-        formHtml += "</div>";
-    }
+    // if(jQuery("#field_for_Contact_Us_name").is(":checked")) {
+    //     formHtml += "<div class='csaas-contact-input'>";
+    //     formHtml += "<input type='text' readonly class='csaas-input-field' placeholder='" + jQuery("#placeholder_for_Contact_Us_name").val().toHtmlEntities() + "' />";
+    //     formHtml += "</div>";
+    // }
+    // if(jQuery("#field_for_Contact_Us_email").is(":checked")) {
+    //     formHtml += "<div class='csaas-contact-input'>";
+    //     formHtml += "<input type='text' readonly class='csaas-input-field' placeholder='" + jQuery("#placeholder_for_Contact_Us_email").val().toHtmlEntities() + "' />";
+    //     formHtml += "</div>";
+    // }
+    // if(jQuery("#field_for_Contact_Us_phone").is(":checked")) {
+    //     formHtml += "<div class='csaas-contact-input'>";
+    //     formHtml += "<input type='text' readonly class='csaas-input-field' placeholder='" + jQuery("#placeholder_for_Contact_Us_phone").val().toHtmlEntities() + "' />";
+    //     formHtml += "</div>";
+    // }
+    // if(jQuery("#field_for_Contact_Us_message").is(":checked")) {
+    //     formHtml += "<div class='csaas-contact-input'>";
+    //     formHtml += "<textarea type='text' readonly class='csaas-textarea-field' placeholder='" + jQuery("#placeholder_for_Contact_Us_message").val().toHtmlEntities() + "' ></textarea>";
+    //     formHtml += "</div>";
+    // }
+
+    jQuery("#chaty-social-Contact_Us .contact_form_custom_value").each(function (){
+        if(jQuery(this).closest(".field-setting-col").find(".chaty-switch input[type='checkbox']").is(":checked")) {
+            formHtml += "<div class='csaas-contact-label'>";
+            formHtml += "<label>"+jQuery(this).closest(".field-setting-col").find(".label-input input").val()+"</label>"
+            formHtml += "</div>";
+            formHtml += "<div class='csaas-contact-input'>"
+            if (jQuery(this).data("type") == "textarea") {
+                formHtml += "<textarea readonly class='csaas-textarea-field' placeholder='" + jQuery(this).val() + "' ></textarea>";
+            } else if (jQuery(this).data("type") == "select") {
+                formHtml += "<select style='pointer-events: none;' class='csaas-select-field'><option>"+ jQuery(this).find("option:first-child").text() +"</option></select>"
+            } else {
+                formHtml += "<input type='" + jQuery(this).attr("type") + "' readonly class='csaas-input-field' placeholder='" + jQuery(this).val() + "' />";
+            }
+            formHtml += "</div>";
+        }
+    });
     /*$.each(channel.contact_fields, function (key, contactField) {
     formHtml += "<div class='csaas-contact-input'>";
         var isRequired = isTrue(contactField.is_required)?"is-required":"";
@@ -902,21 +977,45 @@ function startMakingWeChatChannel(channel, widgetId) {
 }
 
 function startMakingWhatsAppPopup(channel, widgetId) {
+    const currentDate = new Date();
+    var currentMinute = (currentDate.getMinutes() < 10) ? "0"+currentDate.getMinutes() : currentDate.getMinutes();
+    var currentHour = (currentDate.getHours() < 10) ? "0"+currentDate.getHours() : currentDate.getHours();
+    const time = currentHour + ":" + currentMinute;
     var formHtml = "";
     var widgetIndex = widgetId;
     var formAction = "";
     var formTarget = "";
-    formHtml += "<div style='display:none;' class='csaas-outer-forms csaas-form-"+widgetId+"' data-channel='"+channel+"' id='csaas-form-"+widgetId+"-"+channel+"' data-widget='"+widgetId+"' data-index='"+widgetIndex+"'>";
-    formHtml += "<div class='csaas-whatsapp-form'>";
+    formHtml += "<div style='display:none;' class='csaas-outer-forms csaas-popup-whatsapp-form csaas-form-"+widgetId+"' data-channel='"+channel+"' id='csaas-form-"+widgetId+"-"+channel+"' data-widget='"+widgetId+"' data-index='"+widgetIndex+"'>";
+    formHtml += "<div class='csaas-whatsapp-form-info'>";
+    formHtml += "<div class='csaas-whatsapp-header'>";
+    formHtml += "<div class='header-wp-icon'>";
+    formHtml += '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="33" viewBox="0 0 32 33" fill="none"> <g filter="url(#filter0_f_9477_7201)"> <path d="M9.95924 25.2858L10.3674 25.5276C12.0818 26.545 14.0475 27.0833 16.052 27.0842H16.0562C22.2122 27.0842 27.2221 22.0753 27.2247 15.919C27.2258 12.9357 26.0652 10.1303 23.9565 8.01998C22.9223 6.97924 21.6919 6.15397 20.3365 5.59195C18.9812 5.02992 17.5278 4.74231 16.0606 4.74576C9.89989 4.74576 4.88975 9.75407 4.88756 15.91C4.88453 18.0121 5.47648 20.0722 6.59498 21.852L6.86071 22.2742L5.73223 26.394L9.95924 25.2858ZM2.50586 29.5857L4.41235 22.6249C3.23657 20.5878 2.618 18.2768 2.61873 15.9091C2.62183 8.50231 8.64941 2.47656 16.0564 2.47656C19.6508 2.47839 23.0245 3.87717 25.5618 6.41629C28.0991 8.95542 29.4952 12.3305 29.4939 15.9199C29.4906 23.3262 23.4621 29.353 16.0562 29.353H16.0504C13.8016 29.3521 11.592 28.788 9.62923 27.7177L2.50586 29.5857Z" fill="#B3B3B3"/> </g> <path d="M2.36719 29.447L4.27368 22.4862C3.09587 20.4442 2.47721 18.1278 2.48005 15.7705C2.48316 8.36364 8.51074 2.33789 15.9177 2.33789C19.5121 2.33972 22.8859 3.73849 25.4232 6.27762C27.9605 8.81675 29.3565 12.1918 29.3552 15.7812C29.3519 23.1875 23.3234 29.2143 15.9175 29.2143H15.9117C13.663 29.2134 11.4533 28.6493 9.49056 27.5791L2.36719 29.447Z" fill="white"/> <path d="M15.715 3.84769C9.17146 3.84769 3.85 9.16696 3.84767 15.7051C3.84445 17.9377 4.47318 20.1257 5.66119 22.016L5.94343 22.4646L4.48888 27.2525L9.23469 25.663L9.66824 25.9199C11.4891 27.0005 13.5769 27.5719 15.7061 27.5731H15.7105C22.249 27.5731 27.5705 22.2532 27.573 15.7146C27.5779 14.1562 27.2737 12.6123 26.6778 11.1722C26.082 9.73214 25.2064 8.42458 24.1017 7.3252C23.0032 6.21981 21.6963 5.34329 20.2567 4.74637C18.8171 4.14946 17.2734 3.844 15.715 3.84769Z" fill="#25D366"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0858 9.60401C11.8138 9.00922 11.5276 8.99717 11.2692 8.98687L10.5736 8.97852C10.3316 8.97852 9.93846 9.0679 9.60608 9.42544C9.27369 9.78297 8.33594 10.6471 8.33594 12.4046C8.33594 14.1622 9.63628 15.8605 9.81747 16.0991C9.99866 16.3377 12.3277 20.0594 16.0162 21.4913C19.0813 22.6813 19.705 22.4446 20.3706 22.3852C21.0361 22.3257 22.5175 21.521 22.8197 20.6869C23.1219 19.8527 23.1221 19.138 23.0315 18.9886C22.9409 18.8391 22.6989 18.7503 22.3357 18.5716C21.9725 18.3928 20.1888 17.5287 19.8562 17.4094C19.5236 17.2901 19.2818 17.2308 19.0396 17.5883C18.7975 17.9459 18.1029 18.7501 17.8911 18.9886C17.6793 19.227 17.4679 19.2569 17.1047 19.0783C16.7416 18.8998 15.5731 18.5224 14.1867 17.3054C13.108 16.3585 12.3799 15.1892 12.1679 14.8318C11.9559 14.4745 12.1454 14.2809 12.3274 14.1029C12.4902 13.9428 12.6901 13.6858 12.8719 13.4773C13.0537 13.2688 13.1135 13.1197 13.2343 12.8817C13.3551 12.6437 13.2949 12.4346 13.2041 12.256C13.1133 12.0774 12.4083 10.3105 12.0858 9.60401Z" fill="white"/> <defs> <filter id="filter0_f_9477_7201" x="1.21611" y="1.18682" width="29.5678" height="29.6889" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"> <feFlood flood-opacity="0" result="BackgroundImageFix"/> <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/> <feGaussianBlur stdDeviation="0.644873" result="effect1_foregroundBlur_9477_7201"/> </filter> </defs> </svg>';
+    formHtml += "</div>";
+    formHtml += "<div class='header-wp-title'>";
+    formHtml += jQuery("#wp_popup_headline").val().toHtmlEntities();
+    formHtml += "</div>";
+    formHtml += "<div class='whatsapp-form-close-btn'>";
+    formHtml += '<svg width="15" height="9" viewBox="0 0 15 9" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M1 1L7.31429 8L14 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </svg>';
+    formHtml += "</div>";
+    formHtml += "</div>";
     formHtml += "<div class='csaas-whatsapp-body'>";
-    formHtml += "<div role='button' class='close-csaas-form is-whatsapp-btn'><div class='csaas-close-button'></div></div>";
-    formHtml += "<div class='csaas-whatsapp-message'></div>";
+    if(jQuery("#wp_popup_profile").val() != "") {
+        formHtml += "<div class='wp-profile-img'>";
+        formHtml += "<img src='" + jQuery("#wp_popup_profile").val() + "'>"
+        formHtml += "</div>";
+    }
+    formHtml += "<div class='csaas-whatsapp-message'>";
+    formHtml += "<div class='csaas-whatsapp-message-nickname'>"+jQuery("#wp_popup_nickname").val().toHtmlEntities()+"</div>";
+    formHtml += "<div class='csaas-whatsapp-message-content'></div>";
+    formHtml += "<div class='csaas-whatsapp-message-time'>"+time+"</div>"
+    formHtml += "</div>";
     formHtml += "</div>";
     formHtml += "<div class='csaas-whatsapp-footer'>";
     //formHtml += "<form action='"+formAction+"' target='"+formTarget+"' class='whatsapp-csaas-form' data-widget='"+widgetId+"' data-channel='"+channel+"'>";
     formHtml += "<div class='csaas-whatsapp-data'>";
     formHtml += "<div class='csaas-whatsapp-field'>";
-    formHtml += "<input name='text' readonly type='text' class='csass-whatsapp-input' />";
+    formHtml += '<button type="button" class="csaas-wp-emoji-input"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12 2C6.47 2 2 6.5 2 12C2 14.6522 3.05357 17.1957 4.92893 19.0711C5.85752 19.9997 6.95991 20.7362 8.17317 21.2388C9.38642 21.7413 10.6868 22 12 22C14.6522 22 17.1957 20.9464 19.0711 19.0711C20.9464 17.1957 22 14.6522 22 12C22 10.6868 21.7413 9.38642 21.2388 8.17317C20.7362 6.95991 19.9997 5.85752 19.0711 4.92893C18.1425 4.00035 17.0401 3.26375 15.8268 2.7612C14.6136 2.25866 13.3132 2 12 2ZM15.5 8C15.8978 8 16.2794 8.15804 16.5607 8.43934C16.842 8.72064 17 9.10218 17 9.5C17 9.89782 16.842 10.2794 16.5607 10.5607C16.2794 10.842 15.8978 11 15.5 11C15.1022 11 14.7206 10.842 14.4393 10.5607C14.158 10.2794 14 9.89782 14 9.5C14 9.10218 14.158 8.72064 14.4393 8.43934C14.7206 8.15804 15.1022 8 15.5 8ZM8.5 8C8.89782 8 9.27936 8.15804 9.56066 8.43934C9.84196 8.72064 10 9.10218 10 9.5C10 9.89782 9.84196 10.2794 9.56066 10.5607C9.27936 10.842 8.89782 11 8.5 11C8.10218 11 7.72064 10.842 7.43934 10.5607C7.15804 10.2794 7 9.89782 7 9.5C7 9.10218 7.15804 8.72064 7.43934 8.43934C7.72064 8.15804 8.10218 8 8.5 8ZM12 17.5C9.67 17.5 7.69 16.04 6.89 14H17.11C16.3 16.04 14.33 17.5 12 17.5Z" fill="#CDD9E2"/> </svg></button>';
+    formHtml += "<input name='text' readonly type='text' placeholder='Write your message...' id='csaas_whatsapp_input' class='csass-whatsapp-input' />";
     formHtml += "</div>";
     formHtml += "<div class='csaas-whatsapp-button'>";
     formHtml += "<button type='submit'>";
@@ -929,12 +1028,25 @@ function startMakingWhatsAppPopup(channel, widgetId) {
     formHtml += "</div>";
     formHtml += "</div>";
     jQuery(".chaty-preview").append(formHtml);
-    jQuery("#csaas-form-"+widgetId+"-"+channel+" .csaas-whatsapp-message").html(jQuery(".chaty-whatsapp-setting-textarea").val().toHtmlEntities());
-    var preSetMessage = jQuery(".pre-set-message-whatsapp").val().toHtmlEntities();
-    if(!isEmpty(channel.pre_set_message)) {
+    jQuery("#csaas-form-"+widgetId+"-"+channel+" .csaas-whatsapp-message .csaas-whatsapp-message-content").html(jQuery(".chaty-whatsapp-setting-textarea").val());
+    var preSetMessage = jQuery(".pre-set-message-whatsapp").val();
+    if(!isEmpty(preSetMessage)) {
+        var preSetMessage = jQuery(".pre-set-message-whatsapp").val().toHtmlEntities();
         jQuery("#csaas-form-"+widgetId+"-"+channel+" .csass-whatsapp-input").val(preSetMessage);
     }
+    if(isEmpty(jQuery(".chaty-whatsapp-setting-textarea").val())) {
+        jQuery("#csaas-form-"+widgetId+"-"+channel+" .wp-profile-img").remove();
+        jQuery("#csaas-form-"+widgetId+"-"+channel+" .csaas-whatsapp-message").remove();
+    }
     jQuery("#chaty-form-"+widgetId+"-"+channel).show();
+
+    jQuery("#csaas_whatsapp_input").attr("placeholder", jQuery(".whatsapp-placeholder").val());
+
+    if(jQuery(".whatsapp-emoji").is(":checked")) {
+        jQuery(".csaas-whatsapp-field").addClass("has-emoji");
+    } else {
+        jQuery(".csaas-whatsapp-field").removeClass("has-emoji");
+    }
 }
 
 function isEmpty(varVal) {

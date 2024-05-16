@@ -67,7 +67,32 @@ jQuery( function($) {
         return true;
     }
 
+    function checkForWhatsAppNumber() {
+
+        if(isWhatsAppValidated) {
+            return checkPreSettings();
+        }
+
+        $(".phone-number-list").html("");
+        if($("#channel_input_Whatsapp").length) {
+            if($("#channel_input_Whatsapp").val() != "") {
+                if($("#channel_input_Whatsapp").val().indexOf("-0") != -1) {
+                    let inputVal = $("#channel_input_Whatsapp").val();
+                    let phoneLabel = $(".phone-number-list").data("label");
+                    let testLink = `https://wa.me/`+($.trim(inputVal).replace(/[^a-zA-Z0-9 ]/g, '')).toHtmlEntities() ;
+                    let phoneLink = `<a class="whatsapp-test-btn" target="_blank" href='${testLink}'>Test</a>`;
+                    let btnHtml = `<div class='number-list is-not-agent'>${phoneLabel}: <b>${inputVal}</b> ${phoneLink}</div>`;
+                    $(".phone-number-list").html(btnHtml);
+                    $("#whatsapp-message-popup").show();
+                    return false;
+                }
+            }
+        }
+        return checkPreSettings();
+    }
+
     function checkPreSettings() {
+        isWhatsAppValidated = true;
         if(!whatsappStatus) {
             whatsappStatus = true;
             var phoneNumberReg = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
@@ -160,7 +185,11 @@ jQuery( function($) {
         }, 500)
     });
 
+    let isWhatsAppValidated = true;
+
     $(document).ready(function () {
+
+        var InMobile = (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0, 4))) ? 1 : 0;
 
         $(document).on("change", "input[name='cta_type']:checked", function(){
             if($(this).val() == "simple-view") {
@@ -283,36 +312,61 @@ jQuery( function($) {
             jQuery("#agent-popup").show();
         });
 
-        if($("#channel_input_Whatsapp").length) {
-            cht_settings.channel_settings['Whatsapp'] = document.querySelector("#channel_input_Whatsapp");
-            window.intlTelInput(cht_settings.channel_settings['Whatsapp'], {
-                dropdownContainer: document.body,
-                formatOnDisplay: true,
-                hiddenInput: "full_number",
-                initialCountry: "auto",
-                nationalMode: false,
-                utilsScript: cht_settings.plugin_url+"admin/assets/js/utils.js",
-            });
-        }
+        $(document).on("keyup", "#channel_input_Whatsapp", function(){
+            if($.trim($(this).val()) != "") {
+                var iti = cht_settings.channel_settings['Whatsapp_Country'];
+                var data = iti.getSelectedCountryData()
+                var value = $.trim($(this).val());
+                if(value[0] != "+") {
+                    value = "+"+value;
+                    $(this).val(value);
+                    $(this).trigger("change");
+                }
 
-        if($(".custom-channel-Whatsapp:not(#channel_input_Whatsapp)").length) {
-            $(".custom-channel-Whatsapp:not(#channel_input_Whatsapp)").each(function(){
-                var dataSlag = $(this).closest("li.chaty-channel").data("id");
-                if(dataSlag != undefined) {
-                    if($("#channel_input_"+dataSlag).length) {
-                        cht_settings.channel_settings[dataSlag] = document.querySelector("#channel_input_"+dataSlag);
-                        window.intlTelInput(cht_settings.channel_settings[dataSlag], {
-                            dropdownContainer: document.body,
-                            formatOnDisplay: true,
-                            hiddenInput: "full_number",
-                            initialCountry: "auto",
-                            nationalMode: false,
-                            utilsScript: cht_settings.plugin_url + "admin/assets/js/utils.js",
-                        });
+                if (Reflect.has(data, 'dialCode')) {
+                    var dialCode = data.dialCode;
+
+                    if (value.length > dialCode.length + 1 && !value.includes('-') && value.startsWith(`+${dialCode}`)) {
+                        var number = value.replace(`+${dialCode}`, '')
+                        number = number.replaceAll(" ", "");
+                        $(this).val('+' + dialCode + '-' + number);
                     }
                 }
-            });
-        }
+
+                if(data.dialCode) {
+                    if ((value.length <= data.dialCode.length + 1)) {
+                        $(this).closest(".test-btn").find(".wf-test-button").removeClass("active");
+                    } else {
+                        $(this).closest(".test-btn").find(".wf-test-button").addClass("active");
+                    }
+                }
+
+                if(value.length > 0 && !data.dialCode) {
+                    $(this).closest(".test-btn").find(".wf-test-button").removeClass("active");
+                }
+
+                if(value[0] == "+" && $(this).val().length == 1) {
+                    $(this).closest(".channels__input-box").find(".iti__selected-flag").find(".iti__flag").attr("class", "iti__flag");
+                    $(this).closest(".channels__input-box").find(".iti__selected-flag").attr("title", "");
+                }
+            } else if($.trim($(this).val()) == "") {
+                $(this).closest(".channels__input-box").find(".iti__selected-flag").find(".iti__flag").attr("class", "iti__flag");
+                $(this).closest(".channels__input-box").find(".iti__selected-flag").attr("title", "");
+            }
+        });
+
+        $(document).on("click", ".remove-zero-btn", function(){
+            let inputVal = $("#channel_input_Whatsapp").val();
+            inputVal = inputVal.replace(/-0+/, '-');
+            $("#channel_input_Whatsapp").val(inputVal);
+            $(".chaty-popup").hide();
+            isWhatsAppValidated = true;
+            checkPreSettings();
+        });
+
+        $(document).on("change", ".custom-channel-Whatsapp", function(){
+            isWhatsAppValidated = false;
+        });
 
         $(document).on("change", ".chaty-redirect-setting", function(){
             setTimeout(function(){
@@ -369,8 +423,25 @@ jQuery( function($) {
                             iframe.contents().find('body').css({
                                 backgroundColor: '#fff'
                             });
+
+                        var buttonHtml = $(".csaas-widget").find(".csaas-cta-close").find("button").html();
+                        var dataForm = "csaas-form-0-Whatsapp";
+                        $("#" + dataForm).addClass("is-active");
+
+                        $(".csaas-widget").removeClass("csaas-open");
+                        $(".csaas").addClass("form-open");
+                        $("#" + dataForm).addClass("active");
+
+                        $(".csaas-widget").find(".open-csaas-channel").html(buttonHtml);
                     } else {
                         $(this).closest("li.chaty-channel").find(".whatsapp-welcome-message").removeClass("active");
+
+                        var dataForm = "csaas-form-0-Whatsapp";
+                        $("#" + dataForm).removeClass("is-active");
+
+                        $(".csaas-widget").addClass("csaas-open");
+                        $(".csaas").removeClass("form-open");
+                        $("#" + dataForm).removeClass("active");
                     }
                 });
             },300);
@@ -435,16 +506,13 @@ jQuery( function($) {
                 });
             }
             if(errorCount == 0) {
-                return checkPreSettings();
+                return checkForWhatsAppNumber();
             } else {
                 $(".cht-input-error:first").focus();
                 return false;
             }
         });
 
-        $(".chaty-popup-inner").on("click", function(e){
-            e.stopPropagation();
-        });
         $(".chaty-popup-outer").on("click", function(e){
             $(".chaty-popup").hide();
         });
@@ -481,9 +549,174 @@ jQuery( function($) {
             jQuery("#date-schedule").removeClass("active");
             jQuery("#cht_date_rules").val("no");
         });
-    });
 
+
+        jQuery(document).on("click", ".wf-test-button", function (){
+            var slug = jQuery(this).data('slug');
+            jQuery("#"+slug+"_popup").addClass("active");
+            var link = "";
+            var value = $(".custom-channel-"+slug).val();
+            console.log(value);
+
+            if(slug == 'Whatsapp') {
+                var val = value.replaceAll("+", "").replaceAll(" ", "").replaceAll("-", "");
+                if(InMobile) {
+                    link = "https://wa.me/" + val;
+                } else {
+                    link = "https://web.whatsapp.com/send?phone=" + val;
+                }
+                $("#"+slug+"_popup").find(".phone-value").text(value);
+            }
+            if(slug == "Facebook_Messenger") {
+                link = value;
+                $("#"+slug+"_popup").find(".phone-value").text(value);
+            }
+
+
+            window.open(link, '_blank');
+        });
+
+        $(document).on("click", ".edit-number", function (){
+            var slug = $(this).closest(".test-popup").data("label");
+            $(".custom-channel-"+slug).focus();
+            $(".test-popup").removeClass("active");
+        });
+
+        jQuery(document).on("click", ".test-popup-bg, .test-popup-close-btn, .test-popup .save-btn", function (){
+            jQuery(".test-popup").removeClass("active");
+        });
+
+        $(document).on("keyup", ".custom-channel-Facebook_Messenger", function (){
+            if($(this).val() != "") {
+                $(this).closest(".test-btn").find(".wf-test-button").addClass("active");
+            } else {
+                $(this).closest(".test-btn").find(".wf-test-button").removeClass("active");
+            }
+        });
+
+        $(document).on("click", ".test-popup .contact-link", function (){
+            $(".chaty-help-form").addClass("active");
+            $(".test-popup").removeClass("active");
+        });
+
+        $(document).on("keyup", "#wp_popup_headline, #wp_popup_nickname", function (){
+            change_custom_preview();
+        });
+
+        var customImageFor = "";
+        $(document).on("click", ".upload-wp-profile", function (){
+            customImageFor = $(this).data("for");
+            var image = wp.media({
+                title: 'Select Whatsapp Profile',
+                multiple: false,
+                library: {
+                    type: 'image',
+                }
+            }).open()
+                .on('select', function (e) {
+                    var uploaded_image = image.state().get('selection').first();
+                    var imageData = uploaded_image.toJSON();
+                    $("#"+customImageFor+"-custom-image-upload .img-value").val(imageData.url);
+                    $("#"+customImageFor+"-custom-image-upload").addClass("active");
+                    $("#"+customImageFor+"-custom-image-upload .image-info").html("<img src='"+imageData.url+"'>");
+                    change_custom_preview();
+                });
+        });
+
+        $(document).on("click", ".remove-custom-img", function (){
+            $(this).closest(".custom-img-upload").removeClass("active");
+            $(this).closest(".custom-img-upload").find(".image-info").html("");
+            $(this).closest(".custom-img-upload").find(".img-value").val("");
+            change_custom_preview();
+        });
+
+        checkForUserCountry();
+    });
 });
+
+function checkForUserCountry() {
+    var userCountry = getUserCountry();
+    if(userCountry != "") {
+        setWhatsAppCountryFlag();
+    }
+}
+
+function getUserCountry() {
+    var clientCountry = chatyGetCookie("cht_country_code");
+    if(!clientCountry) {
+        setClientCountry();
+    }
+    return clientCountry;
+}
+
+function setClientCountry() {
+    var clientCountry = chatyGetCookie("cht_country_code");
+    if(!clientCountry) {
+        var $apiURL = 'https://www.cloudflare.com/cdn-cgi/trace';
+        jQuery.get($apiURL, function (countryData) {
+            if (countryData) {
+                var countryCode = "-";
+                var countryInfo = countryData.match("loc=(.*)");
+                if (countryInfo.length > 1) {
+                    countryInfo = countryInfo[1];
+                    if (countryInfo) {
+                        countryCode = countryInfo.toUpperCase();
+                        if (countryCode == "") {
+                            countryCode = "-";
+                        }
+                    }
+                }
+            }
+            chatySetCookie("cht_country_code", countryCode, 30 * 24);
+            setWhatsAppCountryFlag();
+        });
+    }
+}
+
+function setWhatsAppCountryFlag() {
+    if(jQuery("#channel_input_Whatsapp").length) {
+        cht_settings.channel_settings['Whatsapp'] = document.querySelector("#channel_input_Whatsapp");
+        cht_settings.channel_settings['Whatsapp_Country'] = window.intlTelInput(cht_settings.channel_settings['Whatsapp'], {
+            formatOnDisplay: false,
+            hiddenInput: 'full_number',
+            initialCountry: 'auto',
+            nationalMode: false,
+            autoHideDialCode: false,
+            utilsScript: cht_settings.plugin_url + "admin/assets/js/utils.js",
+        });
+
+        var user_country = getUserCountry();
+        if(user_country != "-" && jQuery("#channel_input_Whatsapp").val() == "") {
+            setTimeout(function(){
+                cht_settings.channel_settings['Whatsapp_Country'].setCountry(user_country);
+                jQuery("#channel_input_Whatsapp").trigger("keyup");
+            }, 200);
+        } else if(jQuery("#channel_input_Whatsapp").val() != "") {
+            setTimeout(function(){
+                jQuery("#channel_input_Whatsapp").trigger("keyup");
+            }, 200);
+        }
+    }
+
+    if(jQuery(".custom-channel-Whatsapp:not(#channel_input_Whatsapp)").length) {
+        jQuery(".custom-channel-Whatsapp:not(#channel_input_Whatsapp)").each(function(){
+            var dataSlag = jQuery(this).closest("li.chaty-channel").data("id");
+            if(dataSlag != undefined) {
+                if(jQuery("#channel_input_"+dataSlag).length) {
+                    cht_settings.channel_settings[dataSlag] = document.querySelector("#channel_input_"+dataSlag);
+                    window.intlTelInput(cht_settings.channel_settings[dataSlag], {
+                        dropdownContainer: document.body,
+                        formatOnDisplay: true,
+                        hiddenInput: "full_number",
+                        initialCountry: "auto",
+                        nationalMode: false,
+                        utilsScript: cht_settings.plugin_url + "admin/assets/js/utils.js",
+                    });
+                }
+            }
+        });
+    }
+}
 
 function check_for_number_chaty(phoneNumber, validationFor) {
     if (phoneNumber != "") {
@@ -826,6 +1059,56 @@ function check_for_number_chaty(phoneNumber, validationFor) {
                         jQuery('#chaty-social-close').before(item);
                         if(jQuery("#chaty-social-"+social+" .chaty-whatsapp-setting-textarea").length) {
                             editorId = jQuery("#chaty-social-"+social+" .chaty-whatsapp-setting-textarea").attr("id");
+                            tinymce.init({
+                                selector: jQuery("#chaty-social-"+social+" .chaty-whatsapp-setting-textarea").attr("id"),
+                                toolbar: 'bold, italic, underline | emoji',
+                                menubar: false,
+                                branding: false,
+                                setup: function(editor) {
+
+                                    editor.addButton('emoji', {
+                                        image: cht_nonce_ajax.icon_img,
+                                        onclick: insertEmoji,
+                                        classes: 'emoji-custom-icon'
+                                    });
+
+                                    editor.on('keyup', function (e){
+                                        change_custom_preview();
+                                        jQuery("#csaas-form-0-Whatsapp .csaas-whatsapp-message .csaas-whatsapp-message-content").html(editor.getContent());
+                                    });
+
+                                    function insertEmoji() {
+                                        const { createPopup } = window.picmoPopup;
+                                        const trigger = jQuery(".mce-emoji-custom-icon button").attr("id");
+                                        const trig = document.querySelector("#"+trigger);
+
+                                        const picker = createPopup({}, {
+                                            referenceElement: trig,
+                                            triggerElement: trig,
+                                            position: 'right-start',
+                                            hideOnEmojiSelect: false
+                                        });
+
+                                        picker.toggle();
+
+                                        picker.addEventListener('emoji:select', (selection) => {
+                                            let editor = tinyMCE.get(editorId);
+                                            if(!editor.selection.getNode() || editor.selection.getNode() === editor.getBody()) {
+                                                editor.focus();
+                                                // Move the cursor to the end of the content
+                                                editor.selection.select(editor.getBody(), true);
+                                                editor.selection.collapse(false);
+                                                tinymce.activeEditor.execCommand('mceInsertContent', false, selection.emoji);
+                                            } else {
+                                                tinymce.activeEditor.execCommand('mceInsertContent', false, selection.emoji);
+                                            }
+                                            change_custom_preview();
+                                            jQuery("#csaas-form-0-Whatsapp .csaas-whatsapp-message .csaas-whatsapp-message-content").html(editor.getContent());
+                                        });
+                                    }
+
+                                }
+                            });
                             tinymce.execCommand( 'mceAddEditor', true, editorId);
                         }
                     }
@@ -837,19 +1120,32 @@ function check_for_number_chaty(phoneNumber, validationFor) {
                     set_social_channel_order();
                     check_for_chaty_close_button();
 
-                    if(social == "Whatsapp") {
+                    // if(social == "Whatsapp") {
                         if($("#channel_input_Whatsapp").length) {
                             cht_settings.channel_settings['Whatsapp'] = document.querySelector("#channel_input_Whatsapp");
-                            window.intlTelInput(cht_settings.channel_settings['Whatsapp'], {
-                                dropdownContainer: document.body,
-                                formatOnDisplay: true,
-                                hiddenInput: "full_number",
-                                initialCountry: "auto",
+                            cht_settings.channel_settings['Whatsapp_Country'] = window.intlTelInput(cht_settings.channel_settings['Whatsapp'], {
+                                formatOnDisplay: false,
+                                hiddenInput: 'full_number',
+                                initialCountry: 'auto',
                                 nationalMode: false,
+                                autoHideDialCode: false,
                                 utilsScript: cht_settings.plugin_url + "admin/assets/js/utils.js",
                             });
+
+                            var user_country = getUserCountry();
+                            if(user_country != "-" && $("#channel_input_Whatsapp").val() == "") {
+                                setTimeout(function(){
+                                    cht_settings.channel_settings['Whatsapp_Country'].setCountry(user_country);
+                                    $("#channel_input_Whatsapp").closest(".channels__input-box").find(".iti__selected-flag").find(".iti__flag").addClass("iti__"+user_country);
+                                    $("#channel_input_Whatsapp").trigger("keyup");
+                                }, 200);
+                            } else if($("#channel_input_Whatsapp").val() != "") {
+                                setTimeout(function(){
+                                    $("#channel_input_Whatsapp").trigger("keyup");
+                                }, 200);
+                            }
                         }
-                    }
+                    // }
 
                     if(jQuery(".custom-channel-Whatsapp").length) {
                         jQuery(".custom-channel-Whatsapp").each(function(){
@@ -1041,7 +1337,7 @@ function check_for_number_chaty(phoneNumber, validationFor) {
             mobileIcon,
             colorFill = jQuery('.color-picker-radio input:checked').val();
 
-        jQuery(document).on("keyup", "textarea.test_textarea", function(){
+        jQuery(document).on("keyup", "textarea.test_textarea, .chaty-title", function(){
             detectIcon();
         });
 
@@ -1376,6 +1672,7 @@ jQuery(document).ready(function () {
     check_for_preview_pos();
 });
 
+
 function check_for_preview_pos() {
     if(jQuery(".chaty-setting-form").length) {
         if(jQuery(window).width() > 1179) {
@@ -1411,6 +1708,8 @@ jQuery(document).ready(function () {
     dateAndTimeOptionContent = jQuery(".chaty-date-and-time-options-html").html();
     jQuery(".chaty-date-and-time-options-html").remove();
 
+    set_wp_editor();
+
     // show .chaty-page-options and .remove-rules button
     jQuery(".create-rule").on("click", function () {
         const $parent = jQuery(this).parents('.chaty-option-box');
@@ -1444,7 +1743,7 @@ jQuery(document).ready(function () {
         jQuery("#cht_custom_color").val(jQuery(this).val());
         change_custom_preview();
     });
-    jQuery('input[name="cht_color"]:checked').trigger("change");
+    // jQuery('input[name="cht_color"]:checked').trigger("change");
 
     jQuery(document).on("change", "input[name='cht_position']:checked", function(){
         change_custom_preview();
@@ -1509,16 +1808,62 @@ jQuery(document).ready(function () {
         });
     }
 
-    jQuery(document).ready(function(){
-        set_wp_editor();
-    });
-
     function set_wp_editor() {
         if(jQuery(".chaty-whatsapp-setting-textarea").length) {
             jQuery(".chaty-whatsapp-setting-textarea").each(function(){
                 if(jQuery("#cht_social_embedded_message_"+jQuery(this).data("id")+"_ifr").length) {
                     tinymce.get(jQuery(this).attr("id")).remove();
                 }
+                var editorId = jQuery(this).attr("id");
+                tinymce.init({
+                    selector: jQuery(this).attr("id"),
+                    toolbar: 'bold, italic, underline | emoji',
+                    menubar: false,
+                    branding: false,
+                    setup: function(editor) {
+
+                        editor.addButton('emoji', {
+                            image: cht_nonce_ajax.icon_img,
+                            onclick: insertEmoji,
+                            classes: 'emoji-custom-icon'
+                        });
+
+                        editor.on('keyup', function (e){
+                            change_custom_preview();
+                            jQuery("#csaas-form-0-Whatsapp .csaas-whatsapp-message .csaas-whatsapp-message-content").html(editor.getContent());
+                        });
+
+                        function insertEmoji() {
+                            const { createPopup } = window.picmoPopup;
+                            const trigger = jQuery(".mce-emoji-custom-icon button").attr("id");
+                            const trig = document.querySelector("#"+trigger);
+
+                            const picker = createPopup({}, {
+                                referenceElement: trig,
+                                triggerElement: trig,
+                                position: 'right-start',
+                                hideOnEmojiSelect: false
+                            });
+
+                            picker.toggle();
+
+                            picker.addEventListener('emoji:select', (selection) => {
+                                let editor = tinyMCE.get(editorId);
+                                if(!editor.selection.getNode() || editor.selection.getNode() === editor.getBody()) {
+                                    editor.focus();
+                                    // Move the cursor to the end of the content
+                                    editor.selection.select(editor.getBody(), true);
+                                    editor.selection.collapse(false);
+                                    tinymce.activeEditor.execCommand('mceInsertContent', false, selection.emoji);
+                                } else {
+                                    tinymce.activeEditor.execCommand('mceInsertContent', false, selection.emoji);
+                                }
+                                change_custom_preview();
+                                jQuery("#csaas-form-0-Whatsapp .csaas-whatsapp-message .csaas-whatsapp-message-content").html(editor.getContent());
+                            });
+                        }
+                    }
+                });
                 tinymce.execCommand( 'mceAddEditor', true, jQuery(this).attr("id"));
             });
         }
@@ -1597,6 +1942,9 @@ jQuery(document).ready(function () {
     /*font family Privew*/
     jQuery(document).on( 'change', '#cht_widget_font', function() {
         var fontFamily = jQuery("#cht_widget_font").val();
+        if(fontFamily == "System Stack") {
+            fontFamily = "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif";
+        }
         var dataGroup = jQuery("#cht_widget_font option:selected").data("group");
         jQuery(".chaty-google-font").remove();
         if(dataGroup == "Google Fonts") {
@@ -1608,6 +1956,9 @@ jQuery(document).ready(function () {
 
     if(jQuery("#cht_widget_font").val() != "") {
         var fontFamily = jQuery("#cht_widget_font").val();
+        if(fontFamily == "System Stack") {
+            fontFamily = "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif";
+        }
         jQuery("#csaas-widget-0").css("font-family", fontFamily);
         var dataGroup = jQuery("#cht_widget_font option:selected").data("group");
         jQuery(".chaty-google-font").remove();
@@ -1678,7 +2029,7 @@ function toggle_chaty_setting(socId) {
             scrollTop: jQuery("#chaty-social-" + socId+ " .chaty-advance-settings.active").offset().top - 50
         }, 500);
     }
-    change_custom_preview();
+    // change_custom_preview();
 }
 
 function chaty_set_bg_color() {
@@ -1763,7 +2114,6 @@ function check_for_chaty_close_button() {
     } else {
         jQuery("#chaty-social-close").hide();
     }
-    change_custom_preview();
     var srtString = "";
     jQuery("#channels-selected-list > li").each(function(){
         if(jQuery(this).attr("data-id") != "undefined" && jQuery(this).attr("data-id") != "") {
@@ -1873,3 +2223,39 @@ jQuery( function($) {
         }, 4000);
     });
 });
+
+
+function chatySetCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/; SameSite=Lax";
+}
+
+function chatyGetCookie(cookieName) {
+    var cookieName = cookieName + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(cookieName) == 0) {
+            return c.substring(cookieName.length, c.length); // return data if cookie exists
+        }
+    }
+    return null; // return null if cookie doesn't exists
+}
+
+function chatyCheckCookie(cookieName) {
+    var cookie = chatyGetCookie(cookieName);
+    if (cookie != "" && cookie !== null) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function chatyDeleteCookie(cookieName) {
+    document.cookie = cookieName + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}

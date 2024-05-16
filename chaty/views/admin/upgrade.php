@@ -157,7 +157,7 @@ $features = [
     ],
     [
         'title' => esc_html__("Multiple agents", "chaty"),
-        'tooltip' => sprintf(esc_html__("Show multiple agents under a single channel. For example, allow visitors to reach for pre-sales info or support with different channels on WhatsApp. Here are some %s", "chaty"), "<a href='https://premio.io/blog/7-cool-ways-to-use-the-chaty-agents-functionality/?utm_source=inapptooltip' target='_blank'>".esc_html__("interesting ways to use Agents functionality", "chaty")."</a>")."<img src='".CHT_PLUGIN_URL."admin/assets/images/agent-infotip.png' />"
+        'tooltip' => sprintf(esc_html__("Show multiple agents under a single channel. For example, allow visitors to reach for pre-sales info or support with different channels on WhatsApp. Here are some %1\$s", "chaty"), "<a href='https://premio.io/blog/7-cool-ways-to-use-the-chaty-agents-functionality/?utm_source=inapptooltip' target='_blank'>".esc_html__("interesting ways to use Agents functionality", "chaty")."</a>")."<img src='".CHT_PLUGIN_URL."admin/assets/images/agent-infotip.png' />"
     ],
     [
         'title' => esc_html__("Chat view pop-up", "chaty"),
@@ -216,7 +216,7 @@ $features = [
 <div class="pricing-top">
     <?php if(isset($hasBackButton)) { ?>
         <div class="back-button-box">
-            <a href="<?php echo admin_url("options-general.php?page=wcp_chaty_settings") ?>" class="go-back-button"><?php esc_html_e("Back", "chaty"); ?></a>
+            <a href="<?php echo esc_url(admin_url("options-general.php?page=wcp_chaty_settings")) ?>" class="go-back-button"><?php esc_html_e("Back", "chaty"); ?></a>
         </div>
     <?php } ?>
     <div class="price-container">
@@ -650,7 +650,7 @@ $features = [
 <div class="premio-customers">
     <div class="price-container">
         <div class="customer-title"><?php esc_html_e("TRUSTED BY LEADING COMPANIES WORLDWIDE", "chaty") ?></div>
-        <img src="<?php echo CHT_PLUGIN_URL."admin/assets/images/companies.webp" ?>" alt="premio customers" />
+        <img src="<?php echo esc_url(CHT_PLUGIN_URL)."admin/assets/images/companies.webp" ?>" alt="premio customers" />
     </div>
 </div>
 <div class="premio-faqs">

@@ -39,23 +39,23 @@ if (isset($searchFor) && !empty($searchFor) && isset($searchList[$searchFor])) {
 $startDate = "";
 $endDate   = "";
 if ($searchFor == "today") {
-    $startDate = date("Y-m-d");
-    $endDate   = date("Y-m-d");
+    $startDate = gmdate("Y-m-d");
+    $endDate   = gmdate("Y-m-d");
 } else if ($searchFor == "yesterday") {
-    $startDate = date("Y-m-d", strtotime("-1 days"));
-    $endDate   = date("Y-m-d", strtotime("-1 days"));
+    $startDate = gmdate("Y-m-d", strtotime("-1 days"));
+    $endDate   = gmdate("Y-m-d", strtotime("-1 days"));
 } else if ($searchFor == "last_7_days") {
-    $startDate = date("Y-m-d", strtotime("-7 days"));
-    $endDate   = date("Y-m-d");
+    $startDate = gmdate("Y-m-d", strtotime("-7 days"));
+    $endDate   = gmdate("Y-m-d");
 } else if ($searchFor == "last_30_days") {
-    $startDate = date("Y-m-d", strtotime("-30 days"));
-    $endDate   = date("Y-m-d");
+    $startDate = gmdate("Y-m-d", strtotime("-30 days"));
+    $endDate   = gmdate("Y-m-d");
 } else if ($searchFor == "this_week") {
-    $startDate = date("Y-m-d", strtotime('monday this week'));
-    $endDate   = date("Y-m-d");
+    $startDate = gmdate("Y-m-d", strtotime('monday this week'));
+    $endDate   = gmdate("Y-m-d");
 } else if ($searchFor == "this_month") {
-    $startDate = date("Y-m-01");
-    $endDate   = date("Y-m-d");
+    $startDate = gmdate("Y-m-01");
+    $endDate   = gmdate("Y-m-d");
 } else if ($searchFor == "custom") {
     $startDate = filter_input(INPUT_GET, 'start_date');
     if (!empty($startDate)) {
@@ -97,8 +97,8 @@ if (!empty($startDate) && !empty($endDate)) {
         $condition .= " AND ";
     }
 
-    $cStartDate       = date("Y-m-d 00:00:00", strtotime($startDate));
-    $cEndDate         = date("Y-m-d 23:59:59", strtotime($endDate));
+    $cStartDate       = gmdate("Y-m-d 00:00:00", strtotime($startDate));
+    $cEndDate         = gmdate("Y-m-d 23:59:59", strtotime($endDate));
     $condition       .= " created_on >= %s AND created_on <= %s";
     $conditionArray[] = $cStartDate;
     $conditionArray[] = $cEndDate;
@@ -166,7 +166,7 @@ if (!empty($conditionArray)) {
                 <?php } ?>
             </div>
 
-            <form class="flex items-center flex-wrap gap-3" action="<?php echo admin_url("admin.php") ?>" method="get">
+            <form class="flex items-center flex-wrap gap-3" action="<?php echo esc_url(admin_url("admin.php")) ?>" method="get">
                 <label class="screen-reader-text" for="post-search-input"><?php esc_html_e("Search:", "chaty") ?></label>
                 <select class="search-input mr-5" name="search_for" style="" id="date-range">
                     <?php foreach ($searchList as $key => $value) { ?>
@@ -197,6 +197,7 @@ if (!empty($conditionArray)) {
                         <th class="text-center text-cht-gray-150 text-sm font-semibold font-primary py-3 px-5 bg-cht-primary-50"><?php esc_html_e('Email', 'chaty');?></th>
                         <th class="text-center text-cht-gray-150 text-sm font-semibold font-primary py-3 px-5 bg-cht-primary-50"><?php esc_html_e('Phone number', 'chaty');?></th>
                         <th class="text-center text-cht-gray-150 text-sm font-semibold font-primary py-3 px-5 bg-cht-primary-50"><?php esc_html_e('Message', 'chaty');?></th>
+                        <th class="text-center text-cht-gray-150 text-sm font-semibold font-primary py-3 px-5 bg-cht-primary-50"><?php esc_html_e('IP Address', 'chaty');?></th>
                         <th class="text-center text-cht-gray-150 text-sm font-semibold font-primary py-3 px-5 bg-cht-primary-50"><?php esc_html_e('Date', 'chaty');?></th>
                         <th class="text-center text-cht-gray-150 text-sm font-semibold font-primary py-3 px-5 bg-cht-primary-50"><?php esc_html_e('URL', 'chaty');?></th>
                         <th class="rounded-tr-lg text-cht-gray-150 text-sm font-semibold font-primary py-3 px-2 bg-cht-primary-50"><?php esc_html_e('Delete', 'chaty');?></th>
@@ -213,6 +214,7 @@ if (!empty($conditionArray)) {
                                 $widgetName = "Widget #".($res->widget_id + 1);
                             }
                         }
+                        $socialIcons = get_option('cht_social_Contact_Us');
                         ?>
                     <tr data-id="<?php echo esc_attr($res->id) ?>">
                         <td class="bg-white py-3.5 px-5 text-cht-gray-150 font-primary text-sm text-center border-r">
@@ -240,6 +242,17 @@ if (!empty($conditionArray)) {
                         </td>
                         <td class="bg-white py-3.5 px-5 text-cht-gray-150 font-primary text-sm text-center border-r border-t" data-title="<?php esc_html_e('Message', 'chaty');?>">
                             <?php echo nl2br(esc_attr(stripslashes($res->message))) ?>
+                        </td>
+                        <td
+                            class="bg-white py-3.5 px-5 text-cht-gray-150 font-primary text-sm text-center border-r border-t"
+                            data-title="<?php esc_html_e('IP Address', 'chaty');?>">
+                            <?php
+                            if(isset($socialIcons['capture_ip_address']) && $socialIcons['capture_ip_address'] == "yes") {
+                                echo nl2br(esc_attr(stripslashes($res->ip_address)));
+                            } else {
+                                echo "";
+                            }
+                            ?>
                         </td>
                         <td class="bg-white py-3.5 px-5 text-cht-gray-150 font-primary text-sm text-center border-r border-t" data-title="<?php esc_html_e('Date', 'chaty');?>">
                             <?php echo esc_attr($res->created_on) ?>
@@ -288,7 +301,7 @@ if (!empty($conditionArray)) {
                 }//end if
                 ?>
             <div class="leads-buttons flex items-center gap-3 flex-wrap">
-                <a href="<?php echo admin_url("?download_chaty_file=chaty_contact_leads&nonce=".wp_create_nonce("download_chaty_contact_leads")) ?>" class="btn rounded-lg inline-block" id="wpappp_export_to_csv" value="Export to CSV"><?php esc_html_e('Download & Export to CSV', 'chaty') ?></a>
+                <a href="<?php echo esc_url(admin_url("?download_chaty_file=chaty_contact_leads&nonce=".wp_create_nonce("download_chaty_contact_leads"))) ?>" class="btn rounded-lg inline-block" id="wpappp_export_to_csv" value="Export to CSV"><?php esc_html_e('Download & Export to CSV', 'chaty') ?></a>
                 <input type="button" class="inline-block cursor-pointer rounded-lg bg-transparent border-red-500 text-red-500 hover:bg-red-500/10 focus:bg-red-500/10 hover:text-red-500 btn btn-primary" id="chaty_delete_all_leads" value="Delete All Data">
             </div>
             <?php  } else if (!empty($search) || $searchFor != "all_time") { ?>
@@ -311,7 +324,7 @@ if (!empty($conditionArray)) {
                 </div>
             <?php }//end if
             ?>
-            <input type="hidden" name="remove_chaty_leads" value="<?php echo wp_create_nonce("remove_chaty_leads") ?>">
+            <input type="hidden" name="remove_chaty_leads" value="<?php echo esc_attr(wp_create_nonce("remove_chaty_leads")) ?>">
             <input type="hidden" name="paged" value="<?php echo esc_attr($current) ?>">
             <input type="hidden" name="search" value="<?php echo esc_attr($search) ?>">
         </form>
@@ -320,7 +333,7 @@ if (!empty($conditionArray)) {
 
 <script>
 jQuery(document).ready(function() {
-    var selectedURL = '<?php echo admin_url("admin.php?page=chaty-contact-form-feed&remove_chaty_leads=".wp_create_nonce("remove_chaty_leads")."&action=delete_message&paged={$current}&search=".esc_attr($search)."&chaty_leads=") ?>';
+    var selectedURL = '<?php echo esc_url(admin_url())."admin.php?page=chaty-contact-form-feed&remove_chaty_leads=".wp_create_nonce("remove_chaty_leads")."&action=delete_message&paged={$current}&search=".esc_attr($search)."&chaty_leads=" ?>';
     jQuery(document).on("click", ".remove-record", function(e) {
         e.preventDefault();
         var redirectRemoveURL = selectedURL + jQuery(this).closest("tr").data("id");

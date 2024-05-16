@@ -7,7 +7,7 @@
   Author URI: https://premio.io/downloads/chaty/
   Text Domain: chaty
   Domain Path: /languages
-  Version: 3.2
+  Version: 3.2.4
   License: GPL2
 */
 
@@ -27,7 +27,7 @@ define('CHT_INC', CHT_DIR . '/includes');
 define('CHT_PRO_URL', admin_url("admin.php?page=chaty-app-upgrade"));
 define('CHT_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('CHT_PLUGIN_BASE', plugin_basename(CHT_FILE));
-define('CHT_VERSION', "3.2");
+define('CHT_VERSION', "3.2.4");
 
 if (!function_exists('wp_doing_ajax')) {
     function wp_doing_ajax()
@@ -160,7 +160,7 @@ function cht_install()
             'desktop' => '1',
         );
 
-        update_option('cht_created_on', date("Y-m-d"));
+        update_option('cht_created_on', gmdate("Y-m-d"));
         update_option('cht_devices', $options);
         update_option('cht_position', 'right');
         update_option('cht_cta', 'Contact us');
@@ -180,16 +180,18 @@ function cht_install()
 
     $option = get_option("Chaty_show_affiliate_box_after");
     if($option === false || empty($option)) {
-        $date = date("Y-m-d", strtotime("+5 days"));
+        $date = gmdate("Y-m-d", strtotime("+5 days"));
         add_option("Chaty_show_affiliate_box_after", $date);
     }
 }
 
 function cht_activation_redirect($plugin)
 {
-    if (!defined("DOING_AJAX") && $plugin == plugin_basename(__FILE__)) {
-        delete_option("cht_redirect");
-        add_option("cht_redirect",1);
+    if ($plugin == plugin_basename(__FILE__)) {
+        if (!defined("DOING_AJAX") && $plugin == plugin_basename(__FILE__)) {
+            delete_option("cht_redirect");
+            add_option("cht_redirect",1);
+        }
     }
 }
 
@@ -200,13 +202,14 @@ function chaty_plugin_check_db_table() {
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         $charset_collate = $wpdb->get_charset_collate();
         $chaty_table = $wpdb->prefix . 'chaty_contact_form_leads';
-        if ($wpdb->get_var("show tables like '{$chaty_table}'") != $chaty_table) {
+        $query = "SHOW TABLES LIKE '".esc_sql($chaty_table)."'";
+        if ($wpdb->get_var($query) != $chaty_table) {
             $chaty_table_settings = "CREATE TABLE {$chaty_table} (
 				id bigint(11) NOT NULL AUTO_INCREMENT,
 				widget_id int(11) NULL,
 				name varchar(100) NULL,
 				email varchar(100) NULL,
-				phone_number varchar(100) NULL,
+                phone_number varchar(100) NULL,
 				message text NULL,
 				ref_page text NULL,
 				ip_address tinytext NULL,
@@ -217,7 +220,8 @@ function chaty_plugin_check_db_table() {
         }
 
         /* version 2.7.3 change added new column */
-        $field_check = $wpdb->get_var("SHOW COLUMNS FROM {$chaty_table} LIKE 'phone_number'");
+        $column_name = 'phone_number';
+        $field_check = $wpdb->get_var($wpdb->prepare("SHOW COLUMNS FROM {$chaty_table} LIKE %s", $column_name));
         if ('phone_number' != $field_check) {
             $wpdb->query("ALTER TABLE {$chaty_table} ADD phone_number VARCHAR(100) NULL DEFAULT NULL AFTER email");
         }

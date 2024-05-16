@@ -3,7 +3,7 @@ Contributors: galdub, tomeraharon, premio
 Tags: whatsapp, whatsapp chat, facebook messenger, chat, chat button
 Requires at least: 3.1
 Tested up to: 6.5
-Stable tag: 3.2
+Stable tag: 3.2.4
 Plugin URI: https://premio.io/downloads/chaty/
 
 🔥 WhatsApp chat, Facebook Messenger, Telegram, TikTok, Viber, Email, Line, WeChat Phone call, SMS, + 20 chat icons, with a WhatsApp chat pop up 💬
@@ -15,39 +15,39 @@ Plugin URI: https://premio.io/downloads/chaty/
 <a href="https://premio.io/help/chaty/?utm_source=wordpressorg" target="_blank" title="Support">Support</a> | <a href="https://demo.premio.io/chaty/?utm_source=wordpressorg" target="_blank" title="Premio.io demo site">Demo</a> | <a href="https://premio.io/chaty-whatsapp/?utm_source=wordpressorg" target="_blank" title="WhatsApp Button Features">WhatsApp Button Features</a>
 <a href="https://premio.io/?utm_source=wordpressorg" target="_blank" title="WordPress plugins">Recommended Plugins</a> | <a href="https://premio.io/downloads/chaty/?utm_source=wordpressorg" target="_blank" title="Chaty Pro"><strong>Upgrade to Pro ⭐</strong></a>
 
-* Get WhatsApp, Facebook Messenger, and 20+ chat channels
-* Chat with you via their favorite channels like Facebook Messenger, WhatsApp, WhatsApp Business, Viber, Slack, Telegram, TikTok, Line Messenger, and more chat channels
+* Get WhatsApp, Facebook Messenger & 20+ chat channels
+* Chat with your visitors via their favorite channels like Facebook Messenger, WhatsApp, WhatsApp Business, Viber, Slack, Telegram, TikTok, Line Messenger, and more chat channels
 * Better customer support
 
 [youtube  https://www.youtube.com/watch?v=i6t05AeuyWg]
 
-= 💬 WhatsApp and 20+ chat channels =
-Connect on WhatsApp or WhatsApp Business. Enter your WhatsApp number, and you’re all set. Use our advanced WhatsApp features like the WhatsApp popup that emulates a WhatsApp Chat window, WhatsApp Merge tags, WhatsApp agents, and many other features that’ll help you better communicate on WhatsApp.
+= 💬 WhatsApp & 20+ chat channels =
+Connect on WhatsApp or WhatsApp Business by entering your WhatsApp number. Get WhatsApp features like the WhatsApp popup that emulates a WhatsApp chat window, WhatsApp Merge tags, WhatsApp agents & many other features that’ll help you chat on WhatsApp.
 
-= 📞 Click to chat and call now phone button =
-Chaty is the perfect chat plugin to display a call widget, WhatsApp button, email button, SMS button, TikTok, Google Maps button, Vkontakte button, Line.me messenger button, Viber button, and other chat widgets. By using Chaty, you give your website visitors the option to chat with you after they leave your website. Want to use our robust Pro version? Check the <a href="https://premio.io/downloads/chaty/?utm_source=wordpressorg" target="_blank" title="Chaty pro plans"><strong>Chaty Pro Plans</strong></a>.
+= 📞 Click to chat & call now phone button =
+Chaty is the perfect chat plugin to display a call widget, WhatsApp button, email button, SMS button, TikTok, Google Maps button, Vkontakte button, Line.me messenger button, Viber button, and other chat widgets. Using Chaty your website visitors can chat with you after they leave your website. Want to use our robust Pro version? Check the <a href="https://premio.io/downloads/chaty/?utm_source=wordpressorg" target="_blank" title="Chaty pro plans"><strong>Chaty Pro Plans</strong></a>.
 
 = 💪 What can you do with Chaty =
 
-* Chaty VS live chat - when you use "regular" live chat alternatives, your visitors must stay on your website and wait for your response. When you let your visitors chat with you using chat apps like Facebook Messenger, WhatsApp, Viber, Telegram, etc, you give them the freedom to chat with you wherever they go.
-* Show your visitors the chat channels you're available on, and let them choose the chat app they prefer.
+* Chaty VS live chat - using live chat alternatives, your visitors must stay on your website & wait for your response. When you let your visitors chat with you using chat apps like Facebook Messenger, WhatsApp, Viber, Telegram, etc, you give them the freedom to chat with you wherever they go.
+* Show your visitors the chat channels you're available on & let them choose the chat app they prefer.
 * WhatsApp Business - chat with your visitors on WhatsApp Business.
-* Help your website visitors navigate to your physical address.
-* Click to call - show a phone call icon and let your visitors click to call you.
-* Show different chat channels for different pages  - show separate widgets for different products on your website,  show different buttons based on URL for WPML or multi-language sites, display different channels for your landing pages, and more (Pro feature).
-* Available days and hours (Pro feature).
-* Launch your favorite live chat app - you can use JavaScript as one of your chat channels to launch other live chat products like Chatway, Tawk.to, Tidio, Chatra, Formilla, Zoho, Zendesk, LiveChat, Crisp, Intercom, JivoChat, Olark, and more.
+* Help your visitors navigate to your address.
+* Click to call - show a phone call icon & let your visitors click to call you.
+* Show different chat channels on different pages  - show separate widgets for different products on your website,  show different buttons based on URL for WPML or multi-language sites, display different channels for your landing pages, and more (Pro feature).
+* Available days & hours (Pro feature).
+* Launch your favorite live chat app - use JavaScript channel to launch live chat products like Chatway, Tawk.to, Tidio, Chatra, Formilla, Zoho, Zendesk, LiveChat, Crisp, Intercom, JivoChat, Olark & more.
 
-= 👩‍💻 Still looking for a Live Chat plugin? =
-If you're not looking for WhatsApp, Facebook Messenger, and other chat buttons, and instead prefer to use a live chat solution for your website, <a href="https://chatway.app/?utm_source=chatylisting" target="_blank" title="Chatway Live Chat">Chatway Live Chat</a> is the perfect solution for you. Implementing Chatway, a WordPress live chat solution, enhances your website's interactivity and customer engagement.
+= 👩‍💻 Looking for a Live Chat plugin? =
+If you're not looking for WhatsApp, Facebook Messenger, and other chat buttons, and prefer to use a live chat solution for your website, <a href="https://chatway.app/?utm_source=chatylisting" target="_blank" title="Chatway Live Chat">Chatway Live Chat</a> is the perfect solution for you. Implementing Chatway, a WordPress live chat solution, enhances your customer engagement.
 <a href="https://wordpress.org/plugins/chatway-live-chat/" target="_blank" title="Chatway Live Chat"><strong>Try Chatway Now 🔗</strong></a>
 
 = ▶️ Chaty Live Demo =
-A live demo of the Chaty plugin is available at <a href="https://demo.premio.io/chaty/?utm_source=wordpressorg" target="_blank" title="Premio.io demo site">Premio's demo site</a>. Keep in mind, besides the chat buttons that appear on the demo site, you can use any other chat icons and also add your own custom chat buttons.
+A live demo of Chaty is available at <a href="https://demo.premio.io/chaty/?utm_source=wordpressorg" target="_blank" title="Premio.io demo site">Premio's demo site</a>. Besides the chat buttons that appear on the demo site, use any other chat icons & also add your own custom chat buttons.
 The agents feature for WhatsApp (it can be used for any other chat channel) is also available on this <a href="https://demo.premio.io/agents/?utm_source=wordpressorg" target="_blank" title="Agents for WhatsApp demo">demo page</a>.
 
 = 🚀 Choose from 25 different channels =
-WhatsApp chat and WhatsApp business
+WhatsApp chat & WhatsApp business
 Facebook Messenger
 Contact Us Form
 Email
@@ -73,50 +73,48 @@ Microsoft Teams
 Link to an external channel/contact page (New feature: add custom chat buttons and link to any URL you desire)
 
 = 🆓 What do you get in the Free plan? =
-1. Show unlimited click to chat channels like WhatsApp, Facebook Messenger, Telegram, Viber, phone click to call, SMS, and more
-2. Set chat widget position
-3. Add a  custom call to action message beside your chat widget
-4. Set a display trigger
+1. Unlimited click to chat channels like WhatsApp, Facebook Messenger, Telegram, Viber, phone click to call, SMS, and more
+2. Chat widget position
+3. Call to action message beside your chat widget
+4. Display triggers
 5. Attention effects
 6. Pending messages icon
-6. Fully customize all chat icons
-7. WhatsApp chat pop up - show a WhatsApp chat pop up to your visitors so that they can start a WhatsApp conversation with you on your website. After they click on the send button, they'll be redirected to WhatsApp to continue the conversation there (<a href="https://demo.premio.io/chaty/?utm_source=wordpressorg" target="_blank" title="Premio.io demo site">click here</a> to see it in action)
-8. Contact Us Form - add a contact form as one of your Chaty channels. Your visitors will be able to fill out their details using the contact us form (<a href="https://demo.premio.io/chaty/?utm_source=wordpressorg" target="_blank" title="Premio.io demo site">click here</a> to see it in action)
-9. Show your chat buttons in vertical mode or horizontal mode
-10. Change the size of the widget.
-11. Choose between 4 beautiful chat button designs
+6. Customize all chat icons
+7. WhatsApp chat pop up - show a WhatsApp chat pop up so visitors can start a WhatsApp conversation on your website. After they click on the send button, they'll be redirected to WhatsApp to continue the chat there (<a href="https://demo.premio.io/chaty/?utm_source=wordpressorg" target="_blank" title="Premio.io demo site">click here</a> to see it in action)
+8. Contact Us Form - add a contact form as one of your Chaty channels. Your visitors can submit their details using the contact us form (<a href="https://demo.premio.io/chaty/?utm_source=wordpressorg" target="_blank" title="Premio.io demo site">click here</a> to see it in action)
+9. Chat buttons in vertical mode or horizontal mode
+10. Change widget size
+11. Beautiful chat button designs
 12. Show the widget on mobile & desktop or both
-13. Select your default state 
-14. Show different channels for mobile and desktop
-15. Change the chat icons’ order
-16. Change the font of your chat widget
-17. Decide if you want the custom chat button to open in a new tab
-18. Launch the Chaty chat button using a JavaScript
-19. Make your custom channels act as existing chat channels. For example, you can create two WhatsApp buttons
-20. Slack chat button
-21. We've added a third custom chat button, you can link to any page or fire a JavaScript code
-22. Select your country and add your local WhatsApp number, and avoid confusion
-23. Select between the WhatsApp WAME (wa.me) link or WhatsApp desktop link in the WhatsApp settings
+13. Different channels for mobile and desktop
+14. Change chat icons’ order
+15. Change the font of your chat widget
+16. Custom chat buttons can be openned in a new tab
+17. Launch the Chaty chat button using a JavaScript
+18. Use same chat channels more than once. For example, create two WhatsApp buttons
+19. Third custom chat button, link to any page or JavaScript code
+20. Select your country and add your local WhatsApp number
+21. Select between the WhatsApp WAME (wa.me) link or WhatsApp desktop link in the WhatsApp settings
 
 = 🔥 What do you get in the Pro plan? =
 Unlock the <a href="https://premio.io/downloads/chaty/?utm_source=wordpressorg" target="_blank" title="Chaty pro plans"><strong>Pro features</strong></a> for only $49 per year
-You will get all the features of the free plan, plus:
+Get all the features of the free plan, plus:
 
-1. Show all the channels you want at the same time (25 different click to chat buttons and other icons)
-2. Chat view: Personalized chat pop ups using merge tags like page title, URL, and WooCommerce tags like product name, seamlessly integrated with WooCommerce for an improved user experience on your website.
-3. <strong>Chat Agents</strong> - Add multiple variations (agents) in a single channel to easily delegate customer queries and make it easy for visitors to instantly reach out to the right person. For instance, you can add two agents under your WhatsApp chat widget (or any other channel of your choice), which leads visitors to your respective sales and support team. You can check out the agents feature for WhatsApp (but can be used for any other chat channel) on our <a href="https://demo.premio.io/agents/?utm_source=wordpressorg" target="_blank" title="Agents for WhatsApp demo"><strong>demo page 🚀<strong></a>
+1. Unlimited chat icons (25 different click to chat buttons and other icons)
+2. Chat view: Personalized chat pop ups using merge tags like page title, URL, and WooCommerce tags like product name & more
+3. <strong>Chat Agents</strong> - Add multiple variations (agents) in a single channel to easily delegate customer queries and make it easy for visitors to talk with right person. For instance, add two agents under your WhatsApp chat widget (or any other channel), which leads visitors to your sales and support team. Check out the agents feature for WhatsApp (but can be used for any chat channel) on our <a href="https://demo.premio.io/agents/?utm_source=wordpressorg" target="_blank" title="Agents for WhatsApp demo"><strong>demo page 🚀<strong></a>
 4. Customize the chat button
 5. Change the position of the chat button
 6. Custom design
-7. Show (or don't show) the chat widget using targeting rules such as specific URLs
-8. Create more than one chat widget and show it on specific pages and categories of your website based on page targeting rules. For example, you can display Skype, Whatsapp chat, and a click to call icon for one category, and Facebook Messenger, Telegram, and Line button for another category. 
+7. Show or hide the chat widget using targeting rules
+8. Create more than one chat widget and show it on specific pages and categories of your website based on page targeting rules. For example, display Skype, Whatsapp chat, and a click to call icon for one category, and Facebook Messenger, Telegram, and Line button for another category. 
 <strong>The main use cases for the multi chat widget are:</strong>
 Separate widget design for mobile and desktop
 Change widget language for WPML and multi-language websites
 Different chat widgets for different products and categories
 Different chats buttons based on purpose (support, sales, etc)
-9. Traffic source targeting – show the chat channels only to visitors who come from specific traffic sources including 
-10. Widget Analytics - get data about your most used chat channels
+9. Traffic source targeting – show the chat channels only to visitors who come from traffic sources 
+10. Widget Analytics - data about your chat channels
 11. Font Awesome support
 12. Create a pre-set WhatsApp chat message and pre-set email subject line
 13. Title and URL tags for the WhatsApp pre-set message
@@ -128,26 +126,28 @@ Different chats buttons based on purpose (support, sales, etc)
 19. Contact form leads to email
 20. Google reCAPTCHA
 21. Date scheduling
+22. Contact form integration with Mailchimp & Klaviyo
+23. Blur the screen when Chaty chat icons are in open state
 
 <br><a href="https://premio.io/downloads/chaty/?utm_source=wordpressorg" target="_blank" title="Chaty pro plans"><strong>Upgrade to Chaty Pro</strong></a> to get all Pro features :)
 
 = 🗬 WhatsApp Chat Pop Up = 
-You can use WhatsApp as a regular chat button, but you can also add a WhatsApp pop up and let your visitors start the conversation on your website. Easily integrate with WhatsApp Business or your regular WhatsApp account. Once the visitors click on the send button, they'll be redirected to WhatsApp to continue the conversation there. Check out the WhatsApp pop up in action in the video below 🎥
+Use WhatsApp as a regular chat button or add a WhatsApp pop up and let your visitors start the conversation on your website. Easily integrate with WhatsApp Business or your regular WhatsApp account. Once the visitors click on the send button, they'll be redirected to WhatsApp to continue the conversation there. Check out the WhatsApp pop up in action in the video below 🎥
 
 [youtube  https://www.youtube.com/watch?v=G9BEUqEl4xw]
 
 = 🗣️ Chat View: Personalized Chat Pop Ups and WooCommerce Integration for Dynamic Pop Ups =
 In the Pro version, the chat view feature provides engaging pop up design. The chat view allows for the use of merge tags, such as the page title, URL, and WooCommerce properties like product name, in the pop up text, <strong>creating dynamic and personalized pop ups that change depending on the page or product being viewed.</strong>
-For example, a user could create a pop up that displays the page title and product name for a product page, or a pop up that displays the page title and URL for a blog post. This allows for a tailored chat experience, improving the user experience and increasing engagement on the site.
+Create a pop up that displays the page title and product name for a product page, or a pop up that displays the page title and URL for a blog post. This allows for a tailored chat experience, improving the user experience and increasing engagement on the site.
 
 = 🧑‍💼 Chat Agents for WhatsApp, Facebook Messenger, and 20+ other chat channels = 
-If you’re using the Pro plan, you can add multiple agents in a single chat channel to easily delegate customer/sales/marketing/etc and make it easy for visitors to instantly reach out to the right person. For instance, you can add two agents under your WhatsApp widget (or any other channel of your choice like Facebook Messenger, Viber, Line, and more), which leads visitors to your respective sales and support team.
+If you’re using the Pro plan, add multiple agents in a single chat channel to easily delegate customer/sales/marketing/etc and make it easy for visitors to instantly reach out to the right person. For instance, add two agents under your WhatsApp widget (or any other channel of your choice like Facebook Messenger, Viber, Line, and more), which leads visitors to your respective sales and support team.
 Check out the agents feature for WhatsApp (keep in mind it can be used for any other chat channel) on our <a href="https://demo.premio.io/agents/?utm_source=wordpressorg" target="_blank" title="Agents for WhatsApp demo"><strong>demo page 🚀<strong></a>
 
 [youtube  https://www.youtube.com/watch?v=sNPhdx9zqlI]
 
 = 📧 Contact Us Form =
-You can add a contact form as a channel, this way your visitors can contact you using your contact us form.
+Add a contact form as a channel, this way your visitors can contact you using your contact us form. Integrate the form with Mailchimp & Klaviyo.
 
 [youtube  https://www.youtube.com/watch?v=4Gnxg-qUWdo]
 
@@ -165,11 +165,11 @@ In the Pro version, Chaty has many WooCommerce integrations, including dynamic c
 
 * SMS - add your phone number, and let your visitors send you a direct SMS via their mobile devices.
 
-* Instagram button - add your Instagram username so your visitors to chat with you using Instagram direct or just follow you
+* Instagram button - add your Instagram username so your visitors to chat with you using Instagram direct follow you
 
 * TikTok (Tik Tok) button - add your TikTok handle and let your visitors find your TikTok page.
 
-* Twitter (X.com) button - add your Twitter handle and let your visitors chat with your using Twitter X.com messages or just twit and follow you 
+* Twitter (X.com) button - add your Twitter handle and let your visitors chat with your using Twitter X.com messages
 
 * Snapchat - add your Snapchat username and let your visitors find you easily on Snapchat.
 
@@ -185,7 +185,7 @@ In the Pro version, Chaty has many WooCommerce integrations, including dynamic c
 
 * Line.me - add your Line URL and let your visitors contact you easily via Line app.
 
-* WeChat - sdd your WeChat User ID and let your visitors search for you easily with the WeChat app. In the Pro plan, you can upload a QR code.
+* WeChat - add your WeChat User ID and let your visitors search for you easily with the WeChat app. In the Pro plan, upload a QR code.
 
 * Slack - add your Slack workspace and give your visitors the option to find your Slack workspace and chat with you.
 
@@ -199,11 +199,12 @@ In the Pro version, Chaty has many WooCommerce integrations, including dynamic c
 
 * Microsoft Teams - Microsoft Teams is a chat communication platform.
 
-* Link to an external channel/contact page
+* Link to an external channel/contact page.
 
-* Launch a Poptin popup - add a ‘direct link’ to your popup from your Poptin.com account, and launch a popup.
+* Poptin popup - launch a popup from your Poptin.com account.
 
 Chaty works great with Elementor, Divi, Visual Composer, WPBakery, Beaver, SiteOrigin, Gutenberg, Oxygen, Zion, WooCommerce and more.
+Chaty common typos: Chatty & Chati.
 
 = 🔒 Chaty is GDPR complaint =
 All data is stored on your website.
@@ -288,6 +289,32 @@ Yes! You can even decide what chat buttons will show up on each device (desktop/
 
 
 == Changelog ==
+
+= 3.2.4 =
+Fixed WhatsApp number leading zero bug
+
+= 3.2.3 =
+Option to change the WhatsApp pop up input field
+Close button for WhatsApp pop up bug fixed
+Open widget by default bug fixed
+Custom text block bug fixed (Pro)
+JavaScript input fields bug fixed
+
+= 3.2.2 =
+Widget bugs fixed
+
+= 3.2.1 =
+Improved design for the WhatsApp pop up
+WhatsApp and Facebook Messenger validation
+Instagram bug fixed
+WeChat widget design improved
+Option to add Viber ID
+Added emoji support for the WhatsApp pop up
+Automatically fill out email prefix for the contact form (e.g. @gmail.com)
+Added custom fields to the contact form (Pro)
+Blur screen when chat icons are opened (Pro)
+Mailchimp and Klaviyo contact form integrations (Pro)
+Various bugs fixed
 
 = 3.2 =
 WordPress 6.5 compatibility

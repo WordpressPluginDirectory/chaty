@@ -81,7 +81,7 @@ if ($status === false) {
                                     <td class="border-t bg-white border-x py-3.5 text-cht-gray-150 font-primary text-sm text-left px-5 border-cht-gray-50 widget-title" data-title="<?php esc_html_e("Widget name", 'chaty'); ?>"><?php echo esc_attr($widget['title']) ?></td>
                                     <?php if ($dateStatus) { ?>
                                         <?php if (!empty($widget['created_on'])) {?>
-                                            <td class="border-t bg-white py-3.5 text-cht-gray-150 font-primary text-sm text-left px-5 border-r border-cht-gray-50" data-title="<?php esc_html_e("Created On", 'chaty'); ?>"><?php echo date("F j, Y", strtotime($widget['created_on'])) ?></td>
+                                            <td class="border-t bg-white py-3.5 text-cht-gray-150 font-primary text-sm text-left px-5 border-r border-cht-gray-50" data-title="<?php esc_html_e("Created On", 'chaty'); ?>"><?php echo esc_attr(gmdate("F j, Y", strtotime($widget['created_on']))) ?></td>
                                         <?php } else { ?>
                                             <td class="border-t bg-white py-3.5 text-cht-gray-150 font-primary text-sm text-left px-5 border-r border-cht-gray-50" data-title="<?php esc_html_e("Created On", 'chaty'); ?>">&nbsp;</td>
                                         <?php } ?>
@@ -147,17 +147,17 @@ if ($status === false) {
                                 <a class="dashboard-pro-button" href="<?php echo esc_url($this->getUpgradeMenuItemUrl()); ?>"><?php esc_html_e("Upgrade to Pro today", "chaty"); ?></a>
                             </div>
                             <div class="dashboard-pro-body-right">
-                                <img src="<?php echo CHT_PLUGIN_URL ?>/admin/assets/images/dashboard.png" alt="chaty">
+                                <img src="<?php echo esc_url(CHT_PLUGIN_URL) ?>/admin/assets/images/dashboard.png" alt="chaty">
                             </div>
                         </div>
                     </div>
                 </div>
             <?php } else { ?>
                 <div class="chaty-table no-widgets py-20 bg-cover rounded-lg border border-cht-gray-50">
-                    <img class="mx-auto w-60" src="<?php echo CHT_PLUGIN_URL ?>/admin/assets/images/stars-image.png" />
+                    <img class="mx-auto w-60" src="<?php echo esc_url(CHT_PLUGIN_URL) ?>/admin/assets/images/stars-image.png" />
                     <p class="font-primary text-base text-cht-gray-150 -mt-2 max-w-screen-sm px-5 mx-auto"><?php esc_html_e("Create widgets for WhatsApp, Facebook Messenger, Telegram & 20+ more channels. Adding a new Chaty widget takes a minute - start now  🚀", "chaty") ?></p>
                     <div class="flex items-center space-x-3 mt-5 justify-center">
-                       <a class="btn rounded-lg drop-shadow-3xl" href="<?php echo admin_url("admin.php?page=chaty-app&widget=0") ?>"><?php esc_html_e("Create Widget", "chaty") ?></a>
+                       <a class="btn rounded-lg drop-shadow-3xl" href="<?php echo esc_url(admin_url("admin.php?page=chaty-app&widget=0")) ?>"><?php esc_html_e("Create Widget", "chaty") ?></a>
                     </div>
                 </div>
             <?php }//end if
@@ -176,7 +176,7 @@ if ($status === false) {
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M15.6 15.5c-.53.53-1.38.53-1.91 0L8.05 9.87 2.31 15.6c-.53.53-1.38.53-1.91 0s-.53-1.38 0-1.9l5.65-5.64L.4 2.4C-.13 1.87-.13 1.02.4.49s1.38-.53 1.91 0l5.64 5.63L13.69.39c.53-.53 1.38-.53 1.91 0s.53 1.38 0 1.91L9.94 7.94l5.66 5.65c.52.53.52 1.38 0 1.91z"></path></svg>
                 </a>
             </div>
-            <form class="" action="<?php echo admin_url("admin.php?page=chaty-widget-settings") ?>" method="get">
+            <form class="" action="<?php echo esc_url(admin_url("admin.php?page=chaty-widget-settings")) ?>" method="get">
                 <div class="a-card a-card--normal">
                     <div class="chaty-popup-header font-medium">
                         <?php esc_html_e("Duplicate Widget?", "chaty") ?>
@@ -209,7 +209,7 @@ if ($status === false) {
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M15.6 15.5c-.53.53-1.38.53-1.91 0L8.05 9.87 2.31 15.6c-.53.53-1.38.53-1.91 0s-.53-1.38 0-1.9l5.65-5.64L.4 2.4C-.13 1.87-.13 1.02.4.49s1.38-.53 1.91 0l5.64 5.63L13.69.39c.53-.53 1.38-.53 1.91 0s.53 1.38 0 1.91L9.94 7.94l5.66 5.65c.52.53.52 1.38 0 1.91z"></path></svg>
                 </a>
             </div>
-            <form class="" action="<?php echo admin_url("admin.php?page=chaty-widget-settings") ?>" method="get" id="rename-widget-form">
+            <form class="" action="<?php echo esc_url(admin_url("admin.php?page=chaty-widget-settings")) ?>" method="get" id="rename-widget-form">
                 <div class="a-card a-card--normal">
                     <div class="chaty-popup-header  text-left font-primary text-cht-gray-150 font-medium py-3 px-3 sm:p-5 relative">
                         <?php esc_html_e("Rename Widget", "chaty") ?>

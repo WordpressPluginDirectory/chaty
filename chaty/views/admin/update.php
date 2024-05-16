@@ -18,7 +18,7 @@ if (defined('ABSPATH') === false) {
 <div class="starts-testimonials-updates-form">
     <div class="updates-form-form-left">
         <div class="updates-form-form-left-text">premio</div>
-        <img src="<?php echo CHT_PLUGIN_URL ?>admin/assets/images/wcupdate_email.svg" style="width: 230px;margin: 60px 0px 20px 0px;" />
+        <img src="<?php echo esc_url(CHT_PLUGIN_URL) ?>admin/assets/images/wcupdate_email.svg" style="width: 230px;margin: 60px 0px 20px 0px;" />
         <p><?php esc_html_e('Grow your WordPress or Shopify websites with our plugins', 'chaty'); ?></p>
     </div>
     <div class="updates-form-form-right">
@@ -36,8 +36,9 @@ if (defined('ABSPATH') === false) {
                         </g>
                     </svg>
                 </div>
-                <input id="starts_testimonials_update_email" autocomplete="off" value="<?php echo get_option('admin_email') ?>" placeholder="Email address">
-                <button href="javascript:;" class="button button-primary form-submit-btn yes befirst-btn"><?php esc_html_e('Sign Up', 'chaty'); ?></button>
+                <input id="chaty_update_email" autocomplete="off" value="<?php echo esc_attr(get_option('admin_email')) ?>" placeholder="Email address">
+                <button class="button button-primary form-submit-btn yes befirst-btn"><?php esc_html_e('Sign Up', 'chaty'); ?></button>
+                <p id="suggestion"></p>
             </div>
             <!--div class="update-form-skip-button">
                 <button href="javascript:;" class="button button-secondary form-cancel-btn no">Skip</button>
@@ -49,7 +50,7 @@ if (defined('ABSPATH') === false) {
         <div class="update-notice">
             <?php esc_html_e('You can remove yourself from the list whenever you want, no strings attached', 'chaty'); ?>
         </div>
-        <input type="hidden" id="sticky_element_update_nonce" value="<?php echo wp_create_nonce("my_sticky_elements_update_nonce") ?>">
+        <input type="hidden" id="sticky_element_update_nonce" value="<?php echo esc_attr(wp_create_nonce("my_sticky_elements_update_nonce")) ?>">
     </div>
 </div>
 <div id="mystickyelement-update-email-overlay" class="stickyelement-overlay" style="display:block;" data-id="0" data-from="widget-status"></div>
@@ -57,11 +58,11 @@ if (defined('ABSPATH') === false) {
 
     @font-face {
         font-family: 'Lato';
-        src: url('<?php echo CHT_PLUGIN_URL."admin/assets/fonts/Lato-Regular.woff";?>');
+        src: url('<?php echo esc_url(CHT_PLUGIN_URL)."admin/assets/fonts/Lato-Regular.woff";?>');
     }
 
     #wpwrap{
-        background: url('<?php echo CHT_PLUGIN_URL;?>admin/assets/images/update-bg.jpg');
+        background: url('<?php echo esc_url(CHT_PLUGIN_URL); ?>admin/assets/images/update-bg.jpg');
         background-position: bottom center;
         background-size: cover;
     }
@@ -169,11 +170,12 @@ if (defined('ABSPATH') === false) {
         box-sizing: border-box;
         border-radius: 8px;
         height: 42px;
-        line-height: 40px;
+        line-height: 42px;
         padding: 0 50px 0 40px;
         font-size: 13px;
         box-sizing: border-box;
         color: #334155;
+        vertical-align: middle;
     }
     .update-form-input .form-submit-btn {
         background: #5A00F0;
@@ -192,20 +194,23 @@ if (defined('ABSPATH') === false) {
         width: 100px;
         font-family:Lato;
     }
-    .update-form-input #starts_testimonials_update_email:hover{
+    .update-form-input #chaty_update_email:hover{
         border-bottom: 1px solid #5A00F0;
         border-radius: 8px 8px 0px 0px;
     }
 
-    .update-form-input #starts_testimonials_update_email:focus-visible{
+    .update-form-input #chaty_update_email:focus-visible, .update-form-input #chaty_update_email:focus{
         border :1px solid #5A00F0 !important;
         outline: 1px !important;
         border-radius: 8px;
     }
 
-    .update-form-input .form-submit-btn:hover{
+    .update-form-input .form-submit-btn:hover, .update-form-input .form-submit-btn:focus{
         background: #5A00F0;
+        box-shadow: none;
+        outline: none;
     }
+
 
     .updates-form .form-cancel-btn.no {
         margin: 0 0 0 3px;
@@ -225,6 +230,7 @@ if (defined('ABSPATH') === false) {
         position: absolute;
         top: 8px;
         left: 10px;
+        z-index: 1;
     }
 
     .update-notice {
@@ -249,30 +255,111 @@ if (defined('ABSPATH') === false) {
         cursor: pointer;
         color:#28375A;
     }
+    #suggestion {
+        margin: 10px 0 0;
+        padding: 0;
+        font-size: 14px;
+        color: #970029;
+    }
+    #suggestion i {
+        color: #2596be;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .eac-sugg{
+        color:#c1c1c1;
+        margin-left: -4px;
+    }
+    .wp-core-ui .button-primary:disabled, .wp-core-ui .button-primary[disabled] {
+        background: #e7e7e7!important;
+    }
 </style>
 
 <script>
+    var suggestionText = "";
     jQuery(document).ready(function($) {
+        jQuery(document).on("focus", ".updates-form button", function () {
+            suggestionText = jQuery("#suggestion").text();
+        });
+        jQuery(document).on("mouseover", ".updates-form button", function () {
+            suggestionText = jQuery("#suggestion").text();
+        }).on("mouseleave", "updates-form button", function () {
+            suggestionText = jQuery("#suggestion").text();
+        });
         jQuery(document).on("click", ".updates-form button, a.form-cancel-btn", function () {
             var updateStatus = 0;
             if (jQuery(this).hasClass("yes")) {
                 updateStatus = 1;
             }
-            $(".updates-form button").attr("disabled", true);
-            $.ajax({
+            jQuery(".updates-form button").attr("disabled", true);
+            jQuery.ajax({
                 url: ajaxurl,
                 data: {
                     action: "chaty_update_status",
                     status: updateStatus,
-                    nonce: '<?php echo wp_create_nonce("chaty_update_status") ?>',
-                    email: jQuery("#starts_testimonials_update_email").val()
+                    nonce: '<?php echo esc_attr(wp_create_nonce("chaty_update_status")) ?>',
+                    email: jQuery("#chaty_update_email").val()
                 },
                 type: 'post',
                 cache: false,
                 success: function () {
                     window.location.reload();
                 }
-            })
+            });
+        });
+
+        var domains = ['hotmail.com', 'gmail.com', 'aol.com'];
+        var topLevelDomains = ["com", "net", "org"];
+
+        jQuery("#chaty_update_email").emailautocomplete({
+            domains: ['example.com', 'protonmail.com', 'yahoo.com', 'gmail.com'],
+            caseSensitive: false
+        });
+
+        jQuery(document).on("click", "#suggestion i", function (){
+            jQuery("#chaty_update_email").val(jQuery(this).text()).focus();
+            jQuery("#suggestion").html('');
+        });
+
+
+        jQuery(document).on("change", "#chaty_update_email", function (){
+            isValidEmailAddress();
+        });
+        jQuery(document).on("keyup", "#chaty_update_email", function (){
+            if(isValidEmailAddress()) {
+                jQuery(this).mailcheck({
+                    // domains: domains,                       // optional
+                    // topLevelDomains: topLevelDomains,       // optional
+                    suggested: function(element, suggestion) {
+                        // callback code
+                        jQuery('#suggestion').html("Did you mean <b><i>" + suggestion.full + "</b></i>?");
+                    },
+                    empty: function(element) {
+                        // callback code
+                        jQuery('#suggestion').html('');
+                    }
+                });
+            } else {
+                jQuery('#suggestion').html('');
+            }
         });
     });
+
+    function isValidEmailAddress() {
+        if(jQuery.trim(jQuery("#chaty_update_email").val()) == "") {
+            jQuery(".form-submit-btn").prop("disabled", true);
+            return false;
+        } else if(!isValidEmail(jQuery("#chaty_update_email").val())) {
+            jQuery(".form-submit-btn").prop("disabled", true);
+            return false;
+        } else {
+            jQuery(".form-submit-btn").prop("disabled", false);
+        }
+        return true;
+    }
+
+    function isValidEmail(email) {
+        var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        return regex.test(email);
+    }
 </script>

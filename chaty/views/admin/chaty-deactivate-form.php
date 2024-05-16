@@ -133,7 +133,7 @@ if (defined('ABSPATH') === false) {
             <div class="chaty-popup-body">
                 <h3><?php esc_html_e('Your feedback will help us improve the product, please tell us why did you decide to deactivate Chaty :)', 'chaty'); ?></h3>
                 <div class="form-control">
-                    <input type="email" value="<?php echo get_option('admin_email') ?>" placeholder="<?php echo _e("Email address", 'chaty') ?>" id="chaty-deactivation-email_id">
+                    <input type="email" value="<?php echo esc_attr(get_option('admin_email')) ?>" placeholder="<?php esc_html_e("Email address", 'chaty') ?>" id="chaty-deactivation-email_id">
                 </div>
                 <div class="form-control">
                     <label></label>

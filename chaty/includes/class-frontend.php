@@ -1,10 +1,7 @@
 <?php
 /**
- * Class Chaty front end
  *
- * @author  : Premio <contact@premio.io>
- * @license : GPL2
- * */
+ */
 
 namespace CHT\frontend;
 
@@ -21,22 +18,52 @@ require_once $adminBase;
 $socialIcons = CHT_ADMIN_INC.'/class-social-icons.php';
 require_once $socialIcons;
 
+/**
+ * Class CHT_Frontend
+ *
+ * This class is responsible for handling the frontend functionality of the Chaty plugin.
+ */
 class CHT_Frontend extends CHT_Admin_Base
 {
 
     /**
-     * The widget number of settings
+     * Holds the number of widgets.
      *
-     * @var    string    $widgetNumber    The Slug of this plugin.
-     * @since  1.0.0
-     * @access public
+     * @var int
      */
     public $widgetNumber;
 
+    /**
+     * Whether the font is enabled or not.
+     *
+     * @var    bool $hasFont True if the font is enabled, false otherwise.
+     * @since  1.0.0
+     * @access public
+     */
     public $hasFont = false;
 
     /**
-     * CHT_Frontend constructor.
+     * Whether the font is enabled or not.
+     *
+     * @var    bool $hasFont True if the email field is added, false otherwise.
+     * @since  1.0.0
+     * @access public
+     */
+    public $hasEmail = false;
+
+    /**
+     * Whether the font is enabled or not.
+     *
+     * @var    bool $hasEmoji True if the emoji is enabled, false otherwise.
+     * @since  1.0.0
+     * @access public
+     */
+    public $hasEmoji = false;
+
+    /**
+     * Class constructor.
+     *
+     * Initializes the class properties and sets up the necessary actions and filters.
      */
     public function __construct()
     {
@@ -69,11 +96,14 @@ class CHT_Frontend extends CHT_Admin_Base
     }//end __construct()
 
     /**
-     * function to rename chaty widget
+     * Update chaty view function
      *
+     * This function updates the chaty view count when triggered.
+     *
+     * @return void
      * @since  1.0.0
      * @access public
-     * @return $status
+     *
      */
 
     public function update_chaty_view() {
@@ -87,6 +117,13 @@ class CHT_Frontend extends CHT_Admin_Base
         }
     }
 
+    /**
+     * To rename Chaty widget
+     *
+     * @return void
+     * @since  1.0.0
+     * @access public
+     */
     public function rename_chaty_widget() {
         if (current_user_can('manage_options')) {
             $widget_index = sanitize_text_field($_POST['widget_index']);
@@ -111,11 +148,12 @@ class CHT_Frontend extends CHT_Admin_Base
 
 
     /**
-     * checking for wp editors
+     * Checks if the current page is being edited in a page builder.
      *
-     * @since  1.0.0
+     * @return int Returns 1 if the page is being edited in a page builder, 0 otherwise.
+     * @since 1.0.0
      * @access public
-     * @return $status
+     *
      */
     function check_for_editors()
     {
@@ -131,11 +169,11 @@ class CHT_Frontend extends CHT_Admin_Base
 
 
     /**
-     * Remove chaty widget settings
+     * To remove a chaty widget
      *
+     * @return void
      * @since  1.0.0
      * @access public
-     * @return $response
      */
     public function remove_chaty_widget()
     {
@@ -198,11 +236,11 @@ class CHT_Frontend extends CHT_Admin_Base
 
 
     /**
-     * Update chaty widget status
+     * Change the status of the Chaty widget
      *
+     * @return void
      * @since  1.0.0
      * @access public
-     * @return $response
      */
     public function change_chaty_widget_status()
     {
@@ -233,11 +271,11 @@ class CHT_Frontend extends CHT_Admin_Base
 
 
     /**
-     * To save form submitted by visitors
+     * Save contact form data
      *
+     * @return void
      * @since  1.0.0
      * @access public
-     * @return $response
      */
     function chaty_front_form_save_data()
     {
@@ -248,7 +286,11 @@ class CHT_Frontend extends CHT_Admin_Base
             'message' => '',
         ];
         $postData = filter_input_array(INPUT_POST);
-        if (isset($postData['nonce']) && isset($postData['widget']) && wp_verify_nonce($postData['nonce'], "chaty_widget_nonce".$postData['widget'])) {
+        $widgetIndex  = $postData['widget'];
+        if(empty($widgetIndex)) {
+            $widgetIndex = "";
+        }
+        if (isset($postData['nonce']) && isset($postData['widget']) && wp_verify_nonce($postData['nonce'], "chaty_widget_nonce".$widgetIndex)) {
             $name    = isset($postData['name']) ? $postData['name'] : "";
             $phone   = isset($postData['email']) ? $postData['phone'] : "";
             $email   = isset($postData['phone']) ? $postData['email'] : "";
@@ -314,8 +356,8 @@ class CHT_Frontend extends CHT_Admin_Base
                     $response['close_form_after'] = esc_attr($value['close_form_after']);
                     $response['close_form_after_seconds'] = esc_attr($value['close_form_after_seconds']);
 
-                    date_default_timezone_set(get_option('timezone_string'));
-                    $currentDate = date("Y-m-d H:i:s");
+                    wp_timezone_string();
+                    $currentDate = gmdate("Y-m-d H:i:s");
 
                     global $wpdb;
                     $chatyTable  = $wpdb->prefix.'chaty_contact_form_leads';
@@ -341,7 +383,7 @@ class CHT_Frontend extends CHT_Admin_Base
                     }
 
                     $insert['ref_page']   = esc_url(esc_sql(sanitize_text_field($refURL)));
-                    $insert['ip_address'] = esc_attr($this->get_user_ipaddress());
+                    $insert['ip_address'] = "";
                     $insert['widget_id']  = esc_sql(sanitize_text_field($widget));
                     $insert['created_on'] = esc_sql($currentDate);
                     $wpdb->insert($chatyTable, $insert);
@@ -363,18 +405,17 @@ class CHT_Frontend extends CHT_Admin_Base
             $response['message'] = "Invalid request, Please try again";
         }//end if
 
-        wp_send_json($response);
+        echo wp_json_encode($response);
         exit;
 
     }//end chaty_front_form_save_data()
 
 
     /**
-     * To load JS/CSS files to visitors
+     * To add front-end CSS and JS for the chat widget.
      *
      * @since  1.0.0
-     * @access public
-     * @return $css
+     * @access private
      */
     function cht_front_end_css_and_js()
     {
@@ -496,11 +537,11 @@ class CHT_Frontend extends CHT_Admin_Base
                     $record         = [];
                     $record['days'] = ($value['days'] - 1);
                     $record['start_time']  = $value['start_time'];
-                    $record['start_hours'] = intval(date("G", strtotime(date("Y-m-d ".$value['start_time']))));
-                    $record['start_min']   = intval(date("i", strtotime(date("Y-m-d ".$value['start_time']))));
+                    $record['start_hours'] = intval(gmdate("G", strtotime(gmdate("Y-m-d ".$value['start_time']))));
+                    $record['start_min']   = intval(gmdate("i", strtotime(gmdate("Y-m-d ".$value['start_time']))));
                     $record['end_time']    = $value['end_time'];
-                    $record['end_hours']   = intval(date("G", strtotime(date("Y-m-d ".$value['end_time']))));
-                    $record['end_min']     = intval(date("i", strtotime(date("Y-m-d ".$value['end_time']))));
+                    $record['end_hours']   = intval(gmdate("G", strtotime(gmdate("Y-m-d ".$value['end_time']))));
+                    $record['end_min']     = intval(gmdate("i", strtotime(gmdate("Y-m-d ".$value['end_time']))));
                     $displayRules[]        = $record;
                 }
             }
@@ -548,7 +589,6 @@ class CHT_Frontend extends CHT_Admin_Base
             $data['analytics'] = 0;
             $data['capture_analytics'] = get_option("chaty_views")?0:1;
             $data['token'] = wp_create_nonce("update_chaty_view");
-            $data['lang'] = $this->get_language_strings();
 
             $state = ($state == "open")?"open":$state;
             if($state == "open") {
@@ -580,11 +620,11 @@ class CHT_Frontend extends CHT_Admin_Base
 
             // Widget setting array.
             $setting = [];
-            $setting['cta_type']          = esc_attr($cta_type);
+            $setting['cta_type']          = $this->sanitize_xss($cta_type);
             $setting['cta_body']          = html_entity_decode($cta_body);
             $setting['cta_head']          = $cta_head;
-            $setting['cta_head_bg_color'] = esc_attr($cta_head_bg_color);
-            $setting['cta_head_text_color'] = esc_attr($cta_header_text_color);
+            $setting['cta_head_bg_color'] = $this->sanitize_xss($cta_head_bg_color);
+            $setting['cta_head_text_color'] = $this->sanitize_xss($cta_header_text_color);
             $setting['show_close_button'] = $hasCloseButton;
             $setting['position']          = $position;
             $setting['custom_position']   = 1;
@@ -606,8 +646,9 @@ class CHT_Frontend extends CHT_Admin_Base
             $setting['widget_size']        = $chtWidgetSize;
             $setting['custom_widget_size'] = $chtWidgetSize;
             $setting['is_google_analytics_enabled'] = $analytics;
-            $setting['close_text']       = strip_tags(esc_attr($close_text));
+            $setting['close_text']       = wp_strip_all_tags($this->sanitize_xss($close_text));
             $setting['widget_color']     = $bgColor;
+            $setting['widget_icon_color'] = "#ffffff";
             $setting['widget_rgb_color'] = $this->getRGBColor($bgColor);
             $setting['has_custom_css']   = empty($custom_css) ? 0 : 1;
             $setting['custom_css']       = '';
@@ -662,6 +703,7 @@ class CHT_Frontend extends CHT_Admin_Base
             $data['chaty_widgets']   = [];
             $data['chaty_widgets'][] = $widgetSetting;
             $data['data_analytics_settings'] = "off";
+            $data['lang']            = $this->get_language_strings();
 
 
             if ($len >= 1 && !empty($data['chaty_widgets'])) {
@@ -673,7 +715,7 @@ class CHT_Frontend extends CHT_Admin_Base
                 // add js for front end widget
                 if (!empty($fontFamily)) {
                     if (!in_array($fontFamily, ["Arial", "Tahoma", "Verdana", "Helvetica", "Times New Roman", "Trebuchet MS", "Georgia", "System Stack", "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"])) {
-                        wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family='.urlencode($fontFamily), false, false);
+                        wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family='.urlencode($fontFamily), false, CHT_VERSION);
                     }
                 }
 
@@ -681,27 +723,48 @@ class CHT_Frontend extends CHT_Admin_Base
                 wp_enqueue_style('chaty-front-css', CHT_PLUGIN_URL."css/chaty-front.min.css", [], CHT_VERSION.$chaty_updated_on);
                 // wp_add_inline_style('chaty-front-css', $chaty_css);
                 wp_enqueue_script("chaty-front-end", CHT_PLUGIN_URL."js/cht-front-script.min.js", [ 'jquery' ], CHT_VERSION.$chaty_updated_on, true);
+
+                if($this->hasEmail) {
+                    wp_enqueue_script("chaty-mail-check", CHT_PLUGIN_URL . "admin/assets/js/mailcheck.js", ['jquery'], CHT_VERSION, true);
+                }
+
+                if($this->hasEmoji) {
+                    wp_enqueue_script('chaty-picmo-js', CHT_PLUGIN_URL . 'admin/assets/js/picmo-umd.min.js', ['jquery'], CHT_VERSION, true);
+                    wp_enqueue_script('chaty-picmo-latest-js', CHT_PLUGIN_URL . 'admin/assets/js/picmo-latest-umd.min.js', ['jquery'], CHT_VERSION, true);
+                }
                 wp_localize_script('chaty-front-end', 'chaty_settings',  $data);
+
+                if ( version_compare( get_bloginfo( 'version' ), '6.2.3', '>=' ) ) {
+                    wp_script_add_data( 'chaty-front-end', 'strategy', 'defer' );
+                    wp_script_add_data( 'chaty-mail-check', 'strategy', 'defer' );
+                }
             }//end if
         endif;
 
     }//end cht_front_end_css_and_js()
 
+    /**
+     * Retrieves the language strings for WhatsApp message and hide WhatsApp form.
+     *
+     * @return array The array containing the language strings.
+     */
     public function get_language_strings() {
         return [
             'whatsapp_label' => esc_html__("WhatsApp Message", "chaty"),
             'whatsapp_label' => esc_html__("WhatsApp Message", "chaty"),
-            'hide_whatsapp_form' => esc_html__("Hide WhatsApp Form", "chaty")
+            'hide_whatsapp_form' => esc_html__("Hide WhatsApp Form", "chaty"),
+            'emoji_picker' => esc_html__("Show Emojis", "chaty"),
         ];
     }
 
 
     /**
-     * To get widget settings
+     * Get Chaty settings for a specific channel
      *
-     * @since  1.0.0
+     * @return void
+     * @since 1.0.0
      * @access public
-     * @return $settings
+     *
      */
     public function get_chaty_settings()
     {
@@ -738,18 +801,21 @@ class CHT_Frontend extends CHT_Admin_Base
         $response['data']    = $data;
         $response['status']  = $status;
         $response['channel'] = esc_attr($channel);
-        echo wp_send_json($response);
+        echo wp_json_encode($response);
         die;
 
     }//end get_chaty_settings()
 
 
     /**
-     * To get widget channel setting
+     * Choose Social Handler
      *
-     * @since  1.0.0
+     * This method handles the AJAX request to choose a social media channel.
+     *
+     * @return void
+     * @since 1.0.0
      * @access public
-     * @return $settings
+     *
      */
     public function choose_social_handler()
     {
@@ -776,7 +842,7 @@ class CHT_Frontend extends CHT_Admin_Base
             ob_start();
             include CHT_DIR.DIRECTORY_SEPARATOR."views".DIRECTORY_SEPARATOR."admin".DIRECTORY_SEPARATOR."channel.php";
             $html = ob_get_clean();
-            wp_send_json($html);
+            echo wp_json_encode($html);
         }
         wp_die();
 
@@ -784,11 +850,9 @@ class CHT_Frontend extends CHT_Admin_Base
 
 
     /**
-     * To get channel list
+     * Retrieves the list of social media icons.
      *
-     * @since  1.0.0
-     * @access public
-     * @return $channels
+     * @return array The array containing the social media icons.
      */
     public function get_social_icon_list()
     {
@@ -819,6 +883,7 @@ class CHT_Frontend extends CHT_Admin_Base
                         $desktopTarget = "";
                         $mobileTarget  = "";
                         $qrCodeImage   = "";
+                        $viberURL      = "";
 
                         $channelType = $slug;
 
@@ -829,7 +894,7 @@ class CHT_Frontend extends CHT_Admin_Base
                         $svgIcon = $social['svg'];
                         if ($slug == "link" || $slug == "custom_link" || $slug == "custom_link_3" || $slug == "custom_link_4" || $slug == "custom_link_5") {
                             if (isset($value['channel_type']) && !empty($value['channel_type'])) {
-                                $channelType = $value['channel_type'];
+                                $channelType =  $this->sanitize_xss($value['channel_type']);
 
                                 foreach ($this->socials as $icon) {
                                     if ($icon['slug'] == $channelType) {
@@ -969,9 +1034,9 @@ class CHT_Frontend extends CHT_Admin_Base
                             // setting for WeChat
                             $url = "javascript:;";
                             if (!empty($value['title'])) {
-                                $value['title'] .= ": ".esc_attr($val);
+                                $value['title'] .= ": ".$this->sanitize_xss($val);
                             } else {
-                                $value['title'] = esc_attr($val);
+                                $value['title'] = $this->sanitize_xss($val);
                             }
 
                             $qr_code = isset($value['qr_code']) ? $value['qr_code'] : "";
@@ -986,7 +1051,11 @@ class CHT_Frontend extends CHT_Admin_Base
                             $val = str_replace("+", "", $val);
                             $val = str_replace(" ", "", $val);
                             $val = str_replace("-", "", $val);
-                            $val = "+" . $val;
+                            if(is_numeric($val) && strlen($val) > 6) {
+                                $val = "+" . $val;
+                            } else {
+                                $viberURL = "viber://pa?chatURI=";
+                            }
                             $url = esc_attr($val);
                         } else if ($channelType == "snapchat") {
                             // setting for SnapChat
@@ -1090,7 +1159,7 @@ class CHT_Frontend extends CHT_Admin_Base
 
                         $svgClass = ($channelType == "contact_us") ? "color-element" : "";
 
-                        $bgColor  = $value['bg_color'];
+                        $bgColor  = $this->validate_color($value['bg_color'], $social['color']);
                         $rgbColor = $this->getRGBColor($value['bg_color']);
                         $url      = htmlspecialchars($url);
 
@@ -1117,6 +1186,7 @@ class CHT_Frontend extends CHT_Admin_Base
 
                                 $fieldSetting = $value['email'];
                                 if (isset($fieldSetting['is_active']) && $fieldSetting['is_active'] == "yes") {
+                                    $this->hasEmail = true;
                                     $contactFields[] = [
                                         "field"       => "email",
                                         "title"       => isset($fieldSetting['field_label'])? $this->sanitize_xss($fieldSetting['field_label']) : esc_html__("Email", "chaty"),
@@ -1133,7 +1203,7 @@ class CHT_Frontend extends CHT_Admin_Base
                                         "title"       => isset($fieldSetting['field_label'])? $this->sanitize_xss($fieldSetting['field_label']) : esc_html__("Phone", "chaty"),
                                         "is_required" => (isset($fieldSetting['is_required']) && $fieldSetting['is_required'] == "yes") ? 1 : 0,
                                         "placeholder" => isset($fieldSetting['placeholder']) ? $this->sanitize_xss($fieldSetting['placeholder']) : esc_html__("Enter your phone number", "chaty"),
-                                        "type"        => "text",
+                                        "type"        => "tel",
                                     ];
                                 }
 
@@ -1151,26 +1221,40 @@ class CHT_Frontend extends CHT_Admin_Base
 
                             if (!empty($contactFields)) {
                                 $contactFormSettings = [
-                                    "button_text_color"  => isset($value['button_text_color']) ? $this->sanitize_xss($value['button_text_color']) : "#ffffff",
-                                    "button_bg_color"    => isset($value['button_bg_color']) ? $this->sanitize_xss($value['button_bg_color']) : "#A886CD",
+                                    "button_text_color"  => $this->validate_color(isset($value['button_text_color']) ? $this->sanitize_xss($value['button_text_color']) : "#ffffff", "#ffffff"),
+                                    "button_bg_color"    => $this->validate_color((isset($value['button_bg_color']) ? $this->sanitize_xss($value['button_bg_color']) : "#A886CD"), "#A886CD"),
                                     "button_text"        => isset($value['button_text']) ? $this->sanitize_xss($value['button_text']) : "Chat",
                                     "contact_form_title" => isset($value['contact_form_title']) ? $this->sanitize_xss($value['contact_form_title']) : "Contact Us",
+                                    "contact_form_field_order" => [],
+                                    "title_bg_color"     => $this->validate_color((isset($value['contact_form_title_bg_color'])?$this->sanitize_xss($value['contact_form_title_bg_color']):"#A886CD"),"#A886CD")
                                 ];
                             } else {
                                 $valid = false;
                             }
                         }//end if
 
+
                         if ($valid) {
                             $preSetMessage      = isset($value['pre_set_message']) ? $this->sanitize_xss($value['pre_set_message']) : "";
                             $isDefaultOpen      = (isset($value['is_default_open'])&&$value['is_default_open'] == "yes") ? 1 : 0;
                             $hasWelcomeMessage  = (isset($value['embedded_window'])&&$value['embedded_window'] == "yes") ? 1 : 0;
-                            $embeddedMessage    = isset($value['embedded_message']) ? esc_attr($value['embedded_message']) : "";
+                            $hasEmojiPicker     = $this->sanitize_xss((!isset($value['emoji_picker']) || $value['emoji_picker'] == "yes") ? 1 : 0);
+                            $inputPlaceholder   = $this->sanitize_xss(isset($value['input_placeholder'])?$value['input_placeholder']:esc_html__("Write your message...","chaty"));
+                            $embeddedMessage    = isset($value['embedded_message']) ? $value['embedded_message'] : "";
                             $channelAccountType = isset($value['link_type']) ? $this->sanitize_xss($value['link_type']) : "personal";
                             $mailSubject        = isset($value['mail_subject']) ? $this->sanitize_xss($value['mail_subject']) : "";
                             $isUseWebVersion    = (isset($value['use_whatsapp_web']) && $value['use_whatsapp_web'] == "no") ? 0 : 1;
                             $isOpenNewTab       = (isset($value['is_open_new_tab']) && $value['is_open_new_tab'] == 0) ? 0 : 1;
-                            $channelType        = isset($value['channel_type']) && !empty($value['channel_type']) ? $this->sanitize_xss($value['channel_type']) : $social['slug'];
+                            $channelType        = isset($value['channel_type']) && !empty($value['channel_type']) ?  $this->sanitize_xss($value['channel_type']) : $social['slug'];
+                            $wp_popup_headline  = $this->sanitize_xss((isset($value['wp_popup_headline']) && !empty($value['wp_popup_headline'])) ? $value['wp_popup_headline'] : '');
+                            $wp_popup_head_bg_color = $this->validate_color($this->sanitize_xss((isset($value['wp_popup_head_bg_color']) && !empty($value['wp_popup_head_bg_color'])) ? $value['wp_popup_head_bg_color'] : '#4AA485'), '#4AA485');
+                            $wp_popup_nickname      = $this->sanitize_xss((isset($value['wp_popup_nickname']) && !empty($value['wp_popup_nickname'])) ? $value['wp_popup_nickname'] : '');
+                            $wp_popup_profile       = $this->sanitize_xss((isset($value['wp_popup_profile']) && !empty($value['wp_popup_profile'])) ? $value['wp_popup_profile'] : '');
+
+                            if($hasWelcomeMessage && $hasEmojiPicker) {
+                                $this->hasEmoji = true;
+                            }
+
                             $allowed_html    = [
                                 'a'      => [
                                     'href'  => [],
@@ -1208,16 +1292,22 @@ class CHT_Frontend extends CHT_Admin_Base
                                 "is_open_new_tab"       => $this->sanitize_xss($isOpenNewTab),
                                 "is_default_open"       => $this->sanitize_xss($isDefaultOpen),
                                 "has_welcome_message"   => $this->sanitize_xss($hasWelcomeMessage),
+                                "emoji_picker"          => $this->sanitize_xss($hasEmojiPicker),
+                                "input_placeholder"     => $this->sanitize_xss($inputPlaceholder),
                                 "chat_welcome_message"  => $embeddedMessage,
+                                "wp_popup_headline"     => $wp_popup_headline,
+                                "wp_popup_nickname"     => $wp_popup_nickname,
+                                "wp_popup_profile"      => $wp_popup_profile,
+                                "wp_popup_head_bg_color" => $wp_popup_head_bg_color,
                                 "qr_code_image_url"     => esc_url($qrCodeImage),
                                 "mail_subject"          => $this->sanitize_xss($mailSubject),
                                 "channel_account_type"  => $this->sanitize_xss($channelAccountType),
                                 "contact_form_settings" => $contactFormSettings,
                                 "contact_fields"        => $contactFields,
                                 "url"                   => $url,
-                                "mobile_target"         => $this->sanitize_xss($mobileTarget),
-                                "desktop_target"        => $this->sanitize_xss($desktopTarget),
-                                "target"                => $this->sanitize_xss($desktopTarget),
+                                "mobile_target"         => $mobileTarget,
+                                "desktop_target"        => $desktopTarget,
+                                "target"                => $desktopTarget,
                                 "is_agent"              => 0,
                                 "agent_data"            => [],
                                 "header_text"           => '',
@@ -1227,6 +1317,7 @@ class CHT_Frontend extends CHT_Admin_Base
                                 "widget_token"          => $this->sanitize_xss($widgetToken),
                                 "widget_index"          => $this->sanitize_xss($index),
                                 "click_event"           => $onClickFn,
+                                'viber_url'             => $this->sanitize_xss($viberURL)
                             ];
                             $arr[] = $data;
                         }//end if
@@ -1253,7 +1344,12 @@ class CHT_Frontend extends CHT_Admin_Base
         return esc_attr(htmlspecialchars(strip_tags($value)));
     }
 
-
+    /**
+     * Cleans the input string and removes all non-numeric characters except for the '+' sign.
+     *
+     * @param string $string The string to be cleaned.
+     * @return string The cleaned string.
+     */
     function cleanStringForNumbers($string) {
         if(!empty($string)) {
             $string = trim($string);
@@ -1272,11 +1368,10 @@ class CHT_Frontend extends CHT_Admin_Base
 
 
     /**
-     * To get RGB code from hexa code
+     * Converts a color value to RGB format.
      *
-     * @since  1.0.0
-     * @access public
-     * @return $color
+     * @param string $color The color value to convert.
+     * @return string The RGB color value.
      */
     public function getRGBColor($color)
     {
@@ -1302,11 +1397,11 @@ class CHT_Frontend extends CHT_Admin_Base
 
 
     /**
-     * To get color hexa code to RGB code
+     * Converts a hex color code to RGBA format.
      *
-     * @since  1.0.0
-     * @access public
-     * @return $color
+     * @param string $color The hex color code to convert.
+     * @param float|boolean $opacity The opacity value for the RGBA format. If set to false, the function only converts to RGB.
+     * @return string The RGBA or RGB color string.
      */
     public function hex2rgba($color, $opacity=false)
     {
@@ -1361,11 +1456,9 @@ class CHT_Frontend extends CHT_Admin_Base
 
 
     /**
-     * To check widget status active or not
+     * Checks if the widget can be inserted.
      *
-     * @since  1.0.0
-     * @access public
-     * @return $status
+     * @return bool Returns true if the widget can be inserted, false otherwise.
      */
     private function canInsertWidget()
     {
@@ -1375,11 +1468,9 @@ class CHT_Frontend extends CHT_Admin_Base
 
 
     /**
-     * To get active channel lists
+     * Checks the availability of social media channels.
      *
-     * @since  1.0.0
-     * @access public
-     * @return $status
+     * @return bool True if at least one social media channel is available, false otherwise.
      */
     private function checkChannels()
     {
@@ -1396,11 +1487,9 @@ class CHT_Frontend extends CHT_Admin_Base
 
 
     /**
-     * To get USER IP Address
+     * Retrieves the user's IP address.
      *
-     * @since  1.0.0
-     * @access public
-     * @return $ipAddress
+     * @return string The IP address of the user.
      */
     function get_user_ipaddress()
     {
@@ -1428,6 +1517,33 @@ class CHT_Frontend extends CHT_Admin_Base
         return $ip;
 
     }//end get_user_ipaddress()
+
+
+    /**
+     * Validates a color value and returns it if it matches the given formats.
+     *
+     * @param string $color The color value to validate.
+     * @param string $default_color (optional) The default color value to return if the given color is invalid.
+     * @return string The validated color value, or the default color value if the given color is invalid.
+     */
+    function validate_color($color, $default_color = "") {
+        if( preg_match('/^#[a-f0-9]{6}$/i', $color)) {
+            return $color;
+        } else {
+            // Check if it's a RGB color
+            $rgbPattern = '/^rgb\(\s*(2[0-5]{2}|1\d{2}|[1-9]\d|\d)\s*,\s*(2[0-5]{2}|1\d{2}|[1-9]\d|\d)\s*,\s*(2[0-5]{2}|1\d{2}|[1-9]\d|\d)\s*\)$/i';
+            if(preg_match($rgbPattern, $color)) {
+                return $color;
+            }
+
+            // Check if it's a RGBA color
+            $rgbaPattern = '/^rgba\((\s*0*(?:1?[1-9]?\d|2[0-4]\d|25[0-5])\s*,\s*?){3}\s*0*(?:0(\.\d+)?|1(\.0+)?)\s*\)$/';
+            if(preg_match($rgbaPattern, $color)) {
+                return $color;
+            }
+        }
+        return $default_color;
+    }
 
 
 }//end class

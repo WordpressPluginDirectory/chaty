@@ -3,6 +3,12 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Class Chaty_upgrade_box
+ *
+ * This class is responsible for handling the upgrade box functionality of the Chaty plugin.
+ * It provides methods for upgrading to pro and displaying admin notices for the upgrade.
+ */
 class Chaty_upgrade_box
 {
 
@@ -11,6 +17,12 @@ class Chaty_upgrade_box
     public $pluginSlug = "chaty";
 
 
+    /**
+     * Constructor method for initializing the object.
+     * Adds actions for upgrading to pro and displaying admin notices.
+     *
+     * @return void
+     */
     public function __construct()
     {
         add_action("wp_ajax_".$this->pluginSlug."_upgrade_hide_box", [$this, "upgrade_to_pro"]);
@@ -19,6 +31,14 @@ class Chaty_upgrade_box
     }//end __construct()
 
 
+    /**
+     * Upgrade the plugin to the pro version.
+     *
+     * This method handles the upgrade process when the user wants to upgrade the plugin to the pro version.
+     * It checks for a valid nonce and processes the upgrade request accordingly.
+     *
+     * @return void
+     */
     public function upgrade_to_pro()
     {
         $nonce = filter_input(INPUT_POST, 'nonce');
@@ -27,7 +47,7 @@ class Chaty_upgrade_box
             if ($days == -1) {
                 add_option($this->pluginSlug."_hide_upgrade_box", "1");
             } else {
-                $date = date("Y-m-d", strtotime("+".$days." days"));
+                $date = gmdate("Y-m-d", strtotime("+".$days." days"));
                 update_option($this->pluginSlug."_show_upgrade_box_after", $date);
             }
         }
@@ -36,6 +56,15 @@ class Chaty_upgrade_box
     }//end upgrade_to_pro()
 
 
+    /**
+     * Display admin notices for the Chaty plugin.
+     *
+     * This method is responsible for displaying admin notices related to the Chaty plugin.
+     * It checks for query parameters and options to determine when to display the notices.
+     * It also includes style inline CSS for the notices.
+     *
+     * @return void
+     */
     public function admin_notices()
     {
 
@@ -51,7 +80,7 @@ class Chaty_upgrade_box
 
         $current_count = get_option($this->pluginSlug."_show_upgrade_box_after");
         if ($current_count === false) {
-            $date = date("Y-m-d", strtotime("+15 days"));
+            $date = gmdate("Y-m-d", strtotime("+15 days"));
             add_option($this->pluginSlug."_show_upgrade_box_after", $date);
             return;
         } else if ($current_count < 35) {
@@ -60,7 +89,7 @@ class Chaty_upgrade_box
 
         $date_to_show = get_option($this->pluginSlug."_show_upgrade_box_after");
         if ($date_to_show !== false) {
-            $current_date = date("Y-m-d");
+            $current_date = gmdate("Y-m-d");
             if ($current_date < $date_to_show) {
                 return;
             }
@@ -238,7 +267,7 @@ class Chaty_upgrade_box
         <div class="notice notice-info premio-notice <?php echo esc_attr($this->pluginSlug) ?>-premio-upgrade-box <?php echo  esc_attr($this->pluginSlug) ?>-premio-upgrade-box">
             <div class="upgrade-box-default" id="default-upgrade-box-<?php echo esc_attr($this->pluginSlug) ?>">
                 <p>
-                    <?php printf(esc_html__("%s for more customization, option to add agents, widget analytics with more triggers & targeting rules", 'chaty'), "<b>".esc_html__("Upgrade to ", 'chaty')." ".$this->plugin_name." Pro</b>") ?>
+                    <?php printf(esc_html__("%1\$s for more customization, option to add agents, widget analytics with more triggers & targeting rules", 'chaty'), "<b>".esc_html__("Upgrade to ", 'chaty')." ".esc_attr($this->plugin_name)." Pro</b>") ?>
                     <span class="<?php echo esc_attr($this->pluginSlug) ?>-tab-integration-action">
                         <a class="upgradenow-box-btn" data-days="-1" href="<?php echo esc_url(admin_url("admin.php?page=chaty-app-upgrade&hide_chaty_notice=1")); ?>" target="_blank" ><?php esc_html_e("Upgrade now", 'chaty'); ?></a>
                     </span>                    
@@ -272,7 +301,7 @@ class Chaty_upgrade_box
                     jQuery("body").removeClass("has-premio-box");
                     
                     jQuery.ajax({
-                        url: "<?php echo admin_url("admin-ajax.php") ?>",
+                        url: "<?php echo esc_url(admin_url("admin-ajax.php")) ?>",
                         data: "action=<?php echo esc_attr($this->pluginSlug) ?>_upgrade_box&days="+dataDays+"&nonce=<?php echo esc_attr(wp_create_nonce($this->pluginSlug."_upgrade_box")) ?>",
                         type: "post",
                         success: function() {
@@ -294,7 +323,7 @@ class Chaty_upgrade_box
                     jQuery(".<?php echo esc_attr($this->pluginSlug) ?>-premio-upgrade-box").remove();
                     jQuery("body").removeClass("has-premio-box");
                     jQuery.ajax({
-                        url: "<?php echo admin_url("admin-ajax.php") ?>",
+                        url: "<?php echo esc_url(admin_url("admin-ajax.php")) ?>",
                         data: "action=<?php echo esc_attr($this->pluginSlug) ?>_upgrade_hide_box&days="+dataDays+"&nonce=<?php echo esc_attr(wp_create_nonce($this->pluginSlug."_upgrade_box")) ?>",
                         type: "post",
                         success: function() {

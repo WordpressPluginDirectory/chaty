@@ -350,6 +350,27 @@
     animation: 5s infinite chaty-animation-waggle
 }
 
+.chaty-animation-floating {
+    -webkit-animation: chaty-animation-floating 3s ease infinite;
+    animation: chaty-animation-floating 3s ease infinite;
+}
+
+@keyframes chaty-animation-floating {
+    0% {
+        -webkit-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+    }
+    50% {
+        -webkit-transform: translate3d(0,-10px,0);
+        transform: translate3d(0,-10px,0);
+    }
+    100% {
+        -webkit-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+    }
+}
+
+
 .chaty {
     display: none;
     z-index: 99999
@@ -423,7 +444,7 @@
     border-radius: 50%;
     margin: 4px;
     cursor: pointer;
-    box-shadow: 0 3px 6px rgb(0 0 0 / 25%)
+    box-shadow: 0 16px 24px 0 rgb(73 104 126 / 16%);
 }
 
 .chaty-channel-list .chaty-channel {
@@ -471,6 +492,10 @@
     outline: 0
 }
 
+.chaty-contact-form-box button.chaty-submit-button:disabled .chaty-loader {
+    display: inline-block;
+}
+
 .chaty-agent-icon svg, .chaty-channel svg, .chaty-view-channels .chaty-channel span svg {
     width: 100%;
     height: 100%
@@ -494,7 +519,7 @@
 
 .chaty-cta-button {
     transition: .5s;
-    box-shadow: 0 3px 6px rgb(0 0 0 / 25%);
+    box-shadow: 0 16px 24px 0 rgb(73 104 126 / 16%);
     border-radius: 50%
 }
 
@@ -546,6 +571,17 @@
     display: none
 }
 
+.chaty.form-open.active .chaty-widget .chaty-i-trigger {
+    display: block;
+}
+.chaty.form-open.active .chaty-widget .chaty-i-trigger .chaty-cta-main {
+    display: none;
+}
+.chaty.form-open.active .chaty-widget .chaty-i-trigger .chaty-cta-close .chaty-cta-button {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
 .chaty-widget .ch-pending-msg {
     position: absolute;
     right: -4px;
@@ -635,21 +671,22 @@
 }
 
 .chaty-whatsapp-body {
-    background: #e6ddd4;
     padding: 0;
     min-height: 260px;
     position: relative;
     z-index: 2;
-    -webkit-border-top-left-radius: 6px;
-    -webkit-border-top-right-radius: 6px;
-    -moz-border-radius-topleft: 6px;
-    -moz-border-radius-topright: 6px;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px
 }
 
 .chaty-whatsapp-content {
-    padding: 20px 20px 20px 10px
+    padding: 20px;
+}
+.chaty-popup-whatsapp-form .chaty-whatsapp-body {
+    height: 260px;
+    min-height: auto;
+}
+.chaty-popup-whatsapp-form .chaty-whatsapp-content {
+    display: flex;
+    align-items: flex-start;
 }
 
 .chaty-form-body {
@@ -666,7 +703,9 @@
 
 .qr-code-image {
     padding: 10px;
-    text-align: center
+    text-align: center;
+    border: solid 1px #c0c0c0;
+    border-radius: 4px;
 }
 
 .qr-code-image img {
@@ -678,7 +717,14 @@
     height: auto
 }
 
-.chaty-whatsapp-body:before {
+.chaty-whatsapp-form {
+    position: relative;
+    background-color: #f0ede7;
+    border-radius: 8px;
+    margin: 0;
+}
+
+.chaty-whatsapp-form:before {
     display: block;
     position: absolute;
     content: "";
@@ -687,55 +733,60 @@
     height: 100%;
     width: 100%;
     z-index: 0;
-    opacity: .08;
-    background-image: url("../images/whatsapp.png")
+    opacity: 0.035;
+    background-image: url("../images/whatsapp.png");
+}
+
+.chaty-popup-whatsapp-form .chaty-whatsapp-footer:before, .chaty-popup-whatsapp-form .chaty-whatsapp-body:before {
+    background-image: url("../images/whatsapp-welcome-popup.png");
+    opacity: 0.7;
 }
 
 .chaty-whatsapp-message {
     padding: 7px 14px 6px;
     background-color: #fff;
-    border-radius: 0 8px 8px;
+    border-radius: 0 10px 10px;
     position: relative;
     transform-origin: center top;
     z-index: 2;
-    box-shadow: rgba(0, 0, 0, .13) 0 1px .5px;
-    margin-top: 4px;
-    margin-left: 15px;
+    margin-top: 0;
+    margin-left: 0;
     max-width: calc(100% - 40px);
-    font-size: 14px
+    font-family: Segoe UI, Helvetica Neue, Helvetica, Lucida Grande, Arial, Ubuntu, Cantarell, Fira Sans, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    border: 1px solid rgb(34 17 71 / 8%);
 }
 
 .chaty-whatsapp-message:before {
-    position: absolute;
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAmCAMAAADp2asXAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAACQUExURUxpccPDw9ra2m9vbwAAAAAAADExMf///wAAABoaGk9PT7q6uqurqwsLCycnJz4+PtDQ0JycnIyMjPf3915eXvz8/E9PT/39/RMTE4CAgAAAAJqamv////////r6+u/v7yUlJeXl5f///5ycnOXl5XNzc/Hx8f///xUVFf///+zs7P///+bm5gAAAM7Ozv///2fVensAAAAvdFJOUwCow1cBCCnqAhNAnY0WIDW2f2/hSeo99g1lBYT87vDXG8/6d8oL4sgM5szrkgl660OiZwAAAHRJREFUKM/ty7cSggAABNFVUQFzwizmjPz/39k4YuFWtm55bw7eHR6ny63+alnswT3/rIDzUSC7CrAziPYCJCsB+gbVkgDtVIDh+DsE9OTBpCtAbSBAZSEQNgWIygJ0RgJMDWYNAdYbAeKtAHODlkHIv997AkLqIVOXVU84AAAAAElFTkSuQmCC");
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-size: contain;
     content: "";
-    top: 0;
+    display: none;
+    width: 0;
+    height: 0;
+    border-top: 0 solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 12px solid #ffffff;
+    position: absolute;
     left: -12px;
-    width: 12px;
-    height: 19px
+    top: 0;
+}
+
+.wp-profile-img + .chaty-whatsapp-message:before {
+    display: block;
 }
 
 .chaty-whatsapp-message p {
     margin: 0;
     padding: 0;
     color: #111b21;
-    font-weight: 400
+    font-weight: 400;
+    word-wrap: break-word;
 }
-
 .chaty-whatsapp-footer {
     position: relative;
-    padding: 12px 15px;
-    background: #f0f0f0;
-    -webkit-border-bottom-right-radius: 6px;
-    -webkit-border-bottom-left-radius: 6px;
-    -moz-border-radius-bottomright: 6px;
-    -moz-border-radius-bottomleft: 6px;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px
+    padding: 20px 15px;
 }
+
 
 .whatsapp-chaty-form {
     display: flex;
@@ -743,32 +794,51 @@
     padding: 0
 }
 
-.chaty-whatsapp-button button, .chaty-whatsapp-button button:focus, .chaty-whatsapp-button button:hover {
-    line-height: 48px !important;
+button.chaty-whatsapp-button-button, button.chaty-whatsapp-button-button:focus, button.chaty-whatsapp-button-button:hover {
     text-align: center !important;
-    float: right;
-    height: 48px !important;
-    width: 48px !important;
-    padding: 8px 10px 8px 15px !important;
-    background: #25d366 !important;
-    border-radius: 24px !important;
+    height: 40px !important;
+    width: 40px !important;
+    padding: 0 !important;
+    background: #C6D7E3 !important;
+    border-radius: 20px !important;
     outline: none !important;
     box-shadow: none !important;
     cursor: pointer !important;
-    margin: 0 !important;
+    margin: 0 0 0 10px !important;
     text-decoration: none !important;
     border: none !important;
     min-width: 1px !important;
+    flex: 0 0 40px;
+}
+
+button.chaty-whatsapp-button-button {
+    background: #C6D7E3 !important;
+}
+
+button.chaty-whatsapp-button-button:focus, button.chaty-whatsapp-button-button:hover {
+    background: #a8c5da !important
+}
+
+.chaty-whatsapp-input:not(:placeholder-shown) + button.chaty-whatsapp-button-button {
+    background: #25D366 !important;
+}
+
+.chaty-whatsapp-input:not(:placeholder-shown) + button.chaty-whatsapp-button-button:focus, .chaty-whatsapp-input:not(:placeholder-shown) + button.chaty-whatsapp-button-button:hover {
+    background: #22bf5b !important;
 }
 
 .chaty-whatsapp-data {
     display: flex;
-    flex: 1
+    flex: 1;
+    z-index: 1;
 }
 
 .chaty-whatsapp-field {
-    padding-right: 12px;
-    flex: 1
+    padding-right: 0;
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .chaty-whatsapp-button {
@@ -783,8 +853,8 @@
 }
 
 .chaty-whatsapp-field input[type=text] {
-    height: 48px !important;
-    line-height: 32px;
+    height: 40px !important;
+    line-height: normal;
     padding: 0 10px 0 15px;
     font-size: 16px;
     resize: none;
@@ -795,64 +865,21 @@
     box-shadow: none !important;
     background: #fff !important;
     margin: 0;
-    color: #111b21
+    color: #111b21;
+    flex: 1;
+
 }
 
 .chaty-whatsapp-field input[type=text]:focus {
-    outline: 0;
-    border: none;
+    outline: 0 !important;
+    border: none !important;
     margin: 0;
-    color: #111b21
+    color: #111b21;
+    box-shadow: none !important;
 }
 
-.chaty-whatsapp-button button:focus, .chaty-whatsapp-button button:hover {
-    background: #22bf5b !important
-}
-
-.close-chaty-form {
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    background: #30534b;
-    width: 22px;
-    height: 22px;
-    border-radius: 15px;
-    padding: 3px;
-    cursor: pointer;
-    transition: .4s;
-    -webkit-transition: .4s;
-    -moz-transition: .4s
-}
-
-.close-chaty-form:hover {
-    transform: rotate(180deg);
-    -webkit-transform: rotate(180deg);
-    -moz-transform: rotate(180deg)
-}
-
-.chaty-close-button {
-    position: relative;
-    width: 16px;
-    height: 16px;
-    transition: .4s;
-    cursor: pointer
-}
-
-.chaty-close-button:after, .chaty-close-button:before {
-    content: "";
-    position: absolute;
-    width: 12px;
-    height: 2px;
-    background-color: #fff;
-    display: block;
-    border-radius: 2px;
-    transform: rotate(45deg);
-    top: 7px;
-    left: 2px
-}
-
-.chaty-close-button:after {
-    transform: rotate(-45deg)
+.chaty-whatsapp-button-button:focus, .chaty-whatsapp-button-button:hover, .chaty-whatsapp-button-button:active {
+    background: #a8c5da !important
 }
 
 .chaty.form-open .chaty-channel button.open-chaty-channel, .chaty.form-open .chaty-no-close-button.has-single .chaty-i-trigger {
@@ -898,7 +925,7 @@
     font-weight: 400
 }
 
-.chaty-contact-input input[type=email].chaty-input-field, .chaty-contact-input input[type=text].chaty-input-field, .chaty-contact-input textarea.chaty-textarea-field {
+.chaty-contact-input input[type=email].chaty-input-field, .chaty-contact-input input[type=text].chaty-input-field, .chaty-contact-input textarea.chaty-textarea-field, .chaty-contact-input input.chaty-input-field, .chaty-contact-input select.chaty-input-field {
     color: #28303d;
     font-family: BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-sans;
     margin: 0;
@@ -1003,11 +1030,14 @@
     padding: 10px 15px;
     text-align: left;
     font-size: 18px;
-    border-bottom: 1px solid #acacac
+    color: #FFFFFF;
+    border-radius: 8px 8px 0 0;
+    justify-content: space-between;
+    display: flex;
 }
 
 .chaty-contact-inputs {
-    padding: 15px 15px 0
+    padding: 15px;
 }
 
 .chaty-contact-input {
@@ -1025,10 +1055,10 @@
 
 
 .chaty-contact-input + .chaty-contact-input {
-    margin: 12px 0 0
+    margin: 10px 0 0
 }
 
-.chaty-contact-input input[type=email].chaty-input-field, .chaty-contact-input input[type=text].chaty-input-field {
+.chaty-contact-input input[type=email].chaty-input-field, .chaty-contact-input input[type=text].chaty-input-field, .chaty-contact-input input.chaty-input-field, .chaty-contact-input select.chaty-input-field {
     width: 100%;
     height: 36px;
     line-height: 36px;
@@ -1038,10 +1068,11 @@
     border-radius: 4px
 }
 
-.chaty-contact-input input[type=email].chaty-input-field:focus, .chaty-contact-input input[type=text].chaty-input-field:focus, .chaty-contact-input textarea.chaty-textarea-field:focus {
+.chaty-contact-input input[type=email].chaty-input-field:focus, .chaty-contact-input input[type=tel].chaty-input-field:focus, .chaty-contact-input input[type=text].chaty-input-field:focus, .chaty-contact-input textarea.chaty-textarea-field:focus, .chaty-contact-input input.chaty-input-field:focus, .chaty-contact-input select.chaty-input-field:focus, .chaty-contact-input *.has-chaty-error:focus {
     outline: 0;
     box-shadow: none;
-    border-color: #898989
+    border-color: #898989;
+    background-color: #fff;
 }
 
 .chaty-contact-input textarea.chaty-textarea-field {
@@ -1051,7 +1082,8 @@
     font-size: 16px;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px
+    border-radius: 4px;
+    display: block;
 }
 
 .chaty-contact-form-box .close-chaty-form {
@@ -1075,7 +1107,7 @@
     display: block
 }
 
-.chaty-contact-input input.chaty-input-field.has-chaty-error, .chaty-contact-input textarea.chaty-textarea-field.has-chaty-error {
+.chaty-contact-input input.chaty-input-field.has-chaty-error, .chaty-contact-input textarea.has-chaty-error, .chaty-contact-input select.chaty-input-field.has-chaty-error {
     border: 1px solid #d20000
 }
 
@@ -1152,7 +1184,7 @@ body.cht-in-mobile .chaty-outer-forms.chaty-agent-data.custom-cht-pos .chaty-age
 }
 
 .chaty-whatsapp-message p + p {
-    margin-top: 5px
+    margin-top: 10px
 }
 
 body.cht-in-mobile .chaty-outer-forms.chaty-whatsapp-form.custom-cht-pos .chaty-whatsapp-content {
@@ -1312,11 +1344,314 @@ span.chaty-loader.active {
 .chaty-i-trigger.single-channel > .chaty-channel > .on-hover-text {
     display: none !important;
 }
-html[dir="rtl"] .csaas-tooltip,
+html[dir="rtl"] .chaty-tooltip,
 html[dir="rtl"] .on-hover-text,
 html[dir="rtl"] .chaty-input-field,
 html[dir="rtl"] .chaty-submit-button,
 html[dir="rtl"] .chaty-whatsapp-message,
-html[dir="rtl"] .csaas-tooltip:after {
+html[dir="rtl"] .chaty-tooltip:after {
     direction: rtl;
+}
+
+.add-bg-blur-effect {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.add-bg-blur-effect >:not(.chaty, .chaty-outer-forms, .picmo__popupContainer) {
+    filter: blur(6px);
+}
+.email_suggestion, .wp_email_suggestion {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    color: #970029;
+}
+.email_suggestion i, .wp_email_suggestion i {
+    color: #2596be;
+    font-weight: bold;
+    cursor: pointer;
+}
+.chaty-form .eac-sugg, .chaty-custom-whatsapp-form .eac-sugg {
+    color: #c1c1c1;
+    line-height: 34px !important;
+}
+.chaty-form .eac-input-wrap {
+    width: 100%;
+    overflow: hidden;
+}
+
+.chaty-custom-whatsapp-form .chaty-whatsapp-body:before {
+    opacity: 0.05;
+}
+.chaty-custom-whatsapp-form .chaty-whatsapp-body {
+    border-radius: 0;
+}
+.chaty-custom-whatsapp-form .chaty-whatsapp-footer {
+    border-top: 1px solid #e1e1e1;
+    min-height: 70px;
+}
+.chaty-custom-whatsapp-form .chaty-whatsapp-data {
+    display: block;
+    z-index: 1;
+}
+.chaty-custom-whatsapp-form .chaty-whatsapp-button-button {
+    width: 100% !important;
+    z-index: 1;
+    position: relative;
+}
+.chaty-custom-whatsapp-form .header-text {
+    display: flex;
+    align-items: center;
+}
+.chaty-custom-whatsapp-form .header-text span {
+    display: inline-block;
+    vertical-align: super;
+    padding-left: 5px;
+}
+.chaty-custom-whatsapp-form .chaty-whatsapp-button svg {
+     width: 26px;
+     height: 26px;
+    fill: #ffffff;
+    margin-right: 3px;
+}
+.chaty-custom-whatsapp-form .chaty-whatsapp-button span {
+    font-size: 15px;
+    padding-left: 5px;
+}
+.chaty-custom-whatsapp-form .chaty-whatsapp-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px !important;
+}
+.chaty-custom-whatsapp-form .chaty-whatsapp-content {
+    padding: 15px;
+    z-index: 101111;
+    position: relative;
+}
+.chaty-custom-whatsapp-form .chaty-whatsapp-body {
+    min-height: auto;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+
+.chaty-whatsapp-header {
+    display: flex;
+    align-items: center;
+    background-color: #4aa485;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    padding: 10px 15px;
+    position: relative;
+    justify-content: space-between;
+    box-shadow: 0px 16px 32px 0px #1A0E3529;
+}
+.chaty-whatsapp-header .header-wp-icon {
+    height: 30px;
+    width: 30px;
+    margin-right: 7px;
+}
+.chaty-whatsapp-header .header-wp-title {
+    color: #ffffff;
+    font-size: 15px;
+    flex: 1;
+    padding-right: 8px;
+}
+.whatsapp-form-close-btn {
+    flex: 0 0 16px;
+    cursor: pointer;
+}
+.whatsapp-form-close-btn svg {
+    width: 16px;
+    height: 16px;
+}
+.chaty-whatsapp-form, .chaty-form {
+    font-family: Segoe UI, Helvetica Neue, Helvetica, Lucida Grande, Arial, Ubuntu, Cantarell, Fira Sans, sans-serif;
+}
+.chaty-whatsapp-body .wp-profile-img {
+    height: 30px;
+    width: 30px;
+    margin-right: 15px;
+}
+.chaty-whatsapp-body .wp-profile-img img {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.chaty-whatsapp-message-nickname {
+    color: #489d81;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 14px;
+}
+.chaty-whatsapp-message-time {
+    color: #a1a1a9;
+    font-size: 10px;
+    line-height: 12px;
+}
+
+.chaty-whatsapp-input::placeholder {
+    color: #83A1B7;
+    opacity: 40%;
+}
+.chaty-whatsapp-input::-ms-input-placeholder {
+    color: #83A1B7;
+    opacity: 40%;
+}
+button[type="button"].chaty-wp-emoji-input, button[type="button"].chaty-wp-emoji-input:focus, button[type="button"].chaty-wp-emoji-input:hover {
+    position: absolute !important;;
+    top: 9px;
+    left: 8px;
+    background: none !important;
+    border: none !important;
+    cursor: pointer;
+    height: 24px !important;
+    width: 24px !important;
+    padding: 0 !important;
+    min-width: 1px !important;
+    margin: 0 !important;
+    outline: none !important;
+}
+.chaty-whatsapp-field:not(.has_emoji) .chaty-wp-emoji-input {
+    display: none !important;
+}
+.chaty-whatsapp-input {
+    padding-left: 38px !important;
+}
+.chaty-whatsapp-field:not(.has_emoji) .chaty-whatsapp-input {
+    padding-left: 15px !important;
+}
+.picmo__popupContainer {
+    z-index: 1000000;
+}
+
+body .picmo__emojiButton span {
+    font-size: 24px;
+    line-height: 24px;
+    display: inline-block;
+    vertical-align: middle;
+}
+body .picmo__picker .picmo__categoryButtons .picmo__categoryTab button.picmo__categoryButton {
+    color: #8f8f8f;
+    border: solid 1px transparent;
+}
+body .picmo__picker .picmo__categoryButtons .picmo__categoryTab.picmo__categoryTabActive .picmo__categoryButton {
+    border: 1px solid #a886cd;
+    color: #a071d3;
+    background: #fff;
+}
+body .picmo__picker .picmo__emojiCategory .picmo__categoryName {
+    display: flex;
+    height: auto;
+    padding: 10px 17px;
+    border-bottom: solid 1px #e2e8f0;
+    font-weight: bold;
+    background: #f3f3f3;
+}
+body .picmo__picker .picmo__categoryButtons .picmo__categoryTab button.picmo__categoryButton:hover {
+    background: #ffffff;
+}
+body .picmo__emojiButton {
+    border-radius: 4px;
+}
+body .picmo__emojiButton:focus {
+    outline: none;
+    border-radius: 5px;
+}
+.chaty-channel span.chaty-icon {
+    display: block;
+}
+.chaty.form-open .chaty-widget.has-single .chaty-cta-close .chaty-cta-button {
+    opacity: 1;
+    visibility: visible;
+    transform: rotate(360deg);
+    z-index: 999;
+}
+
+.chaty-custom-whatsapp-form .eac-input-wrap {
+    width: 100%;
+    overflow: hidden;
+}
+.chaty-custom-whatsapp-form .chaty-whatsapp-button button {
+    width: 100%;
+    border: none;
+    border-radius: 6px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.chaty-contact-input input[type=file].chaty-input-field {
+    line-height: 32px;
+}
+.eac-sugg:empty, .eac-cval:empty {
+    display: none !important;
+}
+
+.qr-code-header {
+    display: flex;
+    align-items: center;
+    background-color: #A886CD;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    padding: 10px 15px;
+    position: relative;
+    justify-content: space-between;
+    color: #fff;
+    box-shadow: 0px 16px 32px 0px #1A0E3529;
+    z-index: 999999;
+}
+.chaty-close-button {
+    cursor: pointer;
+}
+.qr-code-title {
+    line-height: 1;
+    padding: 15px 15px 0;
+    font-size: 14px;
+    color: #83A1B7;
+}
+.qr-code-box {
+    margin-top: 10px;
+    padding: 0 15px 15px;
+}
+.qr-code-head-title {
+    display: inline-flex;
+    align-items: center;
+}
+.qr-code-head-title svg {
+    margin-right: 5px;
+}
+.mce-error {
+    border: 1px solid #dd0000 !important;
+}
+.required_indicate {
+    color: #ff0000;
+    font-size: 18px;
+    margin-left: 2px;
+}
+.chaty-whatsapp-button-button svg {
+    display: inline-block;
+    vertical-align: sub;
+}
+.chaty-wp-emoji-input:hover {
+    background-color: transparent;
+    border-color: transparent;
+}
+.chaty-wp-emoji-input:focus {
+    outline: none;
+}
+.chaty-whatsapp-input[placeholder]:focus::-webkit-input-placeholder{-webkit-transition:opacity .5s .5s ease;transition:opacity .5s .5s ease;opacity:40% !important;}
+[placeholder]:focus::-webkit-input-placeholder{-webkit-transition:opacity .5s .5s ease;transition:opacity .5s .5s ease;opacity:1 !important;}
+.chaty-outer-forms forms {
+    margin: 0;
+}
+.chaty, .chaty *, .chaty-form, .chaty-form *, .chaty-whatsapp-form, .chaty-whatsapp-form * {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
 }

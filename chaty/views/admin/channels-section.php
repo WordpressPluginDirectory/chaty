@@ -108,7 +108,7 @@ if (defined('ABSPATH') === false) {
             <?php
             $proClass = "free";
             $text     = get_option("cht_close_button_text");
-            $text     = strip_tags(($text === false) ? "Hide" : $text);
+            $text     = wp_strip_all_tags(($text === false) ? "Hide" : $text);
             ?>
             <!-- close setting strat -->
             <li class="chaty-cls-setting" data-id="" id="chaty-social-close">

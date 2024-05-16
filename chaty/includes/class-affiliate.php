@@ -32,13 +32,9 @@ class Chaty_Affiliate_Program
     public $pluginSlug = "chaty";
 
     /**
-     * Define the core functionality of the plugin.
+     * __construct method initializes the object and adds action hooks.
      *
-     * Set the plugin name and the plugin version that can be used throughout the plugin.
-     * Load the dependencies, define the locale, and set the hooks for the admin area and
-     * the public-facing side of the site.
-     *
-     * @since 1.0.0
+     * @return void
      */
     public function __construct()
     {
@@ -50,11 +46,15 @@ class Chaty_Affiliate_Program
 
 
     /**
-     * Updates settings for Affiliate Box
+     * affiliate_program method handles the affiliate program action.
      *
-     * @since  1.0.0
-     * @access public
-     * @return status
+     * This method checks if the current user has the capability to manage options.
+     * If the user has the capability, it retrieves the nonce and days values from the POST data.
+     * Then, it verifies the nonce and performs the necessary actions based on the values.
+     * If the days value is -1, it adds an option to hide the affiliate box.
+     * Otherwise, it adds an option to set the date after which the affiliate box should be shown.
+     *
+     * @return void
      */
     public function affiliate_program()
     {
@@ -65,7 +65,7 @@ class Chaty_Affiliate_Program
                 if ($days == -1) {
                     add_option($this->pluginSlug."_hide_affiliate_box", "1");
                 } else {
-                    $date = date("Y-m-d", strtotime("+".$days." days"));
+                    $date = gmdate("Y-m-d", strtotime("+".$days." days"));
                     update_option($this->pluginSlug."_show_affiliate_box_after", $date);
                 }
             }
@@ -77,11 +77,9 @@ class Chaty_Affiliate_Program
 
 
     /**
-     * Display Affiliate box
+     * admin_notices method displays notices in the admin area for users with the 'manage_options' capability.
      *
-     * @since  1.0.0
-     * @access public
-     * @return html
+     * @return void
      */
     public function admin_notices()
     {
@@ -93,12 +91,12 @@ class Chaty_Affiliate_Program
 
             $dateToShow = get_option($this->pluginSlug."_show_affiliate_box_after");
             if ($dateToShow === false || empty($dateToShow)) {
-                $date = date("Y-m-d", strtotime("+5 days"));
+                $date = gmdate("Y-m-d", strtotime("+5 days"));
                 update_option($this->pluginSlug."_show_affiliate_box_after", $date);
                 return;
             }
 
-            $currentDate = date("Y-m-d");
+            $currentDate = gmdate("Y-m-d");
             if ($currentDate < $dateToShow) {
                 return;
             }
@@ -205,7 +203,7 @@ class Chaty_Affiliate_Program
             </style>
             <div class="notice notice-info <?php echo esc_attr($this->pluginSlug) ?>-premio-affiliate <?php echo esc_attr($this->pluginSlug) ?>-premio-affiliate">
                 <p>
-                    <?php printf(esc_html__("Hi there, you've been using %s for a while now. Do you know that %s has an affiliate program? Join now and get %s"), "<b>".$this->pluginName."</b>", "<b>".$this->pluginName."</b>", "<b>25% lifetime commission</b>") ?>
+                    <?php printf(esc_html__("Hi there, you've been using %1\$s for a while now. Do you know that %2\$s has an affiliate program? Join now and get %3\$s"), "<b>".esc_attr($this->pluginName)."</b>", "<b>".esc_attr($this->pluginName)."</b>", "<b>25% lifetime commission</b>") ?>
                     <a href="javascript:;" class="dismiss-btn"><span class="dashicons dashicons-no-alt"></span><?php  esc_html_e("Dismiss", 'stars-testimonials')?></a>
                 </p>
                 <div class="clear clearfix"></div>
@@ -235,7 +233,7 @@ class Chaty_Affiliate_Program
                         jQuery(".<?php echo esc_attr($this->pluginSlug) ?>-affiliate-popup").hide();
                         jQuery(".<?php echo esc_attr($this->pluginSlug) ?>-premio-affiliate").hide();
                         jQuery.ajax({
-                            url: "<?php echo admin_url("admin-ajax.php") ?>",
+                            url: "<?php echo esc_url(admin_url("admin-ajax.php")) ?>",
                             data: "action=<?php echo esc_attr($this->pluginSlug) ?>_affiliate_program&days=" + dataDays + "&nonce=<?php echo esc_attr(wp_create_nonce($this->pluginSlug."_affiliate_program")) ?>",
                             type: "post",
                             success: function () {

@@ -177,7 +177,7 @@ $proClass      = "none_pro";
                 }
 
                 if (get_option('cht_active') === false) {
-                    $createdOn = date("Y-m-d");
+                    $createdOn = gmdate("Y-m-d");
                     ?>
                     <script type="text/javascript">
                         jQuery(document).ready(function(){

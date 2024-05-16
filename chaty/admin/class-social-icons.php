@@ -1,13 +1,39 @@
 <?php
 namespace CHT\admin;
 
+/**
+ * Class CHT_Social_Icons
+ *
+ * This class provides methods to retrieve various lists and information related to social icons.
+ */
 class CHT_Social_Icons
 {
     protected $social_list;
+
     protected static $instance;
 
-    private function __construct() {}
+    /**
+     * Class constructor.
+     *
+     * This method is called when a new instance of the class is created.
+     * It is marked as private, which means it can only be called from within the class.
+     * The purpose of a private constructor is often to prevent direct instantiation of the class.
+     *
+     * @return void
+     */
+    private function __construct() {
 
+    }
+
+    /**
+     * Retrieves the single instance of the CHT_Social_Icons class.
+     *
+     * This method checks if the single instance has been set, and if not, creates a new instance of the CHT_Social_Icons class.
+     * The instance is stored in a static property to ensure that only one instance is created and used throughout the application.
+     * This method should be used to access the CHT_Social_Icons instance.
+     *
+     * @return CHT_Social_Icons The single instance of the CHT_Social_Icons class.
+     */
     public static function get_instance()
     {
         // If the single instance hasn't been set, set it now.
@@ -18,21 +44,36 @@ class CHT_Social_Icons
         return self::$instance;
     }
 
-    /* List of colors for widget */
+    /**
+     * Retrieve the available colors.
+     *
+     * This method returns an array of colors and their corresponding names in the chaty application. Each color
+     * is represented by a hex code and it's associated name.
+     *
+     * @return array An associative array of colors and their names. The key is the hex code of the color
+     *               and the value is the corresponding name.
+     */
     public function get_colors()
     {
         return array(
-            '#A886CD' => __('Purple', 'chaty'),
-            '#86CD91' => __('Green', 'chaty'),
-            '#4F6ACA' => __('Blue', 'chaty'),
-            '#FF6060' => __('Red', 'chaty'),
-            '#000'    => __('Black', 'chaty'),
-            '#EEF075' => __('Yellow', 'chaty'),
-            '#FF95EE' => __('Pink', 'chaty')
+            '#A886CD' => esc_html__('Purple', 'chaty'),
+            '#86CD91' => esc_html__('Green', 'chaty'),
+            '#4F6ACA' => esc_html__('Blue', 'chaty'),
+            '#FF6060' => esc_html__('Red', 'chaty'),
+            '#000'    => esc_html__('Black', 'chaty'),
+            '#EEF075' => esc_html__('Yellow', 'chaty'),
+            '#FF95EE' => esc_html__('Pink', 'chaty')
         );
     }
 
-    /* List of button types for widget */
+    /**
+     * Get the widget types.
+     *
+     * This method returns an array of available widget types. Each type is represented by a key-value pair,
+     * where the key is the name of the type and the value is the display name of the type.
+     *
+     * @return array The array of widget types.
+     */
     public function get_widget_types()
     {
         return [
@@ -44,15 +85,30 @@ class CHT_Social_Icons
         ];
     }
 
-    /* Social icon list for admin */
+    /**
+     * Get the list of icons.
+     *
+     * This method returns an array containing icons information.
+     *
+     * @return array An array of icons, where each icon is represented as an associative array with the following keys:
+     *               - example: A string representing an example value.
+     *               - placeholder: A string representing the placeholder text.
+     *               - help_title: A string representing the help title.
+     *               - help: A string representing the help content.
+     *               - slug: A string representing the slug.
+     *               - svg: A string representing the SVG content.
+     *               - title: A string representing the title.
+     *               - color: A string representing the color in hexadecimal format.
+     *               - attr: A string representing the attribute.
+     */
     public function get_icons_list()
     {
         return array(
             array(
-                'example' => '1507854875',
-                'placeholder' => __('Phone number', 'chaty'),
+                'example' => '+1548587534',
+                'placeholder' => esc_html__('Phone number', 'chaty'),
                 'help_title' => 'How do I use this?',
-                'help' => 'Enter your country code (in our example 1) and then your number without a leading zero (in our example 507854875)',
+                'help' => 'Choose country code from the dropdown menu, or enter the country code (for example, +1), and then enter your phone number without the leading zero (example, 9878934509)',
                 'slug' => 'Whatsapp',
                 'svg'  => '<svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg"><circle class="color-element" cx="19.4395" cy="19.4395" r="19.4395" fill="#49E670"/>
                            <path d="M12.9821 10.1115C12.7029 10.7767 11.5862 11.442 10.7486 11.575C10.1902 11.7081 9.35269 11.8411 6.84003 10.7767C3.48981 9.44628 1.39593 6.25317 1.25634 6.12012C1.11674 5.85403 2.13001e-06 4.39053 2.13001e-06 2.92702C2.13001e-06 1.46351 0.83755 0.665231 1.11673 0.399139C1.39592 0.133046 1.8147 1.01506e-06 2.23348 1.01506e-06C2.37307 1.01506e-06 2.51267 1.01506e-06 2.65226 1.01506e-06C2.93144 1.01506e-06 3.21063 -2.02219e-06 3.35022 0.532183C3.62941 1.19741 4.32736 2.66092 4.32736 2.79397C4.46696 2.92702 4.46696 3.19311 4.32736 3.32616C4.18777 3.59225 4.18777 3.59224 3.90858 3.85834C3.76899 3.99138 3.6294 4.12443 3.48981 4.39052C3.35022 4.52357 3.21063 4.78966 3.35022 5.05576C3.48981 5.32185 4.18777 6.38622 5.16491 7.18449C6.42125 8.24886 7.39839 8.51496 7.81717 8.78105C8.09636 8.91409 8.37554 8.9141 8.65472 8.648C8.93391 8.38191 9.21309 7.98277 9.49228 7.58363C9.77146 7.31754 10.0507 7.1845 10.3298 7.31754C10.609 7.45059 12.2841 8.11582 12.5633 8.38191C12.8425 8.51496 13.1217 8.648 13.1217 8.78105C13.1217 8.78105 13.1217 9.44628 12.9821 10.1115Z" transform="translate(12.9597 12.9597)" fill="#FAFAFA"/>
@@ -63,7 +119,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => 'https://m.me/Coca-Cola/',
-                'placeholder' => __('https://m.me/Coca-Cola/', 'chaty'),
+                'placeholder' => esc_html__('https://m.me/Coca-Cola/', 'chaty'),
                 'slug' => 'Facebook_Messenger',
                 'title' => 'Facebook Messenger',
                 'color' => '#1E88E5',
@@ -72,8 +128,8 @@ class CHT_Social_Icons
                            <path fill-rule="evenodd" clip-rule="evenodd" d="M0 9.63934C0 4.29861 4.68939 0 10.4209 0C16.1524 0 20.8418 4.29861 20.8418 9.63934C20.8418 14.98 16.1524 19.2787 10.4209 19.2787C9.37878 19.2787 8.33673 19.1484 7.42487 18.8879L3.90784 20.8418V17.1945C1.56311 15.3708 0 12.6353 0 9.63934ZM8.85779 10.1604L11.463 13.0261L17.1945 6.90384L12.1143 9.76959L9.37885 6.90384L3.64734 13.0261L8.85779 10.1604Z" transform="translate(9.01854 10.3146)" fill="white"/></svg>'
             ),
             array(
-                'example' => '+1507854875',
-                'placeholder' => __('Phone number', 'chaty'),
+                'example' => '+1548587534',
+                'placeholder' => esc_html__('Phone number', 'chaty'),
                 'help_title' => 'How do I use this?',
                 'help' => 'Enter your country code (in our example +1) and then your number without a leading zero (in our example 507854875)',
                 'slug' => 'Phone',
@@ -99,7 +155,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => 'InstagramUsername',
-                'placeholder' => __('InstagramUsername', 'chaty'),
+                'placeholder' => esc_html__('InstagramUsername', 'chaty'),
                 'slug' => 'Instagram',
                 'title' => 'Instagram',
                 'color' => '#ffffff',
@@ -118,7 +174,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => '+1507854875',
-                'placeholder' => __('Phone number', 'chaty'),
+                'placeholder' => esc_html__('Phone number', 'chaty'),
                 'help_title' => 'How do I use this?',
                 'help' => 'Enter your country code (in our example +1) and then your number without a leading zero (in our example 507854875)',
                 'slug' => 'SMS',
@@ -138,7 +194,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => 'https://app.popt.in/APIRequest/click/34e92354f927c',
-                'placeholder' => __('Enter a poptin link', 'chaty'),
+                'placeholder' => esc_html__('Enter a poptin link', 'chaty'),
                 'help_title' => 'How do I use this?',
                 'help' => 'You can create a free poptin account by <a href="https://www.poptin.com/?utm_source=chatywp" target="_blank">clicking here</a>, and use it to create popups and forms on your site. You can also learn how to use <a href="https://premio.io/help/chaty/how-to-launch-a-poptin-pop-up-in-chaty/" target="_blank">Poptin and Chaty here</a>',
                 'slug' => 'Poptin',
@@ -149,7 +205,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => 'http://line.me/ti/p/2a-s5A2B8B',
-                'placeholder' => __('User Name', 'chaty'),
+                'placeholder' => esc_html__('User Name', 'chaty'),
                 'slug' => 'Line',
                 'title' => 'Line',
                 'color' => '#38B900',
@@ -165,7 +221,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => 'myusername',
-                'placeholder' => __('User Name', 'chaty'),
+                'placeholder' => esc_html__('User Name', 'chaty'),
                 'slug' => 'Telegram',
                 'title' => 'Telegram',
                 'color' => '#3E99D8',
@@ -176,7 +232,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => 'https://goo.gl/maps/4m93C84v2DC2',
-                'placeholder' => __('Maps link', 'chaty'),
+                'placeholder' => esc_html__('Maps link', 'chaty'),
                 'slug' => 'Google_Maps',
                 'title' => 'Google Maps',
                 'color' => '#37AA66',
@@ -184,19 +240,20 @@ class CHT_Social_Icons
                            <path fill-rule="evenodd" clip-rule="evenodd" d="M0 8.06381C0 3.68631 3.68633 0 8.06383 0C12.4413 0 16.1276 3.68631 16.1276 8.06381C16.1276 12.2109 9.67659 19.5835 8.9854 20.2747C8.755 20.5051 8.29422 20.7355 8.06383 20.7355C7.83344 20.7355 7.37263 20.5051 7.14224 20.2747C6.45107 19.5835 0 12.2109 0 8.06381ZM11.5203 8.06378C11.5203 9.97244 9.97302 11.5197 8.06436 11.5197C6.15572 11.5197 4.60844 9.97244 4.60844 8.06378C4.60844 6.15515 6.15572 4.60788 8.06436 4.60788C9.97302 4.60788 11.5203 6.15515 11.5203 8.06378Z" transform="translate(11.3764 9.07178)" fill="white"/></svg>'
             ),
             array(
-                'example' => '+1507854875',
-                'placeholder' => __('Phone number', 'chaty'),
+                'example' => '+18006927753 or your Viber ID',
+                'placeholder' => esc_html__('Phone number', 'chaty'),
                 'slug' => 'Viber',
                 'title' => 'Viber',
                 'color' => '#665CAC',
                 'attr'  => 'phone-number',
                 'help' => 'Try to remove the "+" and your country code',
+                'header_help' => esc_html__('Enter your Viber ID or full phone number that you registered with Viber. Example:+18006927753', "chaty"),
                 'svg'  => '<svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg"><circle class="color-element" cx="19.4395" cy="19.4395" r="19.4395" fill="#665CAC"/>
                            <path d="M17.6837 2.14833C17.16 1.64578 15.0497 0.0389578 10.3496 0.0158143C10.3496 0.0158143 4.80418 -0.334645 2.10085 2.26405C0.596193 3.84111 0.0662511 6.14886 0.0126261 9.01205C-0.0441534 11.8752 -0.116705 17.2346 4.8168 18.6894H4.81995L4.8168 20.9078C4.8168 20.9078 4.78525 21.8071 5.3499 21.989C6.03125 22.2105 6.43186 21.5294 7.08482 20.7921C7.44127 20.3888 7.93651 19.7936 8.30874 19.3407C11.6808 19.6382 14.2769 18.9572 14.5702 18.858C15.2516 18.6265 19.1063 18.1075 19.7309 12.7481C20.3775 7.22338 19.4154 3.7254 17.6837 2.14833ZM18.2546 12.3513C17.7247 16.828 14.5986 17.1123 14.0245 17.3041C13.7785 17.3867 11.501 17.9818 8.63679 17.7835C8.63679 17.7835 6.50126 20.4813 5.83567 21.1856C5.73158 21.2947 5.60856 21.341 5.52654 21.3178C5.41298 21.2881 5.38144 21.1459 5.38144 20.9376C5.38459 20.64 5.40037 17.2512 5.40037 17.2512C5.39721 17.2512 5.39721 17.2512 5.40037 17.2512C1.23023 16.0378 1.47312 11.4719 1.52044 9.08148C1.56775 6.69108 1.99675 4.73379 3.26798 3.41792C5.55493 1.24904 10.2645 1.57305 10.2645 1.57305C14.2422 1.59288 16.1475 2.84594 16.5891 3.26583C18.0527 4.58501 18.8003 7.73585 18.2546 12.3513Z" transform="translate(9.47299 8.4238)" fill="white"/>                           <path d="M1.58982 1.72254C1.53935 0.628182 1.00941 0.0562059 0 1.00898e-07" transform="translate(20.166 15.5914)" stroke="white" stroke-width="0.518873" stroke-linecap="round" stroke-linejoin="round"/>                           <path d="M3.35945 3.69636C3.38153 2.67804 3.09448 1.82834 2.49514 1.14395C1.8958 0.459565 1.06619 0.0793496 1.9253e-07 2.01796e-07" transform="translate(19.7592 14.0966)" stroke="white" stroke-width="0.518873" stroke-linecap="round" stroke-linejoin="round"/>                           <path d="M5.22371 5.71646C5.21109 3.94763 4.70639 2.55902 3.71275 1.5407C2.71911 0.525689 1.47942 0.00991877 -3.8506e-07 1.00898e-07" transform="translate(19.2931 12.6479)" stroke="white" stroke-width="0.518873" stroke-linecap="round" stroke-linejoin="round"/>                           <path d="M6.35738 8.04532C6.35738 8.04532 6.73276 8.07838 6.93149 7.81719L7.32263 7.30142C7.5119 7.04353 7.96929 6.88153 8.41722 7.14272C8.66641 7.2915 9.11434 7.57914 9.39193 7.79405C9.68844 8.02218 10.2972 8.55448 10.2972 8.55448C10.5875 8.80906 10.6537 9.18597 10.4581 9.58271C10.4581 9.58602 10.455 9.58933 10.455 9.58933C10.2531 9.96293 9.9818 10.3167 9.63797 10.644C9.63482 10.6473 9.63482 10.6473 9.63167 10.6506C9.35092 10.8953 9.07333 11.0375 8.80205 11.0705C8.77051 11.0771 8.7295 11.0804 8.68219 11.0771C8.56232 11.0771 8.44561 11.0606 8.32889 11.0209L8.31943 11.0077C7.89989 10.8854 7.20277 10.5746 6.03879 9.90342C5.28173 9.467 4.654 9.02066 4.12406 8.57762C3.84331 8.34619 3.55626 8.08169 3.2629 7.77752C3.25344 7.7676 3.24398 7.75768 3.23451 7.74776C3.22505 7.73784 3.21559 7.72792 3.20612 7.718C3.19666 7.70808 3.1872 7.69817 3.17773 7.68825C3.16827 7.67833 3.15881 7.66841 3.14934 7.65849C2.85914 7.35101 2.60678 7.05015 2.38597 6.75589C1.96328 6.20045 1.53744 5.5392 1.12105 4.74902C0.480708 3.52902 0.184194 2.79834 0.0674803 2.35862L0.0548623 2.3487C0.0170094 2.22637 -0.00191702 2.10404 0.0012374 1.9784C-0.00191702 1.92881 0.0012373 1.88583 0.00754613 1.85276C0.0390903 1.56843 0.17473 1.27748 0.408157 0.983227C0.411312 0.979921 0.411311 0.979921 0.414466 0.976615C0.726753 0.616237 1.06112 0.331902 1.42072 0.120304C1.42388 0.120304 1.42703 0.116997 1.42703 0.116997C1.80556 -0.0879887 2.16517 -0.0185578 2.40806 0.285615C2.41121 0.288921 2.91592 0.923716 3.13357 1.2345C3.33861 1.52875 3.6162 1.99493 3.75499 2.25612C4.00419 2.72561 3.84962 3.20501 3.60358 3.40338L3.11149 3.81335C2.86229 4.02495 2.89384 4.41509 2.89384 4.41509C2.89384 4.41509 3.62566 7.31464 6.35738 8.04532Z" transform="translate(13.863 13.0014)" fill="white"/></svg>'
             ),
             array(
                 'example' => 'MyTwitterHandle',
-                'placeholder' => __('Twitter', 'chaty'),
+                'placeholder' => esc_html__('Twitter', 'chaty'),
                 'slug' => 'Twitter',
                 'title' => 'Twitter',
                 'color'       => '#000000',  // '#1ab2e8',
@@ -204,18 +261,18 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => 'UserID',
-                'placeholder' => __('User Name', 'chaty'),
+                'placeholder' => esc_html__('User Name', 'chaty'),
                 'slug' => 'WeChat',
                 'title' => 'WeChat',
                 'color' => '#45DC00',
-                'help' => "Unfortunately, WeChat doesn't have a click-to-chat API, therefore we can only show your username on-click so visitors can look-up for it. We have a QR upload option available in the pro plan",
+                'help' => "Unfortunately, WeChat doesn't have a click-to-chat API, therefore we can only show your username so visitors can look-up for it. We have a QR upload option available in the pro plan",
                 'svg'  => '<svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg"><circle class="color-element" cx="19.4395" cy="19.4395" r="19.4395" fill="#45DC00"></circle>
                     <path d="M17.3707 6.90938C15.0508 7.03077 13.0281 7.71242 11.3888 9.26248C9.73039 10.8312 8.97307 12.7455 9.18397 15.1172C8.27327 15.0052 7.44884 14.8838 6.61482 14.8184C6.32723 14.7904 5.99171 14.8278 5.74246 14.9585C4.93721 15.4067 4.16071 15.9016 3.24042 16.4619C3.41298 15.7242 3.51843 15.0705 3.71015 14.4449C3.85395 13.9874 3.78685 13.7353 3.35546 13.4364C0.584998 11.5222 -0.594125 8.65553 0.287821 5.69547C1.10266 2.95952 3.09663 1.30674 5.80957 0.447674C9.50991 -0.728879 13.68 0.475687 15.9232 3.33303C16.738 4.36952 17.2365 5.53673 17.3707 6.90938ZM6.69152 5.98494C6.71069 5.44336 6.23137 4.95779 5.65619 4.93912C5.07142 4.92044 4.5921 5.35932 4.57293 5.91958C4.55375 6.48918 5.00431 6.94673 5.58908 6.95607C6.18344 6.97474 6.67234 6.53587 6.69152 5.98494ZM12.2612 4.93912C11.686 4.94846 11.2067 5.42468 11.2163 5.96627C11.2259 6.52653 11.7052 6.9654 12.29 6.9654C12.8843 6.95607 13.3253 6.51719 13.3253 5.93825C13.3157 5.37799 12.846 4.92978 12.2612 4.93912Z" transform="translate(7 9)" fill="white"></path>
                     <path d="M12.48 13.2605C11.7418 12.943 11.0708 12.4668 10.3518 12.3921C9.63283 12.3174 8.88509 12.7189 8.13735 12.7936C5.8558 13.0177 3.8139 12.4014 2.13629 10.8887C-1.06556 8.00334 -0.605416 3.57726 3.09492 1.21482C6.38305 -0.886168 11.2146 -0.185839 13.5345 2.72753C15.5572 5.26739 15.3175 8.64764 12.8538 10.786C12.1349 11.4023 11.876 11.9158 12.3362 12.7282C12.4225 12.8776 12.432 13.0737 12.48 13.2605ZM4.11108 5.3701C4.58081 5.3701 4.96426 5.01527 4.98344 4.56706C5.00261 4.09084 4.60957 3.68932 4.12066 3.68932C3.63176 3.68932 3.22913 4.09084 3.2483 4.55772C3.26748 5.00593 3.65093 5.3701 4.11108 5.3701ZM9.5082 3.68932C9.05764 3.68932 8.6646 4.04415 8.64543 4.49236C8.62626 4.96858 9.00971 5.36077 9.48903 5.36077C9.95876 5.36077 10.3326 5.01527 10.3422 4.55772C10.371 4.09084 9.98752 3.68932 9.5082 3.68932Z" transform="translate(17.1057 16.7395)" fill="white"></path></svg>'
             ),
             array(
                 'example' => 'myusername',
-                'placeholder' => __('Username', 'chaty'),
+                'placeholder' => esc_html__('Username', 'chaty'),
                 'slug' => 'Snapchat',
                 'title' => 'Snapchat',
                 'color' => '#FFE81D',
@@ -224,7 +281,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => '@TikTok_username',
-                'placeholder' => __('@TikTok_username', 'chaty'),
+                'placeholder' => esc_html__('@TikTok_username', 'chaty'),
                 'slug' => 'TikTok',
                 'title' => 'TikTok',
                 'color' => '#000100',
@@ -242,7 +299,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => 'https://waze.com/ul/hdr5ru7vtv',
-                'placeholder' => __('Enter a waze link', 'chaty'),
+                'placeholder' => esc_html__('Enter a waze link', 'chaty'),
                 'slug' => 'Waze',
                 'title' => 'Waze',
                 'color' => '#6ECCEF',
@@ -252,7 +309,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => 'My-Name-512b1413b',
-                'placeholder' => __('My-Name-512b1413b', 'chaty'),
+                'placeholder' => esc_html__('My-Name-512b1413b', 'chaty'),
                 'slug' => 'Linkedin',
                 'title' => 'Linkedin',
                 'color' => '#0077b5',
@@ -262,7 +319,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => 'myusername',
-                'placeholder' => __('Link Vkontakte', 'chaty'),
+                'placeholder' => esc_html__('Link Vkontakte', 'chaty'),
                 'slug' => 'Vkontakte',
                 'title' => 'Vkontakte',
                 'color' => '#5076AA',
@@ -271,7 +328,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => 'https://workspace.slack.com/',
-                'placeholder' => __('Slack', 'chaty'),
+                'placeholder' => esc_html__('Slack', 'chaty'),
                 'slug' => 'Slack',
                 'title' => 'Slack',
                 'color' => '#3f0e40',
@@ -289,7 +346,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => 'https://discord.gg/abcde',
-                'placeholder' => __('Discord', 'chaty'),
+                'placeholder' => esc_html__('Discord', 'chaty'),
                 'slug' => 'Discord',
                 'title' => 'Discord',
                 'color' => '#5865F2',
@@ -297,7 +354,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => 'https://teams.microsoft.com/join/abcde',
-                'placeholder' => __('Microsoft Teams', 'chaty'),
+                'placeholder' => esc_html__('Microsoft Teams', 'chaty'),
                 'slug' => 'Microsoft_Teams',
                 'title' => 'Microsoft Teams',
                 'color' => '#4B53BC',
@@ -305,7 +362,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => 'https://www.example.com/contact',
-                'placeholder' => __('Link', 'chaty'),
+                'placeholder' => esc_html__('Link', 'chaty'),
                 'help_title' => 'How do I use this?',
                 'help' => 'Add a link to any page you want or a JavaScript code',
                 'slug' => 'Link',
@@ -327,7 +384,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => 'https://www.example.com/contact',
-                'placeholder' => __('Link', 'chaty'),
+                'placeholder' => esc_html__('Link', 'chaty'),
                 'slug' => 'Custom_Link',
                 'title' => 'Custom Link',
                 'help_title' => 'How do I use this?',
@@ -349,7 +406,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => 'https://www.example.com/contact',
-                'placeholder' => __('Link', 'chaty'),
+                'placeholder' => esc_html__('Link', 'chaty'),
                 'slug' => 'Custom_Link_3',
                 'title' => 'Custom Link',
                 'help_title' => 'How do I use this?',
@@ -371,7 +428,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => 'https://www.example.com/contact',
-                'placeholder' => __('Link', 'chaty'),
+                'placeholder' => esc_html__('Link', 'chaty'),
                 'slug' => 'Custom_Link_4',
                 'title' => 'Custom Link',
                 'help_title' => 'How do I use this?',
@@ -393,7 +450,7 @@ class CHT_Social_Icons
             ),
             array(
                 'example' => 'https://www.example.com/contact',
-                'placeholder' => __('Link', 'chaty'),
+                'placeholder' => esc_html__('Link', 'chaty'),
                 'slug' => 'Custom_Link_5',
                 'title' => 'Custom Link',
                 'help_title' => 'How do I use this?',

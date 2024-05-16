@@ -19,7 +19,7 @@ if ($showFirstChatyBox == 1) {
         <div class="first-chaty-popup-content">
             <div class="first-chaty-popup-data text-center">
                 <a href="#" class="close-first-popup">
-                    <img src="<?php echo CHT_PLUGIN_URL ?>admin/assets/images/x.svg" alt="chaty" />
+                    <img src="<?php echo esc_url(CHT_PLUGIN_URL) ?>admin/assets/images/x.svg" alt="chaty" />
                 </a>
                 <svg width="96" height="100" viewBox="0 0 96 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M3.91487 75.0201C3.91487 75.0201 2.56293 75.5676 4.12245 78.438C5.68175 81.3083 6.74738 82.7218 6.74738 82.7218C6.74738 82.7218 7.02805 83.3903 6.46238 83.5096C5.8967 83.6293 4.63976 83.4623 4.40442 84.1644C4.16062 84.8928 4.70222 85.5598 5.78022 86.1291C6.858 86.6987 9.17407 88.0329 9.38273 88.1543C9.58792 88.2734 9.79853 88.5825 9.42633 88.7257C9.05391 88.8692 6.24634 89.2358 6.4999 90.5578C6.75389 91.8794 10.0174 92.9726 10.372 93.099C10.7264 93.225 10.8143 93.3717 10.7906 93.5654C10.767 93.7586 9.81176 93.7931 9.01725 93.9298C8.22296 94.0668 7.32608 94.3651 7.53647 95.1156C7.74686 95.8658 9.70288 97.4032 14.3652 97.7385L16.5355 97.7524L17.6681 95.8897C19.8493 91.7555 19.5793 89.2824 19.0535 88.7068C18.5279 88.1316 17.8007 88.7352 17.264 89.3369C16.7279 89.9383 16.1934 90.7311 16.0169 90.6489C15.8401 90.5667 15.7622 90.4144 15.8425 90.047C15.9227 89.6794 16.7211 86.3313 15.7334 85.417C14.7458 84.5026 12.9495 86.6913 12.631 86.9317C12.3126 87.1718 12.1617 86.8295 12.169 86.5924C12.1764 86.3508 12.2688 83.6799 12.3556 82.4637C12.4423 81.2478 12.1628 80.4353 11.4157 80.2572C10.6954 80.0854 10.1725 81.2406 9.77185 81.6575C9.37102 82.0742 8.9524 81.4827 8.9524 81.4827C8.9524 81.4827 8.31623 79.8308 6.70487 76.9891C5.09351 74.1475 3.88841 75.0329 3.88841 75.0329L3.91487 75.0201Z" fill="#E5E5E4"/>
@@ -282,9 +282,9 @@ if ($showFirstChatyBox == 1) {
                     </ul>
                 </div>
                 <div class="upgrade-footer">
-                    <a class="popup-upgrade-button" href="<?php echo admin_url("admin.php?page=chaty-app-upgrade") ?>"><?php esc_html_e("Upgrade to Pro", "chaty"); ?></a>
+                    <a class="popup-upgrade-button" href="<?php echo esc_url(admin_url("admin.php?page=chaty-app-upgrade")) ?>"><?php esc_html_e("Upgrade to Pro", "chaty"); ?></a>
                     <div>
-                        <a class="popup-dashboard-button" href="<?php echo admin_url("admin.php?page=chaty-app") ?>">
+                        <a class="popup-dashboard-button" href="<?php echo esc_url(admin_url("admin.php?page=chaty-app")) ?>">
                             <?php esc_html_e("Close", "chaty"); ?>
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M6 12L10 8L6 4" stroke="#5F5DE4" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/>
@@ -306,21 +306,21 @@ if ($showFirstChatyBox == 1) {
             <div class="first-chaty-popup-content chaty-lead">
                 <div class="first-chaty-popup-data">
                     <a href="#" class="close-first-popup">
-                        <img src="<?php echo CHT_PLUGIN_URL ?>admin/assets/images/x.svg" alt="chaty" />
+                        <img src="<?php echo esc_url(CHT_PLUGIN_URL) ?>admin/assets/images/x.svg" alt="chaty" />
                     </a>
                     <a href="<?php echo esc_url( $this->getDashboardUrl() ) ?>">
-                        <img class="mx-auto" src="<?php echo CHT_PLUGIN_URL ?>admin/assets/images/logo-color.svg" alt="chaty" />
+                        <img class="mx-auto" src="<?php echo esc_url(CHT_PLUGIN_URL) ?>admin/assets/images/logo-color.svg" alt="chaty" />
                     </a>
                     <div class="first-title"><?php esc_html_e("Congratulations", "chaty"); ?> 👏</div>
                     <div class="first-des p-50">
-                        <p><?php echo sprintf(esc_html__("You just got your first lead from Chaty. Click on the %s button to display your contact form leads", "chaty"), "<b>".esc_html__("Show me", "chaty")."</b>") ?></p>
-                        <p><?php echo sprintf(esc_html__("%s to get leads to your email along with advanced triggers & targeting & more cool features", "chaty"), "<b>".esc_html__("Upgrade to Chaty Pro 🚀", "chaty")."</b>") ?></p>
+                        <p><?php echo sprintf(esc_html__("You just got your first lead from Chaty. Click on the %1\$s button to display your contact form leads", "chaty"), "<b>".esc_html__("Show me", "chaty")."</b>") ?></p>
+                        <p><?php echo sprintf(esc_html__("%1\$s to get leads to your email along with advanced triggers & targeting & more cool features", "chaty"), "<b>".esc_html__("Upgrade to Chaty Pro 🚀", "chaty")."</b>") ?></p>
                     </div>
                     <div class="show-lead-btn">
-                        <a href="<?php echo admin_url("admin.php?page=chaty-contact-form-feed") ?>" class=""><?php esc_html_e("Show me the new lead", "chaty") ?></a><span class="dashicons dashicons-arrow-right"></span>
+                        <a href="<?php echo esc_url(admin_url("admin.php?page=chaty-contact-form-feed")) ?>" class=""><?php esc_html_e("Show me the new lead", "chaty") ?></a><span class="dashicons dashicons-arrow-right"></span>
                     </div>
                     <div class="first-button lead-btn">
-                        <a target="_blank" href="<?php echo admin_url("admin.php?page=chaty-app-upgrade") ?>"><?php esc_html_e("Upgrade to Pro", "chaty"); ?><span>🚀</span></a>
+                        <a target="_blank" href="<?php echo esc_url(admin_url("admin.php?page=chaty-app-upgrade")) ?>"><?php esc_html_e("Upgrade to Pro", "chaty"); ?><span>🚀</span></a>
                     </div>
                 </div>
             </div>

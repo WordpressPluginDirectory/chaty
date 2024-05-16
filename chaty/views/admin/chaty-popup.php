@@ -24,7 +24,7 @@ if (defined('ABSPATH') === false) {
         </a>
         <h2 class="font-primary text-cht-gray-150 text-3xl mb-3"><?php esc_html_e("Welcome to Chaty", "chaty") ?> &#127881;</h2>
         <p class="font-primary text-base text-cht-gray-150 max-w-[558px] mb-5 mx-auto">
-            <?php echo sprintf(esc_html__("Select chat channels that you'd like to add to your store, and fill out your info. For more info visit our %s and check the video.", "chaty"), '<a class="text-primary hover:unde" target="_blank" href="https://premio.io/help/chaty/?utm_soruce=wordpresschaty">'.esc_html__("Help Center", "chaty").'</a>') ?>
+            <?php echo sprintf(esc_html__("Select chat channels that you'd like to add to your store, and fill out your info. For more info visit our %1\$s and check the video.", "chaty"), '<a class="text-primary hover:unde" target="_blank" href="https://premio.io/help/chaty/?utm_soruce=wordpresschaty">'.esc_html__("Help Center", "chaty").'</a>') ?>
         </p>
 
         <iframe class="font-primary text-sm text-cht-gray-150 mb-8 w-[530px] mx-auto bg-cht-primary/40 rounded-xl" height="300" src="https://www.youtube.com/embed/i6t05AeuyWg?rel=0&start=28"></iframe>
@@ -35,6 +35,6 @@ if (defined('ABSPATH') === false) {
                 <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </button>
-        <input type="hidden" id="chaty_update_popup_status" value="<?php echo wp_create_nonce("chaty_update_popup_status") ?>">
+        <input type="hidden" id="chaty_update_popup_status" value="<?php echo esc_attr(wp_create_nonce("chaty_update_popup_status")) ?>">
     </div>
 </div>

@@ -64,17 +64,36 @@
         }
 
         $(document).on("click", "html, body", function (e) {
+            if($(".chaty-popup-whatsapp-form.active").length) {
+                $(".chaty-popup-whatsapp-form.active").each(function(){
+                    var widgetId = $(this).data("widget");
+                    var clickStatus = checkChatyCookieExpired(widgetId, "c-Whatsapp");
+                    if ((!isEmpty(widgetId) || widgetId == 0) && clickStatus) {
+                        saveChatyCookieString(widgetId, "c-Whatsapp");
+                    }
+                })
+            }
             $(".form-open").removeClass("form-open");
             $(".chaty-outer-forms").removeClass("active");
-            $(".chaty .chaty-widget.chaty-no-close-button").addClass("chaty-open");
+            $(".chaty .chaty-widget.chaty-no-close-button:not(.has-single)").addClass("chaty-open");
+            if($(".chaty .chaty-widget").hasClass("chaty-open")) {
+                $(".chaty .chaty-widget:not(.chaty-no-close-button)").removeClass("chaty-open");
+                $("body").removeClass("add-bg-blur-effect");
+            }
+            $("body").removeClass("add-bg-blur-effect");
         });
 
         $(document).on("click", ".chaty, .chaty-outer-forms", function (e) {
             e.stopPropagation();
         });
 
+        $(document).on("click", ".chaty.form-open .chaty-i-trigger.single-channel a", function (e) {
+            $("body").removeClass("add-bg-blur-effect");
+        });
+
         $(document).on("click", ".chaty-close-view-list", function(){
             $(this).closest(".chaty").find(".chaty-widget").removeClass("chaty-open");
+            $("body").removeClass("add-bg-blur-effect");
         });
 
         $(document).on("submit", ".whatsapp-chaty-form", function () {
@@ -99,25 +118,39 @@
             }
             var widgetId = $(this).data('widget');
             var chatyChannel = $(this).data('channel');
-
-
             var clickStatus = checkChatyCookieExpired(widgetId, "c-" + chatyChannel);
 
-            saveChatyCookieString(widgetId, "c-" + chatyChannel);
             if ((!isEmpty(widgetId) || widgetId == 0) && clickStatus) {
                 saveChatyCookieString(widgetId, "c-" + chatyChannel);
+                var widgetNonce = $("#chaty-widget-" + widgetId).data("nonce");
+                if (!isBoatUser) {
+                    $.ajax({
+                        url: chaty_settings.ajax_url,
+                        data: {
+                            widgetId: widgetId,
+                            userId: widgetId,
+                            isMobile: isChatyInMobile,
+                            channel: chatyChannel,
+                            nonce: widgetNonce,
+                            action: 'update_chaty_channel_click'
+                        },
+                        dataType: 'json',
+                        method: 'post',
+                    });
+                }
             }
 
             if ($("#chaty-widget-" + widgetId).length) {
                 $("#chaty-widget-" + widgetId).removeClass("form-open");
                 $(this).closest(".chaty-outer-forms").removeClass("active");
                 if ($("#chaty-widget-" + widgetId).find(".chaty-widget").hasClass("cssas-no-close-button")) {
-                    $("#chaty-widget-" + widgetId).find(".chaty-widget").addClass("chaty-open")
+                    $("#chaty-widget-" + widgetId).find(".chaty-widget:not(.has-single)").addClass("chaty-open")
                 }
             }
+            $("body").removeClass("add-bg-blur-effect");
         });
 
-        $(document).on("click", ".chaty-close-button, .chaty-close-agent-list", function (e) {
+        $(document).on("click", ".chaty-close-button, .chaty-close-agent-list, .whatsapp-form-close-btn", function (e) {
             e.preventDefault();
             e.stopPropagation();
             var widgetId = $(this).closest(".chaty-outer-forms").data('widget');
@@ -126,10 +159,10 @@
                     $("#chaty-widget-" + widgetId).removeClass("form-open");
                     $(this).closest(".chaty-outer-forms").removeClass("active");
                     if ($("#chaty-widget-" + widgetId).find(".chaty-widget").hasClass("chaty-no-close-button")) {
-                        $("#chaty-widget-" + widgetId).find(".chaty-widget").addClass("chaty-open");
+                        $("#chaty-widget-" + widgetId).find(".chaty-widget:not(.has-single)").addClass("chaty-open");
                     }
                 }
-                if ($(this).closest(".chaty-whatsapp-form").length) {
+                if ($(this).closest(".chaty-whatsapp-btn-form").length) {
                     var dataChannel = $(this).closest(".chaty-outer-forms").data('channel');
                     if (!isEmpty(dataChannel)) {
                         var clickStatus = checkChatyCookieExpired(widgetId, "c-" + dataChannel);
@@ -142,6 +175,35 @@
                         updateWidgetViews(widgetId);
                     }
                 }
+
+                if($(this).hasClass("whatsapp-form-close-btn")) {
+                    clickStatus = checkChatyCookieExpired(widgetId, "c-Whatsapp");
+                    if ((!isEmpty(widgetId) || widgetId == 0) && clickStatus) {
+                        saveChatyCookieString(widgetId, "c-Whatsapp");
+                    }
+                }
+            }
+            $("body").removeClass("add-bg-blur-effect");
+        });
+
+        $(document).on("keypress", '.chaty-contact-input input[type="tel"]', function(e) {
+            var charCode = (e.which) ? e.which : e.keyCode;
+            // ascii code for 0-9 digits and comma
+            if(charCode == 43 && $(this).val() == "") {
+                return true;
+            }
+            if(charCode >= 48 && charCode <= 57) {
+                return true;
+            }
+            return false;
+        });
+
+        $(document).on("change", '.chaty-contact-input input[type="tel"]', function (){
+            var regex = new RegExp(/^(\+)?\d*$/);
+            var phone_number = $(this).val();
+
+            if (!regex.test(phone_number)) {
+                $(this).val("");
             }
         });
 
@@ -154,14 +216,15 @@
                     var buttonHtml = $(this).html();
 
                     if($("#" + dataForm).hasClass("active")) {
-                        $(this).closest(".chaty").find(".chaty-widget").addClass("chaty-open");
+                        $(this).closest(".chaty").find(".chaty-widget:not(.has-single)").addClass("chaty-open");
                         $(this).closest(".chaty").removeClass("form-open");
                         $("#" + dataForm).removeClass("active");
+                        $("body").removeClass("add-bg-blur-effect");
                     } else {
                         $(this).closest(".chaty").find(".chaty-widget").removeClass("chaty-open");
                         $(this).closest(".chaty").addClass("form-open");
                         $("#" + dataForm).addClass("active");
-
+                        buttonHtml = $(this).closest(".chaty").find(".chaty-widget .chaty-cta-close").find("button").html();
                         $(this).closest(".chaty").find(".open-chaty-channel").html(buttonHtml);
                     }
                 }
@@ -180,12 +243,11 @@
                         refreshG3Token();
                     }
 
-                    var buttonHtml = $(this).html();
-
                     if($("#" + dataForm).hasClass("active")) {
-                        $(this).closest(".chaty").find(".chaty-widget").addClass("chaty-open");
+                        $(this).closest(".chaty").find(".chaty-widget:not(.has-single)").addClass("chaty-open");
                         $(this).closest(".chaty").removeClass("form-open");
                         $("#" + dataForm).removeClass("active");
+                        $("body").removeClass("add-bg-blur-effect");
 
                     } else {
                         $(this).closest(".chaty").find(".chaty-widget").removeClass("chaty-open");
@@ -194,32 +256,38 @@
                         $("#" + dataForm).find(".chaty-ajax-success-message").remove();
                         $("#" + dataForm).find(".chaty-ajax-error-message").remove();
                         $("#" + dataForm).find(".has-chaty-error").removeClass("has-chaty-error");
-
+                        buttonHtml = $(this).closest(".chaty").find(".chaty-widget .chaty-cta-close").find("button").html();
                         $(this).closest(".chaty").find(".open-chaty-channel").html(buttonHtml);
                     }
                 }
             }
         });
 
-        $(document).on("click", "a.chaty-whatsapp-form", function (e) {
+        $(document).on("click", "a.chaty-whatsapp-btn-form", function (e) {
             e.preventDefault();
             // e.stopPropagation();
             var dataForm = $(this).data('form');
             if (!isEmpty(dataForm)) {
                 if ($("#" + dataForm).length) {
-                    var buttonHtml = $(this).html();
-                    $("#" + dataForm).addClass("is-active");
+                    //$("#" + dataForm).addClass("is-active");
                     if($("#" + dataForm).hasClass("active")) {
-                        $(this).closest(".chaty").find(".chaty-widget").addClass("chaty-open");
+                        $(this).closest(".chaty").find(".chaty-widget:not(.has-single)").addClass("chaty-open");
                         $(this).closest(".chaty").removeClass("form-open");
                         $("#" + dataForm).removeClass("active");
+                        $("body").removeClass("add-bg-blur-effect");
+                        setTimeout(function(){
+                            $("body").removeClass("add-bg-blur-effect");
+                        }, 100);
                     } else {
                         $(this).closest(".chaty").find(".chaty-widget").removeClass("chaty-open");
                         $(this).closest(".chaty").addClass("form-open");
                         $("#" + dataForm).addClass("active");
-
+                        var buttonHtml = $(this).closest(".chaty").find(".chaty-widget .chaty-cta-close").find("button").html()+"<span class='hide-cht-svg-bg'>"+chaty_settings.lang.hide_whatsapp_form+"</span>";
                         $(this).closest(".chaty").find(".chaty-widget").find(".open-chaty-channel").html(buttonHtml);
                     }
+                    setTimeout(function(){
+                        $(".chaty-whatsapp-btn-form.active .chaty-whatsapp-input").focus();
+                    }, 100);
                 }
             }
         });
@@ -237,15 +305,16 @@
                         $(this).closest(".chaty").find(".chaty-widget").removeClass("chaty-open");
                         $(this).closest(".chaty").addClass("form-open");
                         $("#" + dataForm).addClass("active");
-
+                        buttonHtml = $(this).closest(".chaty").find(".chaty-widget .chaty-cta-close").find("button").html();
                         $(this).closest(".chaty").find(".open-chaty-channel").html(buttonHtml);
                     } else {
                         if ($(this).closest(".chaty").hasClass("form-open")) {
-                            $(this).closest(".chaty").find(".chaty-widget").addClass("chaty-open");
+                            $(this).closest(".chaty").find(".chaty-widget:not(.has-single)").addClass("chaty-open");
                             $(this).closest(".chaty").removeClass("form-open");
                             $("#" + dataForm).removeClass("active");
+                            $("body").removeClass("add-bg-blur-effect");
                         } else {
-                            var buttonHtml = $(this).html();
+                            buttonHtml = $(this).closest(".chaty").find(".chaty-widget .chaty-cta-close").find("button").html();
                             $("#" + dataForm).addClass("is-active");
 
                             $(this).closest(".chaty").find(".chaty-widget").removeClass("chaty-open");
@@ -262,8 +331,8 @@
 
         /* track google analytics event */
         $(document).on("click", ".chaty-channel a.has-gae", function (e) {
-            e.stopPropagation();
             var widgetChannel = $(this).closest(".chaty-channel").data("channel");
+            console.log("widgetChannel: "+widgetChannel);
             if (widgetChannel !== undefined && widgetChannel != "" && widgetChannel != null) {
                 if (window.hasOwnProperty("gtag")) {
                     gtag("event", "chaty_" + widgetChannel, {
@@ -285,10 +354,8 @@
 
         $(document).on("mouseover", ".chaty-widget.has-single .chaty-channel a.has-on-hover[data-hover]", function () {
             $(this).find(".on-hover-text").html($(this).data("hover"));
-            $(this).attr("aria-label", $(this).data("hover"));
         }).on("mouseleave", ".chaty-widget.has-single .chaty-channel a.has-on-hover[data-text]", function () {
             $(this).find(".on-hover-text").html($(this).data("text"));
-            $(this).attr("aria-label", $(this).data("text"));
         });
 
         $(document).on("submit", ".whatsapp-chaty-form.has-form-gae", function(){
@@ -317,7 +384,8 @@
         $(document).on("click", ".chaty-i-trigger:not(.single-channel)", function () {
             if ($(this).closest(".chaty").hasClass("form-open")) {
                 $(this).closest(".chaty").removeClass("form-open");
-                $(this).closest(".chaty-widget").addClass("chaty-open");
+                $(this).closest(".chaty-widget:not(.has-single)").addClass("chaty-open");
+
             } else {
                 $(this).closest(".chaty-widget").toggleClass("chaty-open");
             }
@@ -327,8 +395,27 @@
                 $("#chaty-widget-"+widgetID).removeClass("form-open");
             });
             if ($(this).closest(".chaty").find(".chaty-widget").hasClass("chaty-no-close-button")) {
-                $(this).closest(".chaty").find(".chaty-widget").addClass("chaty-open");
+                $(this).closest(".chaty").find(".chaty-widget:not(.has-single)").addClass("chaty-open");
             }
+        });
+
+        $(document).on("click", ".chaty-i-trigger.single-channel .chaty-cta-close", function () {
+            if ($(this).closest(".chaty").hasClass("form-open")) {
+                $(this).closest(".chaty").removeClass("form-open");
+
+                var chatyWidgetId = $(this).closest(".chaty").data("id");
+                if($("#chaty-form-"+chatyWidgetId+"-Whatsapp").length && $("#chaty-form-"+chatyWidgetId+"-Whatsapp").hasClass("active")) {
+                    var clickStatus = checkChatyCookieExpired(chatyWidgetId, "c-Whatsapp");
+                    if ((!isEmpty(chatyWidgetId) || chatyWidgetId == 0) && clickStatus) {
+                        saveChatyCookieString(chatyWidgetId, "c-Whatsapp");
+                    }
+                }
+            }
+            $(".chaty-outer-forms.active").each(function(){
+                $(this).removeClass("active");
+                var widgetID = $(this).data("widget");
+                $("#chaty-widget-"+widgetID).removeClass("form-open");
+            });
         });
 
         /* Open widget on hover */
@@ -347,11 +434,12 @@
 
         /* Remove active class for CTA button */
         $(document).on("click", ".chaty-channel.single a", function(){
+            var chatyWidgetId = $(this).closest(".chaty").data("id");
             if($(this).closest(".chaty").hasClass("first_click")) {
-                var chatyWidgetId = $(this).closest(".chaty").data("id");
                 saveChatyCookieString(chatyWidgetId, "c-widget");
                 $(this).closest(".chaty-channel").removeClass("active");
             }
+            removeChatyAnimation(chatyWidgetId);
         });
 
         /* check for channel or widget click event */
@@ -369,6 +457,15 @@
                     var userId = $("#chaty-widget-" + chatyWidgetId).data("user");
                     removeChatyAnimation(chatyWidgetId);
                     if ($(this).hasClass("chaty-cta-main") || $(this).hasClass("chaty-cta-close")) {
+                        console.log("@!3123");
+                        console.log($("#chaty-form-"+chatyWidgetId+"-Whatsapp").length);
+                        console.log($("#chaty-form-"+chatyWidgetId+"-Whatsapp").length && $("#chaty-form-"+chatyWidgetId+"-Whatsapp").hasClass("active"));
+                        if($("#chaty-form-"+chatyWidgetId+"-Whatsapp").length && $("#chaty-form-"+chatyWidgetId+"-Whatsapp").hasClass("active")) {
+                            clickStatus = checkChatyCookieExpired(chatyWidgetId, "c-Whatsapp");
+                            if ((!isEmpty(chatyWidgetId) || chatyWidgetId == 0) && clickStatus) {
+                                saveChatyCookieString(chatyWidgetId, "c-Whatsapp");
+                            }
+                        }
                         clickStatus = checkChatyCookieExpired(chatyWidgetId, 'c-widget');
                         $("#chaty-widget-" + chatyWidgetId).find(".ch-pending-msg").remove();
                         if (clickStatus) {
@@ -394,6 +491,23 @@
                                         }
                                     });
                                 }
+                                var widgetNonce = $("#chaty-widget-" + chatyWidgetId).data("nonce");
+                                if (!isBoatUser) {
+                                    $.ajax({
+                                        url: chaty_settings.ajax_url,
+                                        data: {
+                                            widgetId: chatyWidgetId,
+                                            userId: userId,
+                                            isMobile: isChatyInMobile,
+                                            channels: chatyChannels,
+                                            isSingle: 0,
+                                            nonce: widgetNonce,
+                                            action: 'update_chaty_widget_click'
+                                        },
+                                        dataType: 'json',
+                                        method: 'post',
+                                    });
+                                }
                             }
                         }
                         if ($("#chaty-widget-" + chatyWidgetId).hasClass("first_click")) {
@@ -403,6 +517,34 @@
                     } else if ($(this).hasClass("single")) {
                         $("#chaty-widget-" + chatyWidgetId).find(".ch-pending-msg").remove();
                         clickStatus = checkChatyCookieExpired(chatyWidgetId, 'c-widget');
+                        var widgetNonce = $("#chaty-widget-" + chatyWidgetId).data("nonce")
+                        if (clickStatus) {
+                            saveChatyCookieString(chatyWidgetId, 'c-widget');
+                            isSingle = 0;
+                            chatyChannels = [];
+                            chatyChannel = $(this).data("channel");
+                            clickStatus = checkChatyCookieExpired(chatyWidgetId, "c-" + chatyChannel);
+                            if (clickStatus) {
+                                chatyChannels.push(chatyChannel);
+                                isSingle = 1;
+                            }
+                            if (!isBoatUser) {
+                                $.ajax({
+                                    url: chaty_settings.ajax_url,
+                                    data: {
+                                        widgetId: chatyWidgetId,
+                                        userId: userId,
+                                        isMobile: isChatyInMobile,
+                                        channels: chatyChannels,
+                                        isSingle: isSingle,
+                                        nonce: widgetNonce,
+                                        action: 'update_chaty_widget_click'
+                                    },
+                                    dataType: 'json',
+                                    method: 'post',
+                                });
+                            }
+                        }
 
                         /* checking for CTA status */
                         if ($("#chaty-widget-" + chatyWidgetId).hasClass("first_click")) {
@@ -414,6 +556,22 @@
                         clickStatus = checkChatyCookieExpired(chatyWidgetId, "c-" + chatyChannel);
                         if (clickStatus) {
                             saveChatyCookieString(chatyWidgetId, "c-" + chatyChannel);
+                            var widgetNonce = $("#chaty-widget-" + chatyWidgetId).data("nonce");
+                            if (!isBoatUser) {
+                                $.ajax({
+                                    url: chaty_settings.ajax_url,
+                                    data: {
+                                        widgetId: chatyWidgetId,
+                                        userId: userId,
+                                        isMobile: isChatyInMobile,
+                                        channel: chatyChannel,
+                                        nonce: widgetNonce,
+                                        action: 'update_chaty_channel_click'
+                                    },
+                                    dataType: 'json',
+                                    method: 'post',
+                                });
+                            }
                         }
                     }
                 }
@@ -433,33 +591,26 @@
                 if (jQuery.trim($(this).val()) == "") {
                     inputErrorCounter++;
                     $(this).addClass("has-chaty-error");
+                    if($(this).hasClass("chaty-text-block")) {
+                        $(this).closest(".chaty-contact-input").find(".mce-tinymce").addClass("mce-error");
+                    }
                 }
             });
             if (inputErrorCounter == 0) {
                 var $form = $(this);
+                var form = $form[0];
+                var data = new FormData(form);
                 $(".chaty-submit-button").attr("disabled", true);
                 $("#chaty-submit-button-"+ $form.data("index") + " .chaty-loader").addClass("active");
                 jQuery.ajax({
                     url: chaty_settings.ajax_url,
-                    data: {
-                        action: "chaty_front_form_save_data",
-                        name: $form.find(".field-name").length ? $form.find(".field-name").val() : "",
-                        email: $form.find(".field-email").length ? $form.find(".field-email").val() : "",
-                        phone: $form.find(".field-phone").length ? $form.find(".field-phone").val() : "",
-                        message: $form.find(".field-message").length ? $form.find(".field-message").val() : "",
-                        nonce: $form.data("token"),
-                        channel: $form.data("channel"),
-                        widget: $form.data("index"),
-                        ref_url: window.location.href,
-                        token: googleV3Token,
-                        page_id: chaty_settings.page_id,
-                        page_title: getPageTitle(),
-                        v2token: $form.find(".g-recaptcha-response").length ? $form.find(".g-recaptcha-response").val() : ""
-                    },
+                    enctype: 'multipart/form-data',
+                    data: data,
                     type: 'post',
-                    async: true,
-                    defer: true,
                     dataType: 'json',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
                     success: function (response) {
                         if(googleV3Token != "") {
                             googleV3Token = "";
@@ -471,10 +622,17 @@
                         if (response.status == 1) {
                             $("#chaty-submit-button-"+ $form.data("index") + " .chaty-loader").removeClass("active");
                             $(".chaty-contact-inputs").append("<div class='chaty-ajax-success-message'>" + response.message + "</div>");
+                            $(".chaty-ajax-contact-form").find(".chaty-contact-input .mce-tinymce").removeClass("mce-error");
                             $(".field-name, .field-email, .field-message, .field-phone").val("");
+                            $(".chaty-ajax-contact-form").find(".chaty-input-field").val("");
+                            $(".chaty-ajax-contact-form").find(".chaty-textarea-field").val("");
+                            $("#"+$form.find(".chaty-text-block").attr("id")+"_ifr").contents().find("body").html("");
                             if (response.redirect_action == "yes") {
                                 if (response.link_in_new_tab == "yes") {
-                                    window.open(response.redirect_link, '_blank');
+                                    var openInNewTab = window.open(response.redirect_link, '_blank');
+                                    if(openInNewTab == null) {
+                                        window.open(response.redirect_link);
+                                    }
                                 } else {
                                     window.location = response.redirect_link;
                                 }
@@ -486,9 +644,10 @@
                                         if (!isEmpty(widgetId) || widgetId == 0) {
                                             if ($("#chaty-widget-" + widgetId).length) {
                                                 $("#chaty-widget-" + widgetId).removeClass("form-open");
+                                                $("body").removeClass("add-bg-blur-effect");
                                                 $(".chaty-outer-forms.active").removeClass("active");
                                                 if ($("#chaty-widget-" + widgetId).find(".chaty-widget").hasClass("chaty-no-close-button")) {
-                                                    $("#chaty-widget-" + widgetId).find(".chaty-widget").addClass("chaty-open")
+                                                    $("#chaty-widget-" + widgetId).find(".chaty-widget:not(.has-single)").addClass("chaty-open")
                                                 }
                                             }
                                         }
@@ -507,6 +666,7 @@
                             $(".chaty-contact-inputs").append("<div class='chaty-ajax-error-message'>" + response.message + "</div>");
                             $(".chaty-loader").removeClass("active");
                         }
+                        $(".email_suggestion").html('');
                     }
                 });
             } else {
@@ -515,16 +675,91 @@
             return false;
         });
 
+        var domains = ['hotmail.com', 'gmail.com', 'aol.com', 'premio.io'];
+        var topLevelDomains = ["com", "net", "org", "io"];
+        jQuery(document).on('blur','.chaty-contact-form-box .field-email', function(event) {
+            var widget_id = $(this).closest(".chaty-contact-form-box").data("widget");
+            jQuery(this).mailcheck({
+                // domains: domains,                       // optional
+                // topLevelDomains: topLevelDomains,       // optional
+                suggested: function(element, suggestion) {
+                    // callback code
+                    jQuery('#email_suggestion'+widget_id).html("Did you mean <b><i>" + suggestion.full + "</b></i>?");
+                },
+                empty: function(element) {
+                    // callback code
+                    jQuery('#email_suggestion'+widget_id).html('');
+                }
+            });
+        });
+
+        if($(".chaty-contact-form-box .field-email").length) {
+            $(".chaty-contact-form-box .field-email").emailautocomplete({
+                domains: ["protonmail.com", "yahoo.com", "gmail.com"] //add your own domains
+            });
+        }
+
+        $(document).on("click", ".email_suggestion i", function (){
+            $(this).closest(".chaty-contact-form-box").find(".field-email").val($(this).text()).focus();
+            jQuery(this).closest(".email_suggestion").html('');
+        });
+
         /* Click function for Call */
         $(document).on("click", ".chaty-widget.has-single .chaty-i-trigger .chaty-channel:not(.chaty-agent-button).Phone-channel", function () {
             window.location = $(this).find("a").prop("href");
         });
 
-        $(document).on("click", ".chaty-widget.has-single .chaty-i-trigger .chaty-channel:not(.chaty-agent-button).Phone-channel a", function (e) {
+        $(document).on("click", ".chaty-widget.has-single .chaty-i-trigger .chaty-channel:not(.chaty-agent-button).Phone-channel a, .picmo__popupContainer", function (e) {
             e.stopPropagation();
             e.stopImmediatePropagation();
         });
+
+        $(document).on("click", ".chaty-wp-emoji-input", function (){
+            if($(".picmo__popupContainer").length) {
+            } else {
+                const {createPopup} = window.picmoPopup;
+                const trig = document.querySelector("#chaty_whatsapp_input");
+
+                const picker = createPopup({}, {
+                    referenceElement: trig,
+                    triggerElement: trig,
+                    position: 'top',
+                    hideOnEmojiSelect: false
+                });
+
+                picker.toggle();
+
+                picker.addEventListener('emoji:select', (selection) => {
+                    $('.chaty-whatsapp-input').val($(".chaty-whatsapp-input").val() + selection.emoji);
+                });
+            }
+        });
+
+        $(document).on("click", "#chaty_whatsapp_input", function (){
+            if($(".picmo__popupContainer").length) {
+                $(".picmo__popupContainer").remove();
+            }
+        });
+
     });
+
+    function setChatyEditor() {
+        if($(".chaty-text-block:not(.editor-loaded)").length) {
+            $(".chaty-text-block:not(.editor-loaded)").each(function(){
+                text_id = $(this).attr("id");
+                wp.editor.initialize(
+                    text_id,
+                    {
+                        tinymce: {
+                            wpautop: false,
+                            toolbar1: 'bold italic underline',
+                        },
+                        quicktags: false
+                    }
+                );
+            })
+        }
+    }
 
     /**
      *
@@ -553,6 +788,7 @@
             var animationClass = "chaty-animation-" + $("#chaty-widget-" + widgetId).data("animation");
             $("#chaty-widget-" + widgetId + " ." + animationClass).removeClass(animationClass);
         }
+        $("#chaty-widget-" + widgetId+ " .ch-pending-msg").remove();
     }
 
     function checkForCountry() {
@@ -620,7 +856,9 @@
                 var channelSetting = {};
 
                 /* check for country filter */
-                var widgetStatus = true;
+                var widgetStatus = checkForUserCountry(widgetRecord);
+                widgetStatus = widgetStatus && checkForTimeSchedule(widgetRecord);
+                widgetStatus = widgetStatus && checkForDayAndTimeSchedule(widgetRecord);
 
                 $.each(widgetRecord.channels, function (key, channel) {
                     var channelStatus = checkForChannel(channel);
@@ -692,7 +930,6 @@
                                 $("#chaty-widget-" + widgetRecord.id + " .chaty-i-trigger .chaty-channel").append("<span class='on-hover-text'>"+ctaText+"</span>").addClass("active").addClass("has-on-hover");
                                 $("#chaty-widget-" + widgetRecord.id + " .chaty-i-trigger .chaty-channel a").append("<span class='on-hover-text'>"+ctaText+"</span>").addClass("has-on-hover");
                                 $("#chaty-widget-" + widgetRecord.id + " .chaty-i-trigger .chaty-channel a").attr("data-text", ctaText);
-                                $("#chaty-widget-" + widgetRecord.id + " .chaty-i-trigger .chaty-channel a").attr("aria-label", ctaText);
                             } else {
                                 $("#chaty-widget-" + widgetRecord.id + " .chaty-i-trigger .chaty-channel a").append("<span class='on-hover-text'>"+ctaText+"</span>").removeClass("active").addClass("has-on-hover");
                             }
@@ -708,16 +945,25 @@
                             customCSS += "#chaty-widget-" + widgetRecord.id + " .channel-icon-" + channel.channel_type + " .color-element{ fill: " + channel.icon_color + "; color: " + channel.icon_color + ";}";
                         }
 
-
-
                         customCSS += "#chaty-widget-" + widgetRecord.id + " ." + channel.channel_type + "-channel .chaty-custom-icon { background-color: " + channel.icon_color + "; }";
                         customCSS += "#chaty-widget-" + widgetRecord.id + " ." + channel.channel_type + "-channel .chaty-svg { background-color: " + channel.icon_color + ";}";
                         customCSS += "#chaty-widget-" + widgetRecord.id + " .channel-icon-" + channel.channel_type + " .chaty-svg { background-color: " + channel.icon_color + ";}";
 
-
                         if(channel.channel_type == "Contact_Us") {
                             customCSS += ".chaty-contact-form-box #chaty-submit-button-" + widgetRecord.id + " {background-color: "+channel.contact_form_settings.button_bg_color+"; color: "+channel.contact_form_settings.button_text_color+";} ";
+                            customCSS += "#chaty-form-" + widgetRecord.id + "-Contact_Us .chaty-contact-form-title {background-color: "+channel.contact_form_settings.title_bg_color+"; } ";
                         }
+
+                        var closeHtml = '<div class="chaty-channel chaty-cta-close chaty-tooltip pos-' + toolTipPosition + '" data-hover="' + widgetRecord.settings.close_text + '">' +
+                            '<div class="chaty-cta-button"><button type="button">' +
+                            '<span class="chaty-svg">' +
+                            '<svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="26" cy="26" rx="26" ry="26" fill="' + widgetRecord.settings.widget_color + '"></ellipse><rect width="27.1433" height="3.89857" rx="1.94928" transform="translate(18.35 15.6599) scale(0.998038 1.00196) rotate(45)" fill="' + widgetRecord.settings.widget_icon_color + '"></rect><rect width="27.1433" height="3.89857" rx="1.94928" transform="translate(37.5056 18.422) scale(0.998038 1.00196) rotate(135)" fill="' + widgetRecord.settings.widget_icon_color + '"></rect></svg>' +
+                            '</span>' +
+                            '<span class="sr-only">Hide chaty</span>' +
+                            '</button>' +
+                            '</div>' +
+                            '</div>';
+                        $("#chaty-widget-" + widgetRecord.id + " .chaty-i-trigger").append(closeHtml);
                     } else {
                         $.each(widgetRecord.channels, function (key, channel) {
                             var channelStatus = checkForChannel(channel);
@@ -725,7 +971,6 @@
                                 if (isValueEmpty(channel.channel_type)) {
                                     channel.channel_type = channel.channel;
                                 }
-
 
                                 if(widgetRecord.settings.cta_type == "chat-view") {
                                     var channelHtml = getChannelSetting(channel, widgetRecord.id, "top");
@@ -750,6 +995,7 @@
 
                                 if(channel.channel_type == "Contact_Us") {
                                     customCSS += ".chaty-contact-form-box #chaty-submit-button-" + widgetRecord.id + " {background-color: "+channel.contact_form_settings.button_bg_color+"; color: "+channel.contact_form_settings.button_text_color+";} ";
+                                    customCSS += "#chaty-form-" + widgetRecord.id + "-Contact_Us .chaty-contact-form-title {background-color: "+channel.contact_form_settings.title_bg_color+"; } ";
                                 }
                             }
                         });
@@ -783,7 +1029,7 @@
                             widgetIcon +
                             '<span class="sr-only">Open chaty</span>' +
                             '</button>' +
-                            '<button type="button" class="open-chaty-channel"></button>' +
+                            '<button type="button" class="open-chaty-channel"><span class="sr-only">chaty button</span></button>' +
                             '</div>' +
                             '</div>';
                         $("#chaty-widget-" + widgetRecord.id + " .chaty-i-trigger").html(widgetButton);
@@ -792,7 +1038,7 @@
                         var closeHtml = '<div class="chaty-channel chaty-cta-close chaty-tooltip pos-' + toolTipPosition + '" data-hover="' + widgetRecord.settings.close_text + '">' +
                             '<div class="chaty-cta-button"><button type="button">' +
                             '<span class="chaty-svg">' +
-                            '<svg viewBox="0 0 52 52" fill="#ffffff" xmlns="http://www.w3.org/2000/svg"><ellipse cx="26" cy="26" rx="26" ry="26" fill="' + widgetRecord.settings.widget_color + '"></ellipse><rect width="27.1433" height="3.89857" rx="1.94928" transform="translate(18.35 15.6599) scale(0.998038 1.00196) rotate(45)" fill="' + widgetRecord.settings.widget_icon_color + '"></rect><rect width="27.1433" height="3.89857" rx="1.94928" transform="translate(37.5056 18.422) scale(0.998038 1.00196) rotate(135)" fill="' + widgetRecord.settings.widget_icon_color + '"></rect></svg>' +
+                            '<svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="26" cy="26" rx="26" ry="26" fill="' + widgetRecord.settings.widget_color + '"></ellipse><rect width="27.1433" height="3.89857" rx="1.94928" transform="translate(18.35 15.6599) scale(0.998038 1.00196) rotate(45)" fill="' + widgetRecord.settings.widget_icon_color + '"></rect><rect width="27.1433" height="3.89857" rx="1.94928" transform="translate(37.5056 18.422) scale(0.998038 1.00196) rotate(135)" fill="' + widgetRecord.settings.widget_icon_color + '"></rect></svg>' +
                             '</span>' +
                             '<span class="sr-only">Hide chaty</span>' +
                             '</button>' +
@@ -827,7 +1073,7 @@
                         $("#chaty-form-" + widgetRecord.id + "-chaty-chat-view .chaty-channel > a").addClass("has-gae");
                         $("#chaty-widget-" + widgetRecord.id + " .chaty-i-trigger.single-channel .chaty-channel > a").addClass("has-gae");
 
-                        $(".chaty-outer-forms.chaty-whatsapp-form.chaty-form-" + widgetRecord.id + " form.add-analytics").addClass("form-google-analytics");
+                        $(".chaty-outer-forms.chaty-whatsapp-btn-form.chaty-form-" + widgetRecord.id + " form.add-analytics").addClass("form-google-analytics");
                         $(".whatsapp-chaty-form-" + widgetRecord.id).addClass("has-form-gae");
                     }
 
@@ -842,8 +1088,24 @@
                     } else if (widgetRecord.settings.default_state == "open") {
                         $("#chaty-widget-" + widgetRecord.id + " .chaty-widget").addClass("default-open");
                         if (clickStatus || !isTrue(widgetRecord.settings.show_close_button)) {
-                            $("#chaty-widget-" + widgetRecord.id + " .chaty-widget").addClass("chaty-open");
+                            $("#chaty-widget-" + widgetRecord.id + " .chaty-widget:not(.has-single)").addClass("chaty-open");
                         }
+                        if(!clickStatus) {
+                            $("#chaty-widget-" + widgetRecord.id + " .chaty-widget").removeClass("default-open");
+                        }
+                    }
+
+                    if($("#chaty-widget-" + widgetRecord.id + " .chaty-widget:not(.has-single):not(.chaty-no-close-button)").hasClass("default-open")) {
+                        if (isTrue(widgetRecord.settings.bg_blur_effect)) {
+                            console.log("@323");
+                            $("body").addClass("add-bg-blur-effect");
+                        }
+                    } else {
+                        $("body").removeClass("add-bg-blur-effect");
+                    }
+
+                    if (isTrue(widgetRecord.settings.bg_blur_effect)) {
+                        $("#chaty-widget-" + widgetRecord.id + " .chaty-widget:not(.chaty-no-close-button)").addClass("has-bg-blur-effect");
                     }
 
                     /* set widget channel height */
@@ -939,7 +1201,7 @@
                     /* Custom CSS for WhatsApp */
                     var whatsAppMaxHeight = formBottomPos + 72 + widgetSize;
                     if (whatsAppMaxHeight > 0) {
-                        customCSS += ".chaty-outer-forms.chaty-whatsapp-form.chaty-form-" + widgetRecord.id + " .chaty-whatsapp-content {max-height: calc(100vh - " + whatsAppMaxHeight + "px); overflow-y: auto; } ";
+                        // customCSS += ".chaty-outer-forms.chaty-whatsapp-btn-form.chaty-form-" + widgetRecord.id + " .chaty-whatsapp-content {max-height: calc(100vh - " + whatsAppMaxHeight + "px); overflow-y: auto; } ";
                     }
 
                     /* Custom CSS for Contact Form */
@@ -952,6 +1214,9 @@
                         $(".chaty-outer-forms.chaty-form-" + widgetRecord.id).addClass("custom-cht-pos");
                         $("#chaty-widget-"+widgetRecord.id).addClass("has-custom-pos");
                     }
+
+                    var total_wp_form_size = parseInt($("#chaty-form-" + widgetRecord.id + "-Whatsapp .chaty-whatsapp-header").outerHeight()) + parseInt($("#chaty-form-" + widgetRecord.id + "-Whatsapp .chaty-whatsapp-footer").outerHeight()) + parseInt(widgetSize) + parseInt(bottomSpacing) + 20;
+                    customCSS += "#chaty-form-" + widgetRecord.id + "-Whatsapp .chaty-whatsapp-body { max-height: calc(100vh - "+total_wp_form_size+"px); overflow-y: auto; }";
 
                     /* checking for triggers */
                     var visibleStatus = checkChatyCookieExpired(widgetRecord.id, 'v-widget');
@@ -1049,6 +1314,31 @@
                         $(this).attr("href", thisLink);
                     });
                 }
+
+                $(document).on("click", "#chaty-widget-"+widgetRecord.id+" .chaty-i-trigger .chaty-channel", function (){
+                    if($(this).closest(".chaty-widget").hasClass("has-single")) {
+                        if ($(this).closest(".chaty").hasClass("form-open")) {
+                            if (isTrue(widgetRecord.settings.bg_blur_effect)) {
+                                $("body").addClass("add-bg-blur-effect");
+                                console.log("@3233");
+                            } else {
+                                $("body").removeClass("add-bg-blur-effect");
+                            }
+                        }
+                    } else {
+                        if ($(this).closest(".chaty-widget").hasClass("chaty-open")) {
+                            $("body").removeClass("add-bg-blur-effect");
+                        } else {
+                            if (!$(this).closest(".chaty-widget").hasClass("chaty-no-close-button")) {
+                                if (isTrue(widgetRecord.settings.bg_blur_effect)) {
+                                    $("body").addClass("add-bg-blur-effect");
+                                    console.log("@32334");
+                                }
+                            }
+                        }
+                    }
+                });
+
             });
             if (!$("#custom-advance-chaty-css").length) {
                 $("head").append("<style id='custom-advance-chaty-css'></style>");
@@ -1059,7 +1349,7 @@
             }
         }
         removeEmptyTooltip();
-        checkForchatyTriggers();
+        checkForChatyTriggers();
     }
 
 
@@ -1112,8 +1402,6 @@
      * Added By: Chirag Thummar
      *
      * */
-
-
     function htmlDecode(input) {
         var doc = new DOMParser().parseFromString(input, "text/html");
         return doc.documentElement.textContent;
@@ -1127,7 +1415,6 @@
      * Added By: Chirag Thummar
      *
      * */
-
     function checkForChannel(channel) {
         if (isTrue(channel.is_agent)) {
             if (channel.agent_data.length) {
@@ -1152,32 +1439,28 @@
      * */
 
     function updateWidgetViews(widgetId) {
-        if(parseInt(chaty_settings.capture_analytics)) {
-            chaty_settings.capture_analytics = 0;
-            $.ajax({
-                url: chaty_settings.ajax_url,
-                type: 'post',
-                data: {
-                    action: "update_chaty_view",
-                    token: chaty_settings.token
-                }
-            })
-        }
         if ($("#chaty-widget-" + widgetId + " .chaty-channel.chaty-default-open").length) {
             // $(".chaty-outer-forms").show();
-            var dataForm = $("#chaty-widget-" + widgetId + " .chaty-channel.chaty-default-open a.chaty-whatsapp-form").data('form');
+            var dataForm = $("#chaty-widget-" + widgetId + " .chaty-channel.chaty-default-open a.chaty-whatsapp-btn-form").data('form');
             if (!isEmpty(dataForm)) {
                 var clickStatus = checkChatyCookieExpired(widgetId, "c-" + $("#chaty-widget-" + widgetId + " .chaty-channel.chaty-default-open").data('channel'));
                 if (clickStatus) {
                     $("#" + dataForm).addClass("is-active");
                     if ($("#" + dataForm).length) {
-                        var buttonHtml = $("#chaty-widget-" + widgetId + " .chaty-channel.chaty-default-open a.chaty-whatsapp-form").html()+"<span class='hide-cht-svg-bg'>"+chaty_settings.lang.hide_whatsapp_form+"</span>";
+                        var buttonHtml = $("#chaty-widget-" + widgetId + " .chaty-channel.chaty-default-open a.chaty-whatsapp-btn-form").html()+"<span class='hide-cht-svg-bg'>"+chaty_settings.lang.hide_whatsapp_form+"</span>";
 
                         removeChatyAnimation(widgetId);
                         $("#chaty-widget-" + widgetId   ).find(".ch-pending-msg").remove();
                         $("#chaty-widget-" + widgetId + " .chaty-widget").removeClass("chaty-open");
                         $("#chaty-widget-" + widgetId).addClass("form-open");
                         $("#" + dataForm).addClass("active");
+                        if($("#chaty-widget-" + widgetId + " .chaty-widget:not(.chaty-no-close-button)").hasClass("has-bg-blur-effect")) {
+                            $("body").addClass("add-bg-blur-effect");
+                            console.log("@32333");
+                        }
+                        setTimeout(function(){
+                            $(".chaty-whatsapp-btn-form.active .chaty-whatsapp-input").focus();
+                        }, 100);
 
                         $("#chaty-widget-" + widgetId + " .open-chaty-channel").html(buttonHtml);
                         $("#chaty-widget-" + widgetId).addClass("active");
@@ -1188,6 +1471,40 @@
                             if (hideAfter > 0) {
                                 hideAfter = hideAfter + chatyHideIntervalTime;
                                 $("#chaty-widget-" + widgetId).addClass("hide-after-" + hideAfter);
+                            }
+                        }
+
+                        if (chaty_settings.data_analytics_settings == "on") {
+                            var widgetChannels = [];
+                            var widgetChannel = $("#chaty-widget-" + widgetId + " .chaty-channel.chaty-default-open").data('channel');
+                            var viewChannelStatus = checkChatyCookieExpired(widgetId, "v-" + widgetChannel);
+
+                            if (viewChannelStatus && typeof widgetChannel != 'undefined') {
+                                saveChatyCookieString(widgetId, "v-" + widgetChannel);
+                                widgetChannels.push(widgetChannel);
+                            }
+
+                            if (!isBoatUser && widgetChannels.length) {
+                                var widgetNonce = $("#chaty-widget-" + widgetId).data("nonce");
+                                $.ajax({
+                                    url: chaty_settings.ajax_url,
+                                    data: {
+                                        widgetId: widgetId,
+                                        channels: widgetChannels,
+                                        userId: widgetId,
+                                        isMobile: isChatyInMobile,
+                                        widgetNonce: widgetNonce,
+                                        action: 'update_chaty_channel_views',
+                                    },
+                                    type: 'post',
+                                    dataType: 'json',
+                                    success: function (response) {
+
+                                    },
+                                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                        monitorErrorLog(XMLHttpRequest, textStatus, errorThrown);
+                                    }
+                                });
                             }
                         }
                         return;
@@ -1208,6 +1525,7 @@
         var viewStatus = checkChatyCookieExpired(widgetId, "v-widget");
         if (viewStatus) {
             saveChatyCookieString(widgetId, 'v-widget');
+            var userId = $("#chaty-widget-" + widgetId).data("user");
             var widgetChannels = [];
             var isSingle = 0;
             var isDefaultOpen = 0;
@@ -1257,6 +1575,32 @@
                     });
                 }
             }
+            if (viewStatus && !isBoatUser) {
+                var widgetNonce = $("#chaty-widget-" + widgetId).data("nonce");
+                if (!isBoatUser) {
+                    $.ajax({
+                        url: chaty_settings.ajax_url,
+                        data: {
+                            widgetId: widgetId,
+                            channels: widgetChannels,
+                            userId: widgetId,
+                            isMobile: isChatyInMobile,
+                            isOpen: isDefaultOpen,
+                            isSingle: isSingle,
+                            widgetNonce: widgetNonce,
+                            action: 'update_chaty_widget_views',
+                        },
+                        type: 'post',
+                        dataType: 'json',
+                        success: function (response) {
+
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            monitorErrorLog(XMLHttpRequest, textStatus, errorThrown);
+                        }
+                    });
+                }
+            }
         }
     }
 
@@ -1272,6 +1616,21 @@
         var isOldUser = chatySaasCheckCookie("triggeredFor" + userId);
         if (!isOldUser) {
             chatySetCookie("triggeredFor" + userId, widgetId, 2);
+            /*$.ajax({
+                url: VISITOR_COUNT_API,
+                data: {
+                    widgetId: widgetId,
+                    channels: [],
+                    userId: userId
+                },
+                type: 'post',
+                success: function (response) {
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    monitorErrorLog(XMLHttpRequest, textStatus, errorThrown);
+                }
+            });*/
         }
     }
 
@@ -1355,12 +1714,10 @@
             if (channel.channel_type == "Contact_Us") {
                 extraClass += " has-chaty-box chaty-contact-form";
             } else if (channel.channel_type == "Whatsapp") {
-                if (isTrue(channel.has_welcome_message) && !isEmpty(channel.chat_welcome_message)) {
-                    if (isTrue(channel.is_default_open)) {
-                        var clickStatus = checkChatyCookieExpired(widgetId, "c-" + channel.channel_type);
-                        if (clickStatus) {
-                            extraClass += " chaty-default-open"
-                        }
+                if (isTrue(channel.is_default_open)) {
+                    var clickStatus = checkChatyCookieExpired(widgetId, "c-" + channel.channel_type);
+                    if (clickStatus) {
+                        extraClass += " chaty-default-open"
                     }
                 }
             }
@@ -1378,7 +1735,7 @@
         formHtml += "<div style='display:none;' class='chaty-outer-forms chaty-agent-data chaty-agent-data-" + widgetId + " chaty-form-" + widgetId + "' data-channel='" + channel.channel_type + "' id='chaty-form-" + widgetId + "-" + channel.channel_type + "' data-widget='" + widgetId + "' data-index='" + widgetIndex + "'>";
         formHtml += "<div class='chaty-form'>";
         formHtml += "<div class='chaty-form-body'>";
-        formHtml += "<div role='button' class='chaty-close-agent-list'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 330 330' xmlns:v='https://vecta.io/nano'><path d='M325.607 79.393c-5.857-5.857-15.355-5.858-21.213.001l-139.39 139.393L25.607 79.393c-5.857-5.857-15.355-5.858-21.213.001s-5.858 15.355 0 21.213l150.004 150a15 15 0 0 0 21.212-.001l149.996-150c5.859-5.857 5.859-15.355.001-21.213z'/></svg></div>";
+        formHtml += "<div role='button' class='chaty-close-agent-list'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 330 330'><path d='M325.607 79.393c-5.857-5.857-15.355-5.858-21.213.001l-139.39 139.393L25.607 79.393c-5.857-5.857-15.355-5.858-21.213.001s-5.858 15.355 0 21.213l150.004 150a15 15 0 0 0 21.212-.001l149.996-150c5.859-5.857 5.859-15.355.001-21.213z'/></svg></div>";
         formHtml += "<div class='chaty-agent-header agent-info-" + widgetId + "-" + channel.channel + "'>";
         if (!isEmpty(channel.header_text)) {
             formHtml += "<div class='agent-main-header'>" + channel.header_text + "</div>";
@@ -1462,13 +1819,17 @@
                 agentURL = "https://www.linkedin.com/company/" + $.trim(agent.value);
             }
         } else if (channel.channel_type == "Viber") {
-            agentURL = trimChar(agent.value, "+");
-            if (!isNaN(agentURL)) {
-                agentURL = agentURL.replace("+", "");
-                if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
-                    agentURL = "+" + agentURL;
+            if(agent.viber_url != "") {
+                agentURL = "viber://pa?chatURI=" + agent.value;
+            } else {
+                agentURL = trimChar(agent.value, "+");
+                if (!isNaN(agentURL)) {
+                    agentURL = agentURL.replace("+", "");
+                    if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
+                        agentURL = "+" + agentURL;
+                    }
+                    agentURL = "viber://chat?number=" + agentURL;
                 }
-                agentURL = "viber://chat?number=" + agentURL;
             }
             agentTarget = "";
         } else if (channel.channel_type == "TikTok") {
@@ -1484,12 +1845,29 @@
         var agentTarget = "_blank";
         if (channel.channel_type == "Whatsapp") {
             var whatsAppNumber = getWhatsAppNumber(agent.value);
+
+            var preSetMessage = "";
+            if (!isEmpty(agent.pre_set_message)) {
+                preSetMessage = decodeURI(agent.pre_set_message);
+                var pageTitle = $("title").text();
+                if (!isEmpty(pageTitle)) {
+                    preSetMessage = preSetMessage.replace(/{title}/g, pageTitle);
+                } else {
+                    preSetMessage = preSetMessage.replace(/{title}/g, '');
+                }
+                preSetMessage = preSetMessage.replace(/{url}/g, window.location);
+                preSetMessage = encodeURIComponent(preSetMessage);
+            }
             if (isChatyInMobile) {
                 agentTarget = "";
-                agentURL = "https://wa.me/" + whatsAppNumber;
+                agentURL = "https://wa.me/" + whatsAppNumber + "?text=" + preSetMessage;
             } else {
                 agentTarget = "_blank";
-                agentURL = "https://web.whatsapp.com/send/?phone=" + whatsAppNumber;
+                if (isTrue(agent.use_whatsapp_web)) {
+                    agentURL = "https://web.whatsapp.com/send?phone=" + whatsAppNumber + "&text=" + preSetMessage;
+                } else {
+                    agentURL = "https://wa.me/" + whatsAppNumber + "?text=" + preSetMessage;
+                }
             }
         } else if (channel.channel_type == "WeChat") {
             agentTarget = "";
@@ -1531,13 +1909,17 @@
                 agentURL = "https://www.linkedin.com/company/" + $.trim(agent.value);
             }
         } else if (channel.channel_type == "Viber") {
-            agentURL = trimChar(agent.value, "+");
-            if (!isNaN(agentURL)) {
-                agentURL = agentURL.replace("+", "");
-                if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
-                    agentURL = "+" + agentURL;
+            if(agent.viber_url != "") {
+                agentURL = "viber://pa?chatURI=" + agent.value;
+            } else {
+                agentURL = trimChar(agent.value, "+");
+                if (!isNaN(agentURL)) {
+                    agentURL = agentURL.replace("+", "");
+                    if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
+                        agentURL = "+" + agentURL;
+                    }
+                    agentURL = "viber://chat?number=" + agentURL;
                 }
-                agentURL = "viber://chat?number=" + agentURL;
             }
             agentTarget = "";
         } else if (channel.channel_type == "TikTok") {
@@ -1585,10 +1967,10 @@
             channel.target = "";
         } else {
             if (channel.channel_type == "Whatsapp") {
-                if (isTrue(channel.has_welcome_message) && !isEmpty(channel.chat_welcome_message)) {
+                if (isTrue(channel.has_welcome_message)) {
                     channel.url = "javascript:;";
                     channel.target = "";
-                    extraClass += " has-chaty-box chaty-whatsapp-form";
+                    extraClass += " has-chaty-box chaty-whatsapp-btn-form";
                     startMakingWhatsAppPopup(channel, widgetId);
                 } else {
                     var preSetMessage = "";
@@ -1608,8 +1990,8 @@
                         channel.url = "https://wa.me/" + channel.value + "?text=" + preSetMessage;
                     } else {
                         channel.target = "_blank";
-                        if (!isTrue(channel.is_use_web_version)) {
-                            channel.url = "https://web.whatsapp.com/?phone=" + channel.value + "&text=" + preSetMessage;
+                        if (isTrue(channel.is_use_web_version)) {
+                            channel.url = "https://web.whatsapp.com/send?phone=" + channel.value + "&text=" + preSetMessage;
                         } else {
                             channel.url = "https://wa.me/" + channel.value + "?text=" + preSetMessage;
                         }
@@ -1641,14 +2023,18 @@
                     channel.url += "?subject=" + mailSubject;
                 }
             } else if (channel.channel_type == "Viber") {
-                channel.value = trimChar(channel.value, "+");
-                if (isChatyInMobile && !isNaN(channel.value)) {
-                    // channel.value = channel.value.replace("+", "");
-                    if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
-                        channel.value = "+" + channel.value;
+                if(channel.viber_url != "") {
+                    channel.url = "viber://pa?chatURI=" + channel.value;
+                } else {
+                    channel.value = trimChar(channel.value, "+");
+                    if (isChatyInMobile && !isNaN(channel.value)) {
+                        // channel.value = channel.value.replace("+", "");
+                        if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
+                            channel.value = "+" + channel.value;
+                        }
                     }
+                    channel.url = "viber://chat?number=" + channel.value;
                 }
-                channel.url = "viber://chat?number=" + channel.value;
                 channel.target = "";
             } else if (channel.channel_type == "Vkontakte") {
                 channel.url = "https://vk.me/" + $.trim(channel.value);
@@ -1683,30 +2069,114 @@
         formHtml += "<div class='chaty-form'>";
         formHtml += "<div class='chaty-form-body'>";
         formHtml += "<div role='button' class='close-chaty-form'><div class='chaty-close-button'></div></div>";
-        formHtml += "<form class='chaty-ajax-contact-form' id='chaty-ajax-contact-form-" + widgetIndex + "' method='post' data-channel='" + channel.channel_type + "' data-widget='" + widgetId + "' data-token='" + channel.widget_token + "' data-index='" + channel.widget_index + "'>";
+        formHtml += "<form class='chaty-ajax-contact-form' id='chaty-ajax-contact-form-" + widgetIndex + "' method='post' data-channel='" + channel.channel_type + "' data-widget='" + widgetId + "' data-token='" + channel.widget_token + "' data-index='" + channel.widget_index + "' enctype='multipart/form-data'>";
         formHtml += "<div class='chaty-contact-form-body'>";
-        formHtml += "<div class='chaty-contact-form-title'>" + channel.contact_form_settings.contact_form_title + "</div>";
+        formHtml += "<div class='chaty-contact-form-title'><div class='form-title'>" + channel.contact_form_settings.contact_form_title + "</div><div class='chaty-close-button'><svg width='15' height='9' viewBox='0 0 15 9' fill='none' xmlns='http://www.w3.org/2000/svg'> <path d='M1 1L7.31429 8L14 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'></path></svg></div></div>";
         formHtml += "<div class='chaty-contact-inputs'>";
-        $.each(channel.contact_fields, function (key, contactField) {
-            formHtml += "<div class='chaty-contact-input'>";
-            var isRequired = isTrue(contactField.is_required) ? "is-required" : "";
-            if (contactField.type == "textarea") {
-                if(!isEmpty(contactField.title)) {
-                    formHtml += "<label class='chaty-form-label' for='" + contactField.field + "-" + widgetId + "'>"+contactField.title+"</label>";
-                } else {
-                    formHtml += "<label class='sr-only' for='" + contactField.field + "-" + widgetId + "'>"+contactField.field+"</label>";
+
+        if(channel.contact_form_settings.contact_form_field_order == '') {
+            $.each(channel.contact_fields, function (key, contactField) {
+                formHtml += "<div class='chaty-contact-input'>";
+                var isRequired = isTrue(contactField.is_required) ? "is-required" : "";
+                var required_indicator = "";
+                if(isTrue(contactField.is_required)) {
+                    required_indicator = "<span class='required_indicate'>*</span>"
                 }
-                formHtml += "<textarea type='" + contactField.type + "' class='chaty-textarea-field " + isRequired + " field-" + contactField.field + "' placeholder='" + contactField.placeholder + "' name='" + contactField.field + "' id='" + contactField.field + "-" + widgetId + "' ></textarea>"
-            } else {
-                if(!isEmpty(contactField.title)) {
-                    formHtml += "<label class='chaty-form-label' for='" + contactField.field + "-" + widgetId + "'>"+contactField.title+"</label>";
+                if (contactField.type == "textarea") {
+                    if (!isEmpty(contactField.title)) {
+                        formHtml += "<label class='chaty-form-label' for='" + contactField.field + "-" + widgetId + "'>" + contactField.title +" "+required_indicator+"</label>";
+                    } else {
+                        formHtml += "<label class='sr-only' for='" + contactField.field + "-" + widgetId + "'>" + contactField.field + "</label>";
+                    }
+                    formHtml += "<textarea type='" + contactField.type + "' class='chaty-textarea-field " + isRequired + " field-" + contactField.field + "' placeholder='" + contactField.placeholder + "' name='" + contactField.field + "' id='" + contactField.field + "-" + widgetId + "' ></textarea>"
                 } else {
-                    formHtml += "<label class='sr-only' for='" + contactField.field + "-" + widgetId + "'>"+contactField.field+"</label>";
+                    if (!isEmpty(contactField.title)) {
+                        formHtml += "<label class='chaty-form-label' for='" + contactField.field + "-" + widgetId + "'>" + contactField.title + " "+required_indicator+"</label>";
+                    } else {
+                        formHtml += "<label class='sr-only' for='" + contactField.field + "-" + widgetId + "'>" + contactField.field + "</label>";
+                    }
+                    console.log(contactField.field);
+                    formHtml += "<input type='" + contactField.type + "' class='chaty-input-field " + isRequired + " field-" + contactField.field + "' placeholder='" + contactField.placeholder + "' name='" + contactField.field + "' id='" + contactField.field + "-" + widgetId + "' />"
+                    if (contactField.field == "email") {
+                        formHtml += '<p id="email_suggestion' + widgetId + '" class="email_suggestion"></p>';
+                    }
                 }
-                formHtml += "<input type='" + contactField.type + "' class='chaty-input-field " + isRequired + " field-" + contactField.field + "' placeholder='" + contactField.placeholder + "' name='" + contactField.field + "' id='" + contactField.field + "-" + widgetId + "' />"
-            }
-            formHtml += "</div>";
-        });
+                formHtml += "</div>";
+            });
+        } else {
+            $.each(channel.contact_form_settings.contact_form_field_order, function (orderKey, orderValue) {
+                $.each(channel.contact_fields, function (key, contactField) {
+                    if (contactField.title == orderValue) {
+                        formHtml += "<div class='chaty-contact-input'>";
+                        var isRequired = isTrue(contactField.is_required) ? "is-required" : "";
+                        var required_indicator = "";
+                        if(isTrue(contactField.is_required)) {
+                            required_indicator = "<span class='required_indicate'>*</span>"
+                        }
+                        if (contactField.type == "textarea") {
+                            if (!isEmpty(contactField.title)) {
+                                formHtml += "<label class='chaty-form-label' for='" + contactField.field + "-" + widgetId + "'>" + contactField.title +" "+required_indicator+"</label>";
+                            } else {
+                                formHtml += "<label class='sr-only' for='" + contactField.field + "-" + widgetId + "'>" + contactField.field + "</label>";
+                            }
+                            formHtml += "<textarea type='" + contactField.type + "' class='chaty-textarea-field " + isRequired + " field-" + contactField.field + "' placeholder='" + contactField.placeholder + "' name='" + contactField.field + "' id='" + contactField.field + "-" + widgetId + "' ></textarea>"
+                        } else {
+                            if (!isEmpty(contactField.title)) {
+                                formHtml += "<label class='chaty-form-label' for='" + contactField.field + "-" + widgetId + "'>" + contactField.title + " "+required_indicator+"</label>";
+                            } else {
+                                formHtml += "<label class='sr-only' for='" + contactField.field + "-" + widgetId + "'>" + contactField.field + "</label>";
+                            }
+                            formHtml += "<input type='" + contactField.type + "' class='chaty-input-field " + isRequired + " field-" + contactField.field + "' placeholder='" + contactField.placeholder + "' name='" + contactField.field + "' id='" + contactField.field + "-" + widgetId + "' />"
+                            if (contactField.field == "email") {
+                                formHtml += '<p id="email_suggestion' + widgetId + '" class="email_suggestion"></p>';
+                            }
+                        }
+                        formHtml += "</div>";
+                    }
+                });
+
+                $.each(channel.contact_custom_fields, function (key, value) {
+                    if (value.unique_id == orderValue) {
+                        if (value.is_active == 'yes') {
+                            var isRequired = isTrue(value.is_required) ? "is-required" : "";
+                            var required_indicator = "";
+                            if(isTrue(value.is_required)) {
+                                required_indicator = "<span class='required_indicate'>*</span>"
+                            }
+                            formHtml += "<div class='chaty-contact-input'>";
+                            formHtml += "<label class='chaty-form-label' for='" + value.field_dropdown + "-" + key + "'>" + value.field_label + " "+required_indicator+"</label>";
+                            formHtml += "<input type='hidden' name='custom_fields[" + key + "][label_" + value.field_dropdown + "]' value='" + value.field_label + "'>";
+                            formHtml += "<input type='hidden' name='custom_fields[" + key + "][slug]' value='" + value.field_dropdown + "'>";
+                            if (value.field_dropdown == 'text' || value.field_dropdown == 'url' || value.field_dropdown == 'date') {
+                                formHtml += "<input type='" + value.field_dropdown + "' class='chaty-input-field " + isRequired + " field-" + value.field_dropdown + "' placeholder='" + value.placeholder + "' name='custom_fields[" + key + "][" + value.field_dropdown + "]' id='" + value.field_dropdown + "-" + key + "' />"
+                            } else if (value.field_dropdown == "file") {
+                                formHtml += "<input type='file' class='chaty-input-field " + isRequired + " field-" + value.field_dropdown + "' name='custom_fields[" + key + "][" + value.field_dropdown + "]' id='" + value.field_dropdown + "-" + key + "' accept='.jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.ppt,.pptx,.pps,.ppsx,.odt,.xls,.xlsx,.mp3,.mp4,.wav,.mpg,.avi,.mov,.wmv,.3gp,.ogv' multiple/>"
+                            } else if (value.field_dropdown == "textarea") {
+                                formHtml += "<textarea class='chaty-textarea-field " + isRequired + " field-" + value.field_dropdown + "' placeholder='" + value.placeholder + "' name='custom_fields[" + key + "][" + value.field_dropdown + "]' id='" + value.field_dropdown + "-" + key + "' ></textarea>"
+                            } else if (value.field_dropdown == "dropdown") {
+                                formHtml += "<select name='custom_fields[" + key + "][" + value.field_dropdown + "]' class='chaty-input-field " + isRequired + "'>";
+                                if (value.dropdown_placeholder) {
+                                    formHtml += "<option value=''>" + value.dropdown_placeholder + "</option>";
+                                }
+                                $.each(value.dropdown_option, function (key, val) {
+                                    if (val) {
+                                        formHtml += "<option value='"+val+"'>" + val + "</option>";
+                                    }
+                                });
+                                formHtml += "</select>";
+                            } else if (value.field_dropdown == "textblock") {
+                                var unique_id = Math.floor(Math.random() * Math.random()) + Date.now();
+                                formHtml += "<textarea rows='5' name='custom_fields[" + key + "][" + value.field_dropdown + "]' class='chaty-text-block chaty-textarea-field "+isRequired+"' id='text_editor_"+unique_id+"'></textarea>";
+                            } else if (value.field_dropdown == 'number') {
+                                formHtml += "<input type='tel' class='chaty-input-field " + isRequired + " field-" + value.field_dropdown + "' placeholder='" + value.placeholder + "' name='custom_fields[" + key + "][" + value.field_dropdown + "]' id='" + value.field_dropdown + "-" + key + "' />"
+                            }
+                            formHtml += "</div>";
+                        }
+                    }
+                });
+            });
+        }
+
         if(isTrue(channel.enable_recaptcha)) {
             if (!isEmpty(channel.v2_site_key)) {
                 formHtml += "<div class='chaty-contact-input'>";
@@ -1722,6 +2192,17 @@
         formHtml += "</div>"; // chaty-contact-inputs
         formHtml += "<div class='chaty-contact-form-button'><button type='submit' id='chaty-submit-button-" + widgetId + "' class='chaty-submit-button'>" + channel.contact_form_settings.button_text + "<span class='chaty-loader'><span class='dashicons dashicons-update'></span></span></button></div>";
         formHtml += "</div>"; // chaty-contact-form-body
+        formHtml += "<input type='hidden' name='nonce' value='"+channel.widget_token+"'>";
+        formHtml += "<input type='hidden' name='action' value='chaty_front_form_save_data'>";
+        formHtml += '<input type="hidden" name="channel" value="'+channel.channel_type+'">';
+        formHtml += '<input type="hidden" name="widget" value="'+widgetId+'">';
+        formHtml += '<input type="hidden" name="ref_url" value="'+window.location.href+'">';
+        formHtml += '<input type="hidden" name="token" value="'+googleV3Token+'">';
+        formHtml += '<input type="hidden" name="page_id" value="'+chaty_settings.page_id+'">';
+        formHtml += '<input type="hidden" name="page_title" value="'+getPageTitle()+'">';
+
+        var v2_captcha_response = $(".g-recaptcha-response").length ? $(".g-recaptcha-response").val() : "";
+        formHtml += '<input type="hidden" name="v2token" value="'+v2_captcha_response+'">';
         if(isTrue(channel.enable_recaptcha)) {
             if (!isEmpty(channel.v2_site_key)) {
                 formHtml += "<input type='hidden' id='v2_site_key' class='v2_site_key' value='" + channel.v2_site_key + "'>";
@@ -1735,6 +2216,9 @@
         formHtml += "</div>";
         formHtml += "</div>";
         $("body").append(formHtml);
+
+        setChatyEditor();
+
     }
 
     /**
@@ -1745,6 +2229,10 @@
      *
      * */
     function startMakingWhatsAppPopup(channel, widgetId) {
+        const currentDate = new Date();
+        var currentMinute = (currentDate.getMinutes() < 10) ? "0"+currentDate.getMinutes() : currentDate.getMinutes();
+        var currentHour = (currentDate.getHours() < 10) ? "0"+currentDate.getHours() : currentDate.getHours();
+        const time = currentHour + ":" + currentMinute;
         var formHtml = "";
         var widgetIndex = getWidgetIndex(widgetId);
         if (widgetIndex == null) {
@@ -1762,25 +2250,52 @@
         } else {
             formAction = "https://wa.me/" + channel.value;
         }
-        formHtml += "<div style='display:none;' class='chaty-outer-forms chaty-whatsapp-form chaty-form-" + widgetId + "' data-channel='" + channel.channel_type + "' id='chaty-form-" + widgetId + "-" + channel.channel_type + "' data-widget='" + widgetId + "' data-index='" + widgetIndex + "'>";
+        formHtml += "<div style='display:none;' class='chaty-outer-forms chaty-popup-whatsapp-form chaty-whatsapp-btn-form chaty-form-" + widgetId + "' data-channel='" + channel.channel_type + "' id='chaty-form-" + widgetId + "-" + channel.channel_type + "' data-widget='" + widgetId + "' data-index='" + widgetIndex + "'>";
         formHtml += "<div class='chaty-whatsapp-form'>";
-        formHtml += "<div class='chaty-whatsapp-body'>";
-        formHtml += "<div role='button' class='close-chaty-form is-whatsapp-btn'><div aria-hidden='true' class='chaty-close-button'></div><span class='hide-cht-svg-bg'>"+chaty_settings.lang.hide_whatsapp_form+"</span></div>";
-        formHtml += "<div class='chaty-whatsapp-content'>";
-        formHtml += "<div class='chaty-whatsapp-message'></div>";
+
+        var headerTitle = !isEmpty(channel.wp_popup_headline)?channel.wp_popup_headline:"";
+        formHtml += "<div class='chaty-whatsapp-header'>";
+        formHtml += "<div class='header-wp-icon'>";
+        formHtml += '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="33" viewBox="0 0 32 33" fill="none"> <g filter="url(#filter0_f_9477_7201)"> <path d="M9.95924 25.2858L10.3674 25.5276C12.0818 26.545 14.0475 27.0833 16.052 27.0842H16.0562C22.2122 27.0842 27.2221 22.0753 27.2247 15.919C27.2258 12.9357 26.0652 10.1303 23.9565 8.01998C22.9223 6.97924 21.6919 6.15397 20.3365 5.59195C18.9812 5.02992 17.5278 4.74231 16.0606 4.74576C9.89989 4.74576 4.88975 9.75407 4.88756 15.91C4.88453 18.0121 5.47648 20.0722 6.59498 21.852L6.86071 22.2742L5.73223 26.394L9.95924 25.2858ZM2.50586 29.5857L4.41235 22.6249C3.23657 20.5878 2.618 18.2768 2.61873 15.9091C2.62183 8.50231 8.64941 2.47656 16.0564 2.47656C19.6508 2.47839 23.0245 3.87717 25.5618 6.41629C28.0991 8.95542 29.4952 12.3305 29.4939 15.9199C29.4906 23.3262 23.4621 29.353 16.0562 29.353H16.0504C13.8016 29.3521 11.592 28.788 9.62923 27.7177L2.50586 29.5857Z" fill="#B3B3B3"/> </g> <path d="M2.36719 29.447L4.27368 22.4862C3.09587 20.4442 2.47721 18.1278 2.48005 15.7705C2.48316 8.36364 8.51074 2.33789 15.9177 2.33789C19.5121 2.33972 22.8859 3.73849 25.4232 6.27762C27.9605 8.81675 29.3565 12.1918 29.3552 15.7812C29.3519 23.1875 23.3234 29.2143 15.9175 29.2143H15.9117C13.663 29.2134 11.4533 28.6493 9.49056 27.5791L2.36719 29.447Z" fill="white"/> <path d="M15.715 3.84769C9.17146 3.84769 3.85 9.16696 3.84767 15.7051C3.84445 17.9377 4.47318 20.1257 5.66119 22.016L5.94343 22.4646L4.48888 27.2525L9.23469 25.663L9.66824 25.9199C11.4891 27.0005 13.5769 27.5719 15.7061 27.5731H15.7105C22.249 27.5731 27.5705 22.2532 27.573 15.7146C27.5779 14.1562 27.2737 12.6123 26.6778 11.1722C26.082 9.73214 25.2064 8.42458 24.1017 7.3252C23.0032 6.21981 21.6963 5.34329 20.2567 4.74637C18.8171 4.14946 17.2734 3.844 15.715 3.84769Z" fill="#25D366"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0858 9.60401C11.8138 9.00922 11.5276 8.99717 11.2692 8.98687L10.5736 8.97852C10.3316 8.97852 9.93846 9.0679 9.60608 9.42544C9.27369 9.78297 8.33594 10.6471 8.33594 12.4046C8.33594 14.1622 9.63628 15.8605 9.81747 16.0991C9.99866 16.3377 12.3277 20.0594 16.0162 21.4913C19.0813 22.6813 19.705 22.4446 20.3706 22.3852C21.0361 22.3257 22.5175 21.521 22.8197 20.6869C23.1219 19.8527 23.1221 19.138 23.0315 18.9886C22.9409 18.8391 22.6989 18.7503 22.3357 18.5716C21.9725 18.3928 20.1888 17.5287 19.8562 17.4094C19.5236 17.2901 19.2818 17.2308 19.0396 17.5883C18.7975 17.9459 18.1029 18.7501 17.8911 18.9886C17.6793 19.227 17.4679 19.2569 17.1047 19.0783C16.7416 18.8998 15.5731 18.5224 14.1867 17.3054C13.108 16.3585 12.3799 15.1892 12.1679 14.8318C11.9559 14.4745 12.1454 14.2809 12.3274 14.1029C12.4902 13.9428 12.6901 13.6858 12.8719 13.4773C13.0537 13.2688 13.1135 13.1197 13.2343 12.8817C13.3551 12.6437 13.2949 12.4346 13.2041 12.256C13.1133 12.0774 12.4083 10.3105 12.0858 9.60401Z" fill="white"/> <defs> <filter id="filter0_f_9477_7201" x="1.21611" y="1.18682" width="29.5678" height="29.6889" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"> <feFlood flood-opacity="0" result="BackgroundImageFix"/> <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/> <feGaussianBlur stdDeviation="0.644873" result="effect1_foregroundBlur_9477_7201"/> </filter> </defs> </svg>';
         formHtml += "</div>";
+        formHtml += "<div class='header-wp-title'>";
+        formHtml += headerTitle;
+        formHtml += "</div>";
+        formHtml += "<div class='whatsapp-form-close-btn'>";
+        formHtml += '<svg width="15" height="9" viewBox="0 0 15 9" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M1 1L7.31429 8L14 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </svg>';
+        formHtml += "</div>";
+        formHtml += "</div>";
+
+
+        formHtml += "<div class='chaty-whatsapp-body'>";
+        if(!isEmpty(channel.chat_welcome_message)) {
+            if (channel.wp_popup_profile != "") {
+                formHtml += "<div class='chaty-whatsapp-content has-content'>";
+                formHtml += "<div class='wp-profile-img'>";
+                formHtml += "<img src='" + channel.wp_popup_profile + "'>"
+                formHtml += "</div>";
+            } else {
+                formHtml += "<div class='chaty-whatsapp-content'>";
+            }
+            formHtml += "<div class='chaty-whatsapp-message'>";
+            formHtml += "<div class='chaty-whatsapp-message-nickname'>" + channel.wp_popup_nickname + "</div>";
+            formHtml += "<div class='chaty-whatsapp-message-content'></div>";
+            formHtml += "<div class='chaty-whatsapp-message-time'>" + time + "</div>"
+            formHtml += "</div>";
+            formHtml += "</div>";
+        }
         formHtml += "</div>";
         formHtml += "<div class='chaty-whatsapp-footer'>";
-        formHtml += "<form action='" + formAction + "' target='" + formTarget + "' class='whatsapp-chaty-form-" + widgetId + " whatsapp-chaty-form " + (isTrue(channel.is_default_open) ? "add-analytics" : "") + "' data-widget='" + widgetId + "' data-channel='" + channel.channel_type + "'>";
+        formHtml += "<form action='" + formAction + "' target='" + formTarget + "' class='whatsapp-chaty-form-" + widgetId + " whatsapp-chaty-form " + (isTrue(channel.is_default_open) ? "add-analytics" : "") + "' data-widget='" + widgetId + "' data-channel='" + channel.channel_type + "' autocomplete='off'>";
         formHtml += "<div class='chaty-whatsapp-data'>";
-        formHtml += "<div class='chaty-whatsapp-field'>";
-        formHtml += "<label for='csass-whatsapp-label-"+widgetId+"' class='hide-cht-svg-bg' >"+chaty_settings.lang.whatsapp_label+"</label>";
-        formHtml += "<input name='text' type='text' class='csass-whatsapp-input' id='csass-whatsapp-label-"+widgetId+"' />";
-        formHtml += "</div>";
-        formHtml += "<div class='chaty-whatsapp-button'>";
-        formHtml += "<button type='submit' >";
+        formHtml += `<div class='chaty-whatsapp-field ${(isTrue(channel.emoji_picker))?"has_emoji":""}'>`;
+        if(isTrue(channel.emoji_picker)) {
+            formHtml += '<button type="button" class="chaty-wp-emoji-input"><span class="hide-cht-svg-bg">' + chaty_settings.lang.emoji_picker + '</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12 2C6.47 2 2 6.5 2 12C2 14.6522 3.05357 17.1957 4.92893 19.0711C5.85752 19.9997 6.95991 20.7362 8.17317 21.2388C9.38642 21.7413 10.6868 22 12 22C14.6522 22 17.1957 20.9464 19.0711 19.0711C20.9464 17.1957 22 14.6522 22 12C22 10.6868 21.7413 9.38642 21.2388 8.17317C20.7362 6.95991 19.9997 5.85752 19.0711 4.92893C18.1425 4.00035 17.0401 3.26375 15.8268 2.7612C14.6136 2.25866 13.3132 2 12 2ZM15.5 8C15.8978 8 16.2794 8.15804 16.5607 8.43934C16.842 8.72064 17 9.10218 17 9.5C17 9.89782 16.842 10.2794 16.5607 10.5607C16.2794 10.842 15.8978 11 15.5 11C15.1022 11 14.7206 10.842 14.4393 10.5607C14.158 10.2794 14 9.89782 14 9.5C14 9.10218 14.158 8.72064 14.4393 8.43934C14.7206 8.15804 15.1022 8 15.5 8ZM8.5 8C8.89782 8 9.27936 8.15804 9.56066 8.43934C9.84196 8.72064 10 9.10218 10 9.5C10 9.89782 9.84196 10.2794 9.56066 10.5607C9.27936 10.842 8.89782 11 8.5 11C8.10218 11 7.72064 10.842 7.43934 10.5607C7.15804 10.2794 7 9.89782 7 9.5C7 9.10218 7.15804 8.72064 7.43934 8.43934C7.72064 8.15804 8.10218 8 8.5 8ZM12 17.5C9.67 17.5 7.69 16.04 6.89 14H17.11C16.3 16.04 14.33 17.5 12 17.5Z" fill="#CDD9E2"/> </svg></button>';
+        }
+        formHtml += "<input name='text' type='text' id='chaty_whatsapp_input' class='chaty-whatsapp-input' />";
+        formHtml += "<button type='submit' class='chaty-whatsapp-button-button' >";
         formHtml += "<span class='hide-cht-svg-bg'>"+chaty_settings.lang.whatsapp_button+"</span>";
-        formHtml += "<svg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'><path fill='#ffffff' d='M1.101 21.757L23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817-.011 7.912z'></path></svg>";
+        formHtml += '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><g clip-path="url(#clip0_9452_6982)"><path d="M18.5703 9.99996L2.66037 17.6603L5.60665 9.99996L2.66037 2.33963L18.5703 9.99996Z" fill="white" stroke="white" stroke-width="1.6625" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8.24069 9.99947L3.07723 9.99992" stroke="#C6D7E3" stroke-width="1.6625" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clipPath id="clip0_9452_6982"><rect width="20" height="20" fill="white"></rect></clipPath></defs></svg>';
         formHtml += "</button>";
         formHtml += "</div>";
         formHtml += "</div>";
@@ -1792,7 +2307,7 @@
         formHtml += "</div>";
         formHtml += "</div>";
         $("body").append(formHtml);
-        $("#chaty-form-" + widgetId + "-" + channel.channel_type + " .chaty-whatsapp-message").html(channel.chat_welcome_message);
+        $("#chaty-form-" + widgetId + "-" + channel.channel_type + " .chaty-whatsapp-message .chaty-whatsapp-message-content").html(channel.chat_welcome_message);
         if (!isEmpty(channel.pre_set_message)) {
             var preSetMessage = channel.pre_set_message;
             var pageTitle = $("title").text();
@@ -1802,9 +2317,11 @@
                 preSetMessage = preSetMessage.replace(/{title}/g, '');
             }
             preSetMessage = preSetMessage.replace(/{url}/g, window.location);
-            $("#chaty-form-" + widgetId + "-" + channel.channel_type + " .csass-whatsapp-input").val(preSetMessage);
+            $("#chaty-form-" + widgetId + "-" + channel.channel_type + " .chaty-whatsapp-input").val(preSetMessage);
         }
         $("#chaty-form-" + widgetId + "-" + channel.channel_type).show();
+        $("#chaty-form-" + widgetId + "-" + channel.channel_type + " .chaty-whatsapp-input").attr("placeholder", channel.input_placeholder);
+        $("#chaty-form-" + widgetId + "-" + channel.channel_type+" .chaty-whatsapp-header").css("background-color", channel.wp_popup_head_bg_color);
     }
 
     /**
@@ -1852,15 +2369,23 @@
         if (widgetIndex == null) {
             widgetIndex = -1;
         }
+        var qrCodeTitle = !isEmpty(channel.wechat_header)?(channel.wechat_header+": "):"";
+        qrCodeTitle += channel.value;
         formHtml += "<div style='display:none;' class='chaty-outer-forms chaty-wechat-form chaty-form-" + widgetId + "' data-channel='" + channel.channel_type + "' id='chaty-form-" + widgetId + "-" + channel.channel_type + "' data-widget='" + widgetId + "' data-index='" + widgetIndex + "'>";
         formHtml += "<div class='chaty-form'>";
-        formHtml += "<div class='chaty-form-body'>";
-        formHtml += "<div role='button' class='close-chaty-form is-whatsapp-btn'><div class='chaty-close-button'></div></div>";
-        formHtml += "<div class='qr-code-image'><img src='" + channel.qr_code_image_url + "' alt='" + channel.title + "' /></div>";
+        formHtml += "<div class='chaty-form-body qr-code-body'>";
+        formHtml += '<div class="qr-code-header"><div class="qr-code-head-title"><svg width="25" height="22" viewBox="0 0 25 22" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M17.2315 6.81844C17.6918 6.81844 18.1403 6.85385 18.5769 6.91286C17.7744 3.40752 14.092 0.751953 9.66605 0.751953C4.64999 0.751953 0.578125 4.15108 0.578125 8.34096C0.578125 10.7605 1.93541 12.8967 4.04806 14.2894L2.85601 16.6853L6.1135 15.2808C6.80985 15.5287 7.5416 15.7293 8.32057 15.8356C8.21435 15.3753 8.15533 14.9032 8.15533 14.4075C8.14353 10.2294 12.2154 6.81844 17.2315 6.81844ZM12.6875 4.16288C12.8363 4.16288 12.9836 4.19218 13.1211 4.24912C13.2586 4.30607 13.3835 4.38952 13.4887 4.49474C13.5939 4.59995 13.6773 4.72486 13.7343 4.86232C13.7912 4.99979 13.8205 5.14712 13.8205 5.29592C13.8205 5.44471 13.7912 5.59205 13.7343 5.72951C13.6773 5.86698 13.5939 5.99189 13.4887 6.0971C13.3835 6.20231 13.2586 6.28577 13.1211 6.34271C12.9836 6.39965 12.8363 6.42896 12.6875 6.42896C12.387 6.42896 12.0988 6.30958 11.8863 6.0971C11.6738 5.88461 11.5545 5.59642 11.5545 5.29592C11.5545 4.99542 11.6738 4.70722 11.8863 4.49474C12.0988 4.28225 12.387 4.16288 12.6875 4.16288ZM6.63281 6.44076C6.33231 6.44076 6.04412 6.32139 5.83163 6.1089C5.61914 5.89641 5.49977 5.60822 5.49977 5.30772C5.49977 5.00722 5.61914 4.71903 5.83163 4.50654C6.04412 4.29405 6.33231 4.17468 6.63281 4.17468C6.93331 4.17468 7.2215 4.29405 7.43399 4.50654C7.64648 4.71903 7.76585 5.00722 7.76585 5.30772C7.76585 5.60822 7.64648 5.89641 7.43399 6.1089C7.2215 6.32139 6.93331 6.44076 6.63281 6.44076Z" fill="white"/> <path d="M24.7978 14.4102C24.7978 11.0583 21.4105 8.34375 17.2324 8.34375C13.0543 8.34375 9.66699 11.0583 9.66699 14.4102C9.66699 17.7621 13.0543 20.4767 17.2324 20.4767C17.9169 20.4767 18.5779 20.3823 19.2034 20.2407L23.2871 21.9992L21.8708 19.1666C23.6412 18.0572 24.7978 16.3577 24.7978 14.4102ZM14.9545 14.0326C14.7304 14.0326 14.5114 13.9661 14.325 13.8416C14.1387 13.7171 13.9935 13.5401 13.9077 13.3331C13.822 13.1261 13.7995 12.8983 13.8432 12.6785C13.887 12.4587 13.9949 12.2568 14.1533 12.0983C14.3118 11.9399 14.5137 11.832 14.7335 11.7882C14.9533 11.7445 15.1811 11.767 15.3881 11.8527C15.5951 11.9385 15.7721 12.0837 15.8966 12.27C16.0211 12.4564 16.0876 12.6754 16.0876 12.8995C16.0994 13.525 15.58 14.0326 14.9545 14.0326ZM19.4985 14.0326C19.198 14.0326 18.9098 13.9132 18.6973 13.7007C18.4848 13.4882 18.3654 13.2 18.3654 12.8995C18.3654 12.599 18.4848 12.3108 18.6973 12.0983C18.9098 11.8858 19.198 11.7665 19.4985 11.7665C19.799 11.7665 20.0872 11.8858 20.2997 12.0983C20.5121 12.3108 20.6315 12.599 20.6315 12.8995C20.6315 13.2 20.5121 13.4882 20.2997 13.7007C20.0872 13.9132 19.799 14.0326 19.4985 14.0326Z" fill="white"/> </svg>'+qrCodeTitle+'</div><div class="qr-code-hide-btn chaty-close-button"><svg width="15" height="9" viewBox="0 0 15 9" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M1 1L7.31429 8L14 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </svg></div></div>';
+        if(!isEmpty(channel.wechat_qr_code_title)) {
+            formHtml += '<div class="qr-code-title">'+channel.wechat_qr_code_title+':</div>';
+        }
+        formHtml += "<div role='button' class='close-chaty-form is-whatsapp-btn'><div aria-hidden='true' class='chaty-close-button'></div><span class='hide-cht-svg-bg'>"+chaty_settings.lang.hide_whatsapp_form+"</span></div>";
+        formHtml += "<div class='qr-code-box'><div class='qr-code-image'><img src='" + channel.qr_code_image_url + "' alt='" + channel.title + "' /></div>";
         formHtml += "</div>";
         formHtml += "</div>";
         formHtml += "</div>";
         $("body").append(formHtml);
+
+        $("#chaty-form-" + widgetId + "-" + channel.channel_type +" .qr-code-header").css("background-color",channel.wechat_header_color);
     }
 
     /**
@@ -1945,7 +2470,7 @@
      *
      * */
 
-    function checkForchatyTriggers() {
+    function checkForChatyTriggers() {
         if ($(".chaty.auto-hide-chaty").length) {
             chatyHideTimeInterval = setInterval(function () {
                 chatyHideIntervalTime++;
@@ -1954,7 +2479,8 @@
                     var widgetId = $(".chaty.auto-hide-chaty.hide-after-" + currentTime).data("id");
                     $(".chaty-form-" + widgetId).removeClass("active");
                     $(".chaty.auto-hide-chaty.hide-after-" + currentTime).removeClass("active");
-                    $("#chaty-widget-0" + widgetId).removeClass("auto-hide-chaty");
+                    $("#chaty-widget-" + widgetId).removeClass("auto-hide-chaty");
+                    $("body").removeClass("add-bg-blur-effect");
                 }
                 if ($(".chaty.auto-hide-chaty").length == 0) {
                     clearInterval(chatyHideTimeInterval);
@@ -2230,9 +2756,9 @@
         if (widgetRecord.widget_icon == "chat-image") {
             return "<span class='chaty-svg' style='background-color: " + widgetRecord.widget_color + "'><img src='" + widgetRecord.widget_icon_url + "' alt='Chaty Widget' /></span>";
         } else if(widgetRecord.widget_icon == "chat-fa-icon") {
-            return "<span class='chaty-svg' style='background-color: " + widgetRecord.widget_color + "'><i class='" + widgetRecord.widget_fa_icon + " widget-fa-icon' style='color: "+ "#ffffff" +"'></i></span>";
+            return "<span class='chaty-svg' style='background-color: " + widgetRecord.widget_color + "'><i class='" + widgetRecord.widget_fa_icon + " widget-fa-icon' style='color: "+ widgetRecord.widget_icon_color +"'></i></span>";
         } else {
-            return '<span class="chaty-svg">' + getSvgIcon(widgetRecord.widget_icon, widgetRecord.widget_color, "#ffffff", widgetId) + "</span>";
+            return '<span class="chaty-svg">' + getSvgIcon(widgetRecord.widget_icon, widgetRecord.widget_color, widgetRecord.widget_icon_color, widgetId) + "</span>";
         }
     }
 
@@ -2273,7 +2799,7 @@
                     $("#chaty-widget-" + widgetId + " .chaty-i-trigger .chaty-channel .chaty-svg").append("<span class='ch-pending-msg'>" + widgetRecord.pending_mesg_count + "</span>");
                 }
             } else {
-                if (widgetRecord.attention_effect == "jump" || widgetRecord.attention_effect == "waggle" || widgetRecord.attention_effect == "blink" || widgetRecord.attention_effect == "pulse-icon") {
+                if (widgetRecord.attention_effect == "jump" || widgetRecord.attention_effect == "waggle" || widgetRecord.attention_effect == "blink" || widgetRecord.attention_effect == "pulse-icon" || widgetRecord.attention_effect == "floating") {
                     $("#chaty-widget-" + widgetId + " .chaty-i-trigger .chaty-cta-main .chaty-cta-button").append("<span class='ch-pending-msg'>" + widgetRecord.pending_mesg_count + "</span>");
                 } else {
                     $("#chaty-widget-" + widgetId + " .chaty-i-trigger .chaty-cta-main").append("<span class='ch-pending-msg'>" + widgetRecord.pending_mesg_count + "</span>");
@@ -2305,7 +2831,70 @@
      * */
     function checkForDayAndTimeSchedule(widgetRecord) {
         var displayStatus = true;
+        if (isTrue(widgetRecord.triggers.has_day_hours_scheduling_rules) && widgetRecord.triggers.day_hours_scheduling_rules.length > 0) {
+            var displayRules = widgetRecord.triggers.day_hours_scheduling_rules;
+            if (displayRules.length > 0) {
+                displayStatus = false;
+                var localDate = new Date();
+                localDate = changeTimezone(localDate, widgetRecord.triggers.day_time_diff);
+                var utcHours = localDate.getHours();
+                var utcMin = localDate.getMinutes();
+                var utcDay = localDate.getDay();
+                for (var rule = 0; rule < displayRules.length; rule++) {
+                    var hourStatus = 0;
+                    var minStatus = 0;
+                    var checkForTime = 0;
+                    if (displayRules[rule].days == -1) {
+                        checkForTime = 1;
+                    } else if (displayRules[rule].days >= 0 && displayRules[rule].days <= 6) {
+                        if (displayRules[rule].days == utcDay) {
+                            checkForTime = 1;
+                        }
+                    } else if (displayRules[rule].days == 7) {
+                        if (utcDay >= 0 && utcDay <= 4) {
+                            checkForTime = 1;
+                        }
+                    } else if (displayRules[rule].days == 8) {
+                        if (utcDay >= 1 && utcDay <= 5) {
+                            checkForTime = 1;
+                        }
+                    } else if (displayRules[rule].days == 9) {
+                        if (utcDay == 6 || utcDay == 0) {
+                            checkForTime = 1;
+                        }
+                    }
+                    if (checkForTime == 1) {
+                        if (utcHours > displayRules[rule].start_hours && utcHours < displayRules[rule].end_hours) {
+                            hourStatus = 1;
+                        } else if (utcHours == displayRules[rule].start_hours && utcHours < displayRules[rule].end_hours) {
+                            if (utcMin >= displayRules[rule].start_min) {
+                                hourStatus = 1;
+                            }
+                        } else if (utcHours > displayRules[rule].start_hours && utcHours == displayRules[rule].end_hours) {
+                            if (utcMin <= displayRules[rule].end_min) {
+                                hourStatus = 1;
+                            }
+                        } else if (utcHours == displayRules[rule].start_hours && utcHours == displayRules[rule].end_hours) {
+                            if (utcMin >= displayRules[rule].start_min && utcMin <= displayRules[rule].end_min) {
+                                hourStatus = 1;
+                            }
+                        }
+                        if (hourStatus == 1) {
+                            if (utcMin >= displayRules[rule].start_min && utcMin <= displayRules[rule].end_min) {
+                                minStatus = 1;
+                            }
+                        }
+                    }
 
+                    if (hourStatus == 1 && checkForTime == 1) {
+                        displayStatus = 1;
+                    }
+                    if (displayStatus == 1) {
+                        rule = displayRules.length + 1;
+                    }
+                }
+            }
+        }
         return displayStatus;
     }
 
@@ -2377,6 +2966,35 @@
      * */
 
     function checkForTimeSchedule(widgetRecord) {
+        if (widgetRecord.triggers.has_date_scheduling_rules) {
+            var chtStartDate = widgetRecord.triggers.date_scheduling_rules.start_date_time;
+            var chtEndDate = widgetRecord.triggers.date_scheduling_rules.end_date_time;
+
+            var localDate = new Date();
+
+            localDate = changeTimezone(localDate, widgetRecord.triggers.time_diff);
+
+            var currentTime = localDate.getFullYear() + "-" + (addPrefixToNum(localDate.getMonth() + 1)) + "-" + addPrefixToNum(localDate.getDate()) + " " + addPrefixToNum(localDate.getHours()) + ":" + addPrefixToNum(localDate.getMinutes()) + ":" + addPrefixToNum(localDate.getSeconds());
+
+            if (chtEndDate == "") {
+                if (chtStartDate <= currentTime) {
+                    return true;
+                }
+            }
+
+            if (chtStartDate == "") {
+                if (chtEndDate >= currentTime) {
+                    return true;
+                }
+            }
+
+            if (chtStartDate != "" && chtEndDate != "") {
+                if (chtStartDate <= currentTime && chtEndDate >= currentTime) {
+                    return true;
+                }
+            }
+            return false;
+        }
         return true;
     }
 
@@ -2388,6 +3006,14 @@
      *
      * */
     function checkForUserCountry(widgetRecord) {
+        if (isTrue(widgetRecord.triggers.has_countries) && !isEmpty(widgetRecord.triggers.countries) && widgetRecord.triggers.countries.length) {
+            clientCountry = getUserCountry();
+            if (clientCountry != "-") {
+                if ($.inArray(clientCountry, widgetRecord.triggers.countries) == -1) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -2602,12 +3228,10 @@
 
 function launch_chaty(widget_number) {
     if (widget_number == undefined || widget_number == "widget_index") {
-        widget_number = 0;
+        widget_number = 1;
     }
     if (jQuery("#chaty-widget-_"+widget_number).length) {
         jQuery("#chaty-widget-_"+widget_number+" .chaty-cta-button .open-chaty").trigger("click");
-    } else if (jQuery("#chaty-widget-"+widget_number).length) {
-        jQuery("#chaty-widget-"+widget_number+" .chaty-cta-button .open-chaty").trigger("click");
     }
 }
 

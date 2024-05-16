@@ -222,6 +222,7 @@ $cta_type = "simple-view";
         <?php
         $color = $this->get_current_color();
         $color = empty($color) ? '#A886CD' : $color;
+        $color = $this->validate_color($color, '#A886CD');
         ?>
         <div class="form-horizontal__item chaty-widget-color o-channel <?php echo esc_attr($class) ?>">
             <label class="align-top form-horizontal__item-label font-primary text-cht-gray-150 text-base mb-2 block"><?php esc_html_e('Widget icon color', 'chaty'); ?>:</label>
@@ -288,7 +289,10 @@ $cta_type = "simple-view";
                     </div>
 
                     <button class="color-picker-btn text-cht-gray-150">
-                        <?php $color = !empty($color) ? $color : '#A886CD'; ?>
+                        <?php
+                        $color = !empty($color) ? $color : '#A886CD';
+                        $color = $this->validate_color($color, '#A886CD');
+                        ?>
                         <span class="circle" style="background-color: <?php echo esc_attr($color) ?>"></span>
                         <span class="text">
                             <?php
@@ -419,6 +423,7 @@ $cta_type = "simple-view";
                     <?php
                     $val = get_option("cht_cta_text_color");
                     $val = ($val === false) ? "#333333" : $val;
+                    $val = $this->validate_color($val, "#333333");
                     ?>
                     <div class="form-horizontal__item flex items-center gap-2 flex-center">
                         <label class="form-horizontal__item-label font-primary text-base text-cht-gray-150 block"><?php esc_html_e('Call to action text color', 'chaty');?>:</label>
@@ -431,6 +436,7 @@ $cta_type = "simple-view";
                     <?php
                     $val = get_option("cht_cta_bg_color");
                     $val = ($val === false) ? "#ffffff" : $val;
+                    $val = $this->validate_color($val, "#ffffff");
                     ?>
                     <div class="form-horizontal__item flex items-center gap-2 flex-center">
                         <label class="form-horizontal__item-label font-primary text-cht-gray-150 text-base block"><?php esc_html_e('Call to action background', 'chaty');?>:</label>
@@ -446,7 +452,7 @@ $cta_type = "simple-view";
             <input type="hidden" name="cht_google_analytics" value="0" >
             <label class="form-horizontal__item-label text-cht-gray-150 font-primary text-base mb-2 block"><?php esc_html_e('Google Analytics', 'chaty');?>
             <span class="header-tooltip">
-                <span class="header-tooltip-text text-center"><?php echo sprintf(esc_html__('Enable google analytics tracking on the widget clicks. You can %s', 'chaty'),"<a href='https://premio.io/help/chaty/how-do-i-track-chaty-clicks-using-google-analytics/' target='_blank'>".esc_html__("learn more here", "chaty")."</a>") ;?></span>
+                <span class="header-tooltip-text text-center"><?php echo sprintf(esc_html__("Enable google analytics tracking on the widget clicks. You can %1\$s", 'chaty'),"<a href='https://premio.io/help/chaty/how-do-i-track-chaty-clicks-using-google-analytics/' target='_blank'>".esc_html__("learn more here", "chaty")."</a>") ;?></span>
                 <span class="ml-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                         <path d="M8.00004 14.6654C11.6819 14.6654 14.6667 11.6806 14.6667 7.9987C14.6667 4.3168 11.6819 1.33203 8.00004 1.33203C4.31814 1.33203 1.33337 4.3168 1.33337 7.9987C1.33337 11.6806 4.31814 14.6654 8.00004 14.6654Z" stroke="#72777c" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -462,6 +468,35 @@ $cta_type = "simple-view";
                     $checked = get_option('cht_google_analytics');
                     ?>
                     <input data-gramm_editor="false" type="checkbox" name="cht_google_analytics" value="1" <?php checked($checked, 1) ?> <?php echo esc_attr($disabled) ?> >
+                    <span class="chaty-slider round"></span>
+                    <a target="_blank" class="opacity-0 px-5 py-1.5 group-hover:opacity-100 ml-4 pro-btn bg-cht-primary rounded-[6px] text-white hover:text-white" href="<?php echo esc_url($this->getUpgradeMenuItemUrl()); ?>">
+                        <?php esc_html_e('Upgrade to Pro', 'chaty'); ?>
+                    </a>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-horizontal__item flex-center">
+            <input type="hidden" name="cht_google_analytics" value="0" >
+            <label class="form-horizontal__item-label text-cht-gray-150 font-primary text-base mb-2 block"><?php esc_html_e('Background blur effect', 'chaty');?>
+                <div class="html-tooltip top">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M8.00004 14.6654C11.6819 14.6654 14.6667 11.6806 14.6667 7.9987C14.6667 4.3168 11.6819 1.33203 8.00004 1.33203C4.31814 1.33203 1.33337 4.3168 1.33337 7.9987C1.33337 11.6806 4.31814 14.6654 8.00004 14.6654Z" stroke="#72777c" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round">
+                                </path>
+                                <path d="M8 10.6667V8" stroke="#72777c" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M8 5.33203H8.00667" stroke="#72777c" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </span>
+                    <span class="tooltip-text top">
+                            <?php esc_html_e("Blur the background when the widget is in the open state. Useful for drawing the user's attention to the widget.", "chaty") ?>
+                            <img src="<?php echo esc_url(CHT_PLUGIN_URL) ?>/admin/assets/images/blur-screen.png" class="blur-screen-img"/>
+                        </span>
+                </div>
+            </label>
+            <div>
+                <label class="switch group inline-flex">
+                    <input data-gramm_editor="false" type="checkbox" name="cht_bg_blur_effect" value="1" <?php echo esc_attr($disabled) ?> >
                     <span class="chaty-slider round"></span>
                     <a target="_blank" class="opacity-0 px-5 py-1.5 group-hover:opacity-100 ml-4 pro-btn bg-cht-primary rounded-[6px] text-white hover:text-white" href="<?php echo esc_url($this->getUpgradeMenuItemUrl()); ?>">
                         <?php esc_html_e('Upgrade to Pro', 'chaty'); ?>
@@ -512,6 +547,7 @@ $cta_type = "simple-view";
                     ""           => "None",
                     "jump"       => "Bounce",
                     "waggle"     => "Waggle",
+                    "floating"   => "Floating",
                     "sheen"      => "Sheen",
                     "spin"       => "Spin",
                     "fade"       => "Fade",
@@ -573,6 +609,7 @@ $cta_type = "simple-view";
                 <?php
                 $val = get_option("cht_number_color");
                 $val = ($val === false || empty($val)) ? "#ffffff" : $val;
+                $val = $this->validate_color($val, "#ffffff");
                 ?>
                 <div class="form-horizontal__item flex pending-message-items mr-4 float-left items-center gap-2 <?php echo esc_attr($activeClass) ?>">
                     <label class="form-horizontal__item-label font-primary text-cht-gray-150 text-base"><?php esc_html_e('Number color', 'chaty');?>:</label>
@@ -584,6 +621,7 @@ $cta_type = "simple-view";
                 <?php
                 $val = get_option("cht_number_bg_color");
                 $val = ($val === false || empty($val)) ? "#dd0000" : $val;
+                $val = $this->validate_color($val, "#dd0000");
                 ?>
                 <div class="form-horizontal__item flex pending-message-items float-left items-center gap-2 <?php echo esc_attr($activeClass) ?>">
                     <label class="form-horizontal__item-label font-primary text-cht-gray-150 text-base"><?php esc_html_e('Background color', 'chaty');?>:</label>
@@ -617,7 +655,7 @@ $cta_type = "simple-view";
                     <?php $group = '';
                     foreach ($fonts as $key => $value):
                         if ($value != $group) {
-                            echo '<optgroup label="' . $value . '">';
+                            echo '<optgroup label="' . esc_attr($value) . '">';
                             $group = $value;
                         }
                         $key_value = $key;
@@ -631,7 +669,7 @@ $cta_type = "simple-view";
             </div>
         </div>
 
-        <input type="hidden" id="chaty_site_url" value="<?php echo site_url("/") ?>" >
+        <input type="hidden" id="chaty_site_url" value="<?php echo esc_url(site_url("/")) ?>" >
         <?php $requestData = filter_input_array(INPUT_GET); ?>
         <?php if (isset($requestData['page']) && $requestData['page'] == "chaty-widget-settings") { ?>
             <input type="hidden" name="widget" value="new-widget" >

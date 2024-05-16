@@ -21,6 +21,9 @@ if (defined('ABSPATH') === false) {
 
 require_once 'class-social-icons.php';
 
+/**
+ * Admin base class for the Chaty plugin.
+ */
 class CHT_Admin_Base
 {
 
@@ -38,6 +41,13 @@ class CHT_Admin_Base
 
     protected $upgradeSlug;
 
+    /**
+     * Constructor for the class
+     *
+     * @return void
+     * @since  1.0.0
+     * @access public
+     */
     public function __construct()
     {
         $plugin           = CHT_Widget::get_instance();
@@ -85,9 +95,13 @@ class CHT_Admin_Base
         add_action("admin_head", [$this, "admin_head"]);
 
         add_action("admin_init", [$this, "check_for_redirection"]);
-
     }//end __construct()
 
+    /**
+     * Checks for redirection and performs the necessary actions if certain conditions are met.
+     *
+     * @return void
+     */
     function check_for_redirection() {
         if(!defined("DOING_AJAX")) {
             $chaty_status = get_option("cht_redirect");
@@ -110,6 +124,13 @@ class CHT_Admin_Base
         }
     }
 
+    /**
+     * Add custom CSS to the wp-admin head section
+     *
+     * @return void
+     * @since  1.0.0
+     * @access public
+     */
     function admin_head() {
         ?>
         <style>
@@ -120,12 +141,20 @@ class CHT_Admin_Base
         <?php
     }
 
+
     /**
-     * To hide CTA Text
+     * Hide the Chaty CTA
      *
-     * @since  1.0.0
+     * This function is used to hide the Chaty Call-To-Action (CTA) based on the provided input.
+     * It checks the validity of the request by verifying the nonce value.
+     * If the request is valid, it sets the "hide_chaty_cta" option to "yes" and returns a success response.
+     * If the request is not valid, it returns an error response.
+     *
+     * @return void
+     * @global array $_POST The input data received via POST request
+     * @global WP_REST_Response $response The JSON response object
+     * @since  Version 1.0.0
      * @access public
-     * @return $links
      */
     function hide_chaty_cta()
     {
@@ -153,12 +182,16 @@ class CHT_Admin_Base
         wp_send_json($response); die;
     }
 
+
     /**
-     * Append extra links on plugin page
+     * Add custom links to the plugin action links on the plugin page
      *
+     * @param array $links An array of plugin action links.
+     *
+     * @return array The modified plugin action links.
      * @since  1.0.0
      * @access public
-     * @return $links
+     *
      */
     public function plugin_action_links($links)
     {
@@ -170,11 +203,11 @@ class CHT_Admin_Base
 
 
     /**
-     * Sends data premio why plugin is deactivated
+     * Deactivate the Chaty plugin.
      *
-     * @since  1.0.0
+     * @return void
+     * @since 1.0.0
      * @access public
-     * @return $response
      */
     public function chaty_plugin_deactivate()
     {
@@ -281,11 +314,12 @@ class CHT_Admin_Base
 
 
     /**
-     * Sanitize the input data
+     * Sanitize options value
      *
+     * @param mixed $value The value to be sanitized
+     * @return mixed The sanitized value
      * @since  1.0.0
      * @access public
-     * @return $value
      */
     public static function chaty_sanitize_options($value)
     {
@@ -298,11 +332,15 @@ class CHT_Admin_Base
 
 
     /**
-     * Add deactivate popup on plugin page
+     * Add deactivate modal to the plugin's settings page
      *
+     * This function is responsible for checking if the current user has the capability to manage options. If the user
+     * has the capability, it checks if the current page is the plugins.php page. If it is, it includes the chaty-deactivate-form.php
+     * file in order to display the deactivate modal.
+     *
+     * @return void
      * @since  1.0.0
      * @access public
-     * @return $popupHtml
      */
     public function add_deactivate_modal()
     {
@@ -318,12 +356,16 @@ class CHT_Admin_Base
 
     }//end add_deactivate_modal()
 
+
     /**
-     * Remove _ from strings
+     * Remove underscores and replace them with spaces in a given text
      *
-     * @since  1.0.0
+     * @param string $text The text to remove underscores from
+     *
+     * @return string The modified text with spaces instead of underscores
+     * @since 1.0.0
      * @access public
-     * @return $text
+     *
      */
     public function del_space($text)
     {
@@ -333,15 +375,14 @@ class CHT_Admin_Base
 
 
     /**
-     * Appends inline CSS to WP header
+     * Generate inline CSS for admin menu styling
      *
-     * @since  1.0.0
-     * @access public
-     * @return $css
+     * @return string Inline CSS for admin menu styling
+     * @since 1.0.0
+     *
      */
     public function cht_inline_css_admin()
     {
-        ob_start();
         ?>
         <style>
             #toplevel_page_chaty-app img:hover, #toplevel_page_chaty-app img {
@@ -363,26 +404,26 @@ class CHT_Admin_Base
             }
         </style>
         <?php
-        echo ob_get_clean();
-
     }//end cht_inline_css_admin()
 
 
     /**
-     * Enqueue CSS to wp-admin
+     * Enqueues CSS styles for a specific page in wp-admin.
      *
-     * @since  1.0.0
-     * @access public
-     * @return $styles
+     * @param string $page The page name to enqueue styles for.
+     *
+     * @return void
+     * @since 1.0.0
+     *
      */
     public function enqueue_styles($page)
     {
-        if ($page == 'toplevel_page_chaty-app' || $page == 'chaty_page_chaty-contact-form-feed' || $page == 'chaty_page_widget-analytics' || $page == "chaty_page_chaty-upgrade") {
+        if ($page == 'toplevel_page_chaty-app' || $page == 'chaty_page_chaty-contact-form-feed' || $page == "chaty_page_chaty-upgrade") {
             $queryArgs = [
                 'family' => 'Rubik:400,700|Oswald:400,600',
                 'subset' => 'latin,latin-ext',
             ];
-            wp_enqueue_style('google_fonts', add_query_arg($queryArgs, "//fonts.googleapis.com/css"), [], null);
+            wp_enqueue_style('google_fonts', add_query_arg($queryArgs, "//fonts.googleapis.com/css"), [], CHT_VERSION);
             wp_enqueue_style($this->pluginSlug.'spectrum', plugins_url('../admin/assets/css/spectrum.min.css', __FILE__), [], CHT_VERSION);
             wp_enqueue_style($this->pluginSlug.'intlTelInput', plugins_url('../admin/assets/css/intlTelInput.min.css', __FILE__), [], CHT_VERSION);
             wp_enqueue_style($this->pluginSlug. 'sumoselect', plugins_url('../admin/assets/css/sumoselect.css', __FILE__), [], CHT_VERSION);
@@ -401,7 +442,7 @@ class CHT_Admin_Base
                 'family' => 'Poppins:400,700',
                 'subset' => 'latin,latin-ext',
             ];
-            wp_enqueue_style('google-chaty-fonts', add_query_arg($queryArgs, "//fonts.googleapis.com/css"), [], null);
+            wp_enqueue_style('google-chaty-fonts', add_query_arg($queryArgs, "//fonts.googleapis.com/css"), [], CHT_VERSION);
         }
 
         if($page == "chaty_page_chaty-app-upgrade") {
@@ -410,28 +451,26 @@ class CHT_Admin_Base
                 'family' => 'Poppins:wght@400;500;600;700&display=swap',
                 'subset' => 'latin,latin-ext',
             ];
-            wp_enqueue_style('google-poppins-fonts', add_query_arg($queryArgs, "//fonts.googleapis.com/css2"), [], null);
+            wp_enqueue_style('google-poppins-fonts', add_query_arg($queryArgs, "//fonts.googleapis.com/css2"), [], CHT_VERSION);
         }
 
     }//end enqueue_styles()
 
+
     /**
-     * Enqueue CSS to wp-admin for Pricing table
+     * Enqueues pricing styles for the plugin.
      *
-     * @since  1.0.0
-     * @access public
-     * @return $style
+     * @return void
      */
     public function enqueue_pricing_styles()
     {
         wp_enqueue_style($this->pluginSlug."-select2", plugins_url('../admin/assets/css/select2.min.css', __FILE__), [], CHT_VERSION);
-        wp_enqueue_style($this->pluginSlug."-pricing", plugins_url('../admin/assets/css/admin-setting.css', __FILE__), [], CHT_VERSION);
 
         $queryArgs = [
             'family' => 'Lato:100,300,400,500,700',
             'subset' => 'latin,latin-ext',
         ];
-        wp_enqueue_style('google-lato-fonts', add_query_arg($queryArgs, "//fonts.googleapis.com/css"), [], null);
+        wp_enqueue_style('google-lato-fonts', add_query_arg($queryArgs, "//fonts.googleapis.com/css"), [], CHT_VERSION);
 
     }//end enqueue_pricing_styles()
 
@@ -451,12 +490,13 @@ class CHT_Admin_Base
         }
 
         if($page == "chaty_page_chaty-app-upgrade") {
-            wp_enqueue_script($this->pluginSlug.'slick-script', plugins_url('../admin/assets/js/slick.min.js', __FILE__), ['jquery'], CHT_VERSION);
+            wp_enqueue_script($this->pluginSlug.'slick-script', plugins_url('../admin/assets/js/slick.min.js', __FILE__), ['jquery'], CHT_VERSION, true);
         }
 
         // delete_option("chaty_update_message");
         $isShown = get_option("chaty_update_message");
         if ($isShown === false) {
+            wp_enqueue_script($this->pluginSlug.'mailcheck', plugins_url('../admin/assets/js/mailcheck.js', __FILE__), ['jquery'], CHT_VERSION, true);
             return;
         }
 
@@ -464,16 +504,22 @@ class CHT_Admin_Base
             return;
         }
 
-        wp_enqueue_script($this->pluginSlug.'spectrum', plugins_url('../admin/assets/js/spectrum.min.js', __FILE__), ['jquery'], CHT_VERSION);
-        wp_enqueue_script($this->pluginSlug.'sumoselect', plugins_url('../admin/assets/js/sumoselect.js', __FILE__), ['jquery'], CHT_VERSION);
-        wp_enqueue_script($this->pluginSlug.'intlTelInput', plugins_url('../admin/assets/js/intlTelInput.min.js', __FILE__), ['jquery'], CHT_VERSION);
+        wp_enqueue_script($this->pluginSlug.'spectrum', plugins_url('../admin/assets/js/spectrum.min.js', __FILE__), ['jquery'], CHT_VERSION, true);
+        wp_enqueue_script($this->pluginSlug.'sumoselect', plugins_url('../admin/assets/js/sumoselect.js', __FILE__), ['jquery'], CHT_VERSION, true);
+        wp_enqueue_script($this->pluginSlug.'intlTelInput', plugins_url('../admin/assets/js/intlTelInput.min.js', __FILE__), ['jquery'], CHT_VERSION, true);
 
         // WP change this
         wp_enqueue_editor();
-        wp_enqueue_script($this->pluginSlug.'chaty', plugins_url('../admin/assets/js/cht-scripts.min.js', __FILE__), ['jquery', 'wp-color-picker', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-hooks'], CHT_VERSION);
-        wp_enqueue_script($this->pluginSlug.'preview', plugins_url('../admin/assets/js/preview.min.js', __FILE__), ['jquery'], CHT_VERSION);
-        wp_enqueue_script($this->pluginSlug.'acolorpicker', plugins_url('../admin/assets/js/acolorpicker.js', __FILE__), ['jquery'], CHT_VERSION);
-        wp_enqueue_script($this->pluginSlug.'widget-script', plugins_url('../admin/assets/js/app.js', __FILE__), ['jquery', 'wp-hooks'], CHT_VERSION);
+        wp_enqueue_media();
+        wp_enqueue_script($this->pluginSlug.'chaty', plugins_url('../admin/assets/js/cht-scripts.min.js', __FILE__), ['jquery', 'wp-color-picker', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-hooks'], CHT_VERSION, true);
+        wp_enqueue_script($this->pluginSlug.'preview', plugins_url('../admin/assets/js/preview.min.js', __FILE__), ['jquery'], CHT_VERSION, true);
+        wp_enqueue_script($this->pluginSlug.'acolorpicker', plugins_url('../admin/assets/js/acolorpicker.js', __FILE__), ['jquery'], CHT_VERSION, true);
+        wp_enqueue_script($this->pluginSlug.'widget-script', plugins_url('../admin/assets/js/app.js', __FILE__), ['jquery', 'wp-hooks'], CHT_VERSION, true);
+
+        wp_enqueue_script($this->pluginSlug. 'picmo-js', plugins_url('../admin/assets/js/picmo-umd.min.js', __FILE__), array('jquery'), CHT_VERSION, true);
+        wp_enqueue_script($this->pluginSlug. 'picmo-latest-js', plugins_url('../admin/assets/js/picmo-latest-umd.min.js', __FILE__), array('jquery'), CHT_VERSION, true);
+
+
         wp_localize_script(
             $this->pluginSlug.'chaty',
             'cht_nonce_ajax',
@@ -481,7 +527,8 @@ class CHT_Admin_Base
                 'cht_nonce' => wp_create_nonce('cht_nonce_ajax'),
                 'has_js_access' => current_user_can("unfiltered_html")?true:false,
                 'js_message' => esc_html__("Please remove the JavaScript from the channels or ask the website's administrator to give you access to add JavaScript.", "chaty"),
-                'remove' => esc_html__("Remove", "chaty")
+                'remove' => esc_html__("Remove", "chaty"),
+                'icon_img' => esc_url(CHT_PLUGIN_URL."admin/assets/images/icon-picker.png")
             ]
         );
         $whatsapp_settings = [];
@@ -495,19 +542,38 @@ class CHT_Admin_Base
             [
                 'plugin_url'       => CHT_PLUGIN_URL,
                 'channel_settings' => $whatsapp_settings,
+                'user_country' => $this->get_user_country()
             ]
         );
-
-
 
     }//end enqueue_scripts()
 
     /**
-     * Add chaty menu items
+     * Retrieves the user's country based on their IP address.
      *
-     * @since  1.0.0
-     * @access public
-     * @return $menu
+     * @return string The user's country code, or "-" if not available.
+     */
+    public function get_user_country() {
+        $user_country = get_transient("chaty_user_country");
+        if($user_country === false ){
+            $url = "https://www.cloudflare.com/cdn-cgi/trace";
+            $data = wp_remote_get($url);
+            $user_country = "-";
+            if(!empty($data)) {
+                $data_code = explode('loc=', $data['body']);
+                $data_code = explode('tls=', $data_code[1]);
+                $user_country = isset($data_code[0])?trim($data_code[0]):"-";
+            }
+            set_transient("chaty_user_country", $user_country, 7*DAY_IN_SECONDS);
+        }
+        $user_country = !empty($user_country)?strtolower($user_country):"-";
+        return $user_country;
+    }
+
+    /**
+     * Displays the Chaty admin setting page.
+     *
+     * @return void
      */
     public function cht_admin_setting_page()
     {
@@ -545,6 +611,18 @@ class CHT_Admin_Base
                 [
                     $this,
                     "chaty_widget_page",
+                ]
+            );
+
+            $integrationPage = add_submenu_page(
+                $this->pluginSlug,
+                esc_attr__('Settings Admin', 'chaty'),
+                esc_attr__('Integrations', 'chaty'),
+                'manage_options',
+                "chaty-integration",
+                [
+                    $this,
+                    "chaty_integration_page",
                 ]
             );
 
@@ -621,11 +699,9 @@ class CHT_Admin_Base
     }//end cht_admin_setting_page()
 
     /**
-     * Contact form list
+     * Includes the necessary files for the contact form feed functionality.
      *
-     * @since  1.0.0
-     * @access public
-     * @return $leads
+     * @return void
      */
     public function chaty_contact_form_feed()
     {
@@ -637,17 +713,27 @@ class CHT_Admin_Base
 
 
     /**
-     * Display recommended plugins
+     * Includes the recommended plugins view.
      *
-     * @since  1.0.0
-     * @access public
-     * @return $plugins
+     * @return void
      */
     public function recommended_plugins()
     {
         include_once CHT_DIR.'/views/admin/recommended-plugins.php';
 
     }//end recommended_plugins()
+
+
+    /**
+     * Display integration setting
+     *
+     * @since  1.0.0
+     * @access public
+     */
+    public function chaty_integration_page() {
+        include_once CHT_DIR.'/views/admin/chaty-admin-integration.php';
+        include_once CHT_DIR.'/views/admin/help.php';
+    }// end chaty_integration_page()
 
 
     /**
@@ -746,7 +832,7 @@ class CHT_Admin_Base
             if (isset($_GET['widget'])) { ?>
                 <div class="toast-message bottom-pos">
                     <div class="toast-close-btn"><a href="javascript:;"></a></div>
-                    <div class="toast-message-body">Your settings has been saved. <a href="<?php echo admin_url("admin.php?page=chaty-app") ?>">View Dashboard</a></div>
+                    <div class="toast-message-body">Your settings has been saved. <a href="<?php echo esc_url(admin_url("admin.php?page=chaty-app")) ?>">View Dashboard</a></div>
                 </div>
             <?php } else { ?>
                 <div class="toast-message">
@@ -770,7 +856,7 @@ class CHT_Admin_Base
      */
     public function display_cht_admin_upgrade_page()
     {
-        wp_enqueue_script($this->pluginSlug.'select2-js', plugins_url('../admin/assets/js/select2.min.js', __FILE__), ['jquery'], CHT_VERSION);
+        wp_enqueue_script($this->pluginSlug.'select2-js', plugins_url('../admin/assets/js/select2.min.js', __FILE__), ['jquery'], CHT_VERSION, true);
         include_once CHT_DIR.'/views/admin/upgrade.php';
         include_once CHT_DIR.'/views/admin/help.php';
 
@@ -806,11 +892,9 @@ class CHT_Admin_Base
     }//end get_site()
 
     /**
-     * Get current color for widget
+     * Gets the current color for the plugin.
      *
-     * @since  1.0.0
-     * @access public
-     * @return $color
+     * @return string The current color in uppercase.
      */
     public function get_current_color()
     {
@@ -829,11 +913,9 @@ class CHT_Admin_Base
 
 
     /**
-     * Checking for widget position
+     * Retrieves the position style for the plugin.
      *
-     * @since  1.0.0
-     * @access public
-     * @return $position
+     * @return string The CSS style string for the position.
      */
     public function get_position_style()
     {
@@ -859,11 +941,9 @@ class CHT_Admin_Base
     }//end get_position_style()
 
     /**
-     * Register input data for settings
+     * Registers inputs for the plugin.
      *
-     * @since  1.0.0
-     * @access public
-     * @return $data
+     * @return void
      */
     public function cht_register_inputs()
     {
@@ -878,56 +958,66 @@ class CHT_Admin_Base
 
         if (current_user_can("manage_options")) {
             global $wpdb;
-            $tableName = $wpdb->prefix.'chaty_contact_form_leads';
-
+            $table_name = $wpdb->prefix . 'chaty_contact_form_leads';
             $postData = filter_input_array(INPUT_GET);
-            if (isset($postData['remove_chaty_leads'])) {
-                if (wp_verify_nonce($postData['remove_chaty_leads'], "remove_chaty_leads")) {
-                    if (isset($postData['chaty_leads']) && !empty($postData['chaty_leads'])) {
-                        if (isset($postData['action']) && $postData['action'] == "delete_message") {
-                            $chaty_leads = $postData['chaty_leads'];
-
-                            if (!empty($chaty_leads)) {
-                                if ($chaty_leads == "remove-all") {
-                                    $wpdb->query("TRUNCATE TABLE {$tableName}");
-                                } else {
-                                    if(!is_array($chaty_leads)) {
-                                        $chaty_leads = explode(",", $chaty_leads);
-                                    }
-                                    foreach($chaty_leads as $id) {
-                                        $wpdb->delete($tableName, ['id' => $id]);
+            if(isset($postData['remove_chaty_leads'])) {
+                if(wp_verify_nonce($postData['remove_chaty_leads'], "remove_chaty_leads")) {
+                    if(isset($postData['chaty_leads']) && !empty($postData['chaty_leads'])) {
+                        if(isset($postData['action']) && $postData['action'] == "delete_message") {
+                            $chatyLeads = esc_attr($postData['chaty_leads']);
+                            if($chatyLeads == "remove-all") {
+                                $wpdb->query("TRUNCATE TABLE {$table_name}");
+                            } else {
+                                $chatyLeads = explode(",", $chatyLeads);
+                                if ($chatyLeads) {
+                                    foreach ($chatyLeads as $chatyLead) {
+                                        $wpdb->delete($table_name, ["id" => esc_sql($chatyLead)]);
                                     }
                                 }
+                            }
 
-                                $paged  = isset($postData['paged']) && !empty($postData['paged']) && is_numeric($postData['paged']) && $postData['paged'] > 0 ? $postData['paged'] : 1;
-                                $search = isset($postData['search']) && !empty($postData['search']) ? $postData['search'] : "";
-                                $url    = admin_url("admin.php?page=chaty-contact-form-feed");
-                                if (intval($paged) > 1) {
-                                    $url .= "&paged=".$paged;
-                                }
-
-                                if (!empty($search)) {
-                                    $url .= "&search=".$search;
-                                }
-
-                                wp_redirect($url);
-                                exit;
-                            }//end if
-                        }//end if
-                    }//end if
-                }//end if
-            }//end if
+                            $paged = isset($postData['paged']) && !empty($postData['paged']) && is_numeric($postData['paged']) && $postData['paged'] > 0 ? $postData['paged'] : 1;
+                            $search = isset($postData['search']) && !empty($postData['search']) ? $postData['search'] : "";
+                            $url = admin_url("admin.php?page=chaty-contact-form-feed");
+                            if (intval($paged) > 1) {
+                                $url .= "&paged=" . $paged;
+                            }
+                            if (!empty($search)) {
+                                $url .= "&search=" . $search;
+                            }
+                            wp_redirect($url);
+                            exit;
+                        }
+                    }
+                }
+            }
 
             $postData = filter_input_array(INPUT_GET);
             if (isset($postData['download_chaty_file']) && $postData['download_chaty_file'] == "chaty_contact_leads" && isset($postData['nonce'])) {
                 if (wp_verify_nonce($postData['nonce'], "download_chaty_contact_leads")) {
                     $uploadDir = wp_upload_dir();
                     $file      = $uploadDir['basedir']."/chaty_contact_leads.csv";
-                    $fp        = fopen($file, "w") or die("Error Couldn't open {$file} for writing!");
+                    $fp        = fopen($file, "w") or die("Error Couldn't open for writing!");
 
                     global $wpdb;
                     $contactListsTable = $wpdb->prefix.'chaty_contact_form_leads';
                     $results           = $wpdb->get_results("SELECT * FROM ".$contactListsTable." ORDER BY ID DESC");
+
+                    if(!empty($results)) {
+                        $fields = array(
+                            esc_html__("id", "chaty"),
+                            esc_html__("Widget", "chaty"),
+                            esc_html__("Name", "chaty"),
+                            esc_html__("Email", "chaty"),
+                            esc_html__("Phone number", "chaty"),
+                            esc_html__("Message", "chaty"),
+                            esc_html__("Date", "chaty"),
+                            esc_html__("Reference Page", "chaty")
+                        );
+
+                        fputcsv($fp, $fields);
+                    }
+
                     foreach ($results as $res) {
                         if ($res->widget_id == 0) {
                             $widgetName = "Default";
@@ -943,6 +1033,7 @@ class CHT_Admin_Base
                             $widgetName,
                             $res->name,
                             $res->email,
+                            $res->phone_number,
                             nl2br($res->message),
                             $res->created_on,
                             $res->ref_page,
@@ -953,7 +1044,7 @@ class CHT_Admin_Base
 
                     fclose($fp);
 
-                    $file_content = file_get_contents($file);
+                    $file_content = wp_remote_get($file);
                     header("Content-Disposition: attachment; filename=".basename($file));
                     header("Content-Length: ".filesize($file));
                     header("Content-Type: application/octet-stream;");
@@ -1205,11 +1296,9 @@ class CHT_Admin_Base
     }//end getCallToAction()
 
     /**
-     * Returns Font lists
+     * Returns a list of fonts.
      *
-     * @since  1.0.0
-     * @access public
-     * @return $fonts
+     * @return array The list of fonts.
      */
     public static function get_font_list()
     {
@@ -2244,7 +2333,7 @@ class CHT_Admin_Base
         $response['errors']  = [];
         $response['message'] = "";
         $errorArray          = [];
-        $errorMessage        = esc_attr__("%s is required", 'chaty');
+        $errorMessage        = esc_html__("%1\$s is required", 'chaty');
 
         $textareaText = filter_input(INPUT_POST, 'textarea_text');
         $userEmail    = filter_input(INPUT_POST, 'user_email');
@@ -2346,6 +2435,12 @@ class CHT_Admin_Base
 
     }//end wcp_admin_send_message_to_owner()
 
+    /**
+     * Cleans a string and returns only the numbers.
+     *
+     * @param string $string The string to be cleaned.
+     * @return string The cleaned string with only numbers.
+     */
     function cleanStringForNumbers($string) {
         if(!empty($string)) {
             $string = trim($string);
@@ -2362,44 +2457,76 @@ class CHT_Admin_Base
         return $string;
     }
 
+    /**
+     * Validates a color value and returns it if it matches the given formats.
+     *
+     * @param string $color The color value to validate.
+     * @param string $default_color (optional) The default color value to return if the given color is invalid.
+     * @return string The validated color value, or the default color value if the given color is invalid.
+     */
+    function validate_color($color, $default_color = "") {
+        if( preg_match('/^#[a-f0-9]{6}$/i', $color)) {
+            return $color;
+        } else {
+            // Check if it's a RGB color
+            $rgbPattern = '/^rgb\(\s*(2[0-5]{2}|1\d{2}|[1-9]\d|\d)\s*,\s*(2[0-5]{2}|1\d{2}|[1-9]\d|\d)\s*,\s*(2[0-5]{2}|1\d{2}|[1-9]\d|\d)\s*\)$/i';
+            if(preg_match($rgbPattern, $color)) {
+                return $color;
+            }
+
+            // Check if it's a RGBA color
+            $rgbaPattern = '/^rgba\((\s*0*(?:1?[1-9]?\d|2[0-4]\d|25[0-5])\s*,\s*?){3}\s*0*(?:0(\.\d+)?|1(\.0+)?)\s*\)$/';
+            if(preg_match($rgbaPattern, $color)) {
+                return $color;
+            }
+        }
+        return $default_color;
+    }
+
 
 }//end class
 
 new CHT_Admin_Base();
 
+/**
+ * Updates options and redirects to relevant admin page.
+ *
+ * @param mixed $old_value The old option value.
+ * @param mixed $value The new option value to be updated to.
+ *
+ * @return void
+ */
 add_action('update_option_chaty_updated_on', function ($old_value, $value) {
+    $show_first = get_option("show_first_chaty_box");
+    if ($show_first === false) {
+        add_option("show_first_chaty_box", 1);
+    }
 
-        $show_first = get_option("show_first_chaty_box");
-        if ($show_first === false) {
-            add_option("show_first_chaty_box", 1);
+    delete_option("cht_is_default_deleted");
+
+    if ($old_value != $value) {
+        $post_data = filter_input_array(INPUT_POST);
+        $step      = isset($post_data['current_step']) && is_numeric($post_data['current_step']) ? $post_data['current_step'] : 1;
+        if (!in_array($step, [0,1,2])) {
+            $step = 0;
         }
 
-        delete_option("cht_is_default_deleted");
-
-        if ($old_value != $value) {
-            $post_data = filter_input_array(INPUT_POST);
-            $step      = isset($post_data['current_step']) && is_numeric($post_data['current_step']) ? $post_data['current_step'] : 1;
-            if (!in_array($step, [0,1,2])) {
-                $step = 0;
+        if (isset($post_data['save_button'])) {
+            if (empty($widgetIndex)) {
+                $widgetIndex = 0;
             }
 
-            if (isset($post_data['save_button'])) {
-                if (empty($widgetIndex)) {
-                    $widgetIndex = 0;
-                }
-
-                wp_safe_redirect(admin_url("admin.php?page=chaty-app&show_message=1&step=".$step."&widget=".$widgetIndex));
-                exit;
-            } else {
-                $buttonType = isset($post_data['button_type'])?$post_data['button_type']:1;
-                if($buttonType == 1) {
-                    wp_safe_redirect(admin_url("admin.php?page=chaty-app&show_message=1&step=".$step."&widget=0"));
-                    exit;
-                }
-            }
-
-            wp_safe_redirect(admin_url("admin.php?page=chaty-app&show_message=1"));
+            wp_safe_redirect(admin_url("admin.php?page=chaty-app&show_message=1&step=".$step."&widget=".$widgetIndex));
             exit;
+        } else {
+            $buttonType = isset($post_data['button_type'])?$post_data['button_type']:1;
+            if($buttonType == 1) {
+                wp_safe_redirect(admin_url("admin.php?page=chaty-app&show_message=1&step=".$step."&widget=0"));
+                exit;
+            }
         }
-    },10,2
-);
+
+        wp_safe_redirect(admin_url("admin.php?page=chaty-app&show_message=1"));
+        exit;
+    }
+},10,2);

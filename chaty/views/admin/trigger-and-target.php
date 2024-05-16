@@ -246,7 +246,7 @@ if($hasWooCommerce) {
                                 <div class="select-box">
                                     <label class="font-primary text-cht-gray-150 text-base block mb-2"><?php esc_html_e('Timezone', 'chaty');?></label>
                                     <select class="select2-box font-primary text-cht-gray-150 text-base" name="cht_date_rules[timezone]" id="cht_date_rules_time_zone">
-                                        <?php echo chaty_timezone_choice($timezone, true);?>
+                                        <?php echo esc_attr(chaty_timezone_choice($timezone, true)); ?>
                                     </select>
                                 </div>
                                 
@@ -356,7 +356,7 @@ if($hasWooCommerce) {
                                     <div class="day-label col-span-2">
                                         <label class="block font-primary text-base text-cht-gray-150 mb-1.5"><?php esc_html_e("GMT", "chaty") ?></label>
                                         <select class="cht-free-required gmt-data w-full text-cht-gray-150" id="url_shown_on___count___option">
-                                            <?php echo chaty_timezone_choice("", false) ?>
+                                            <?php echo esc_attr(chaty_timezone_choice("", false)) ?>
                                         </select>
                                     </div>
                                 </div>
@@ -622,8 +622,8 @@ if($hasWooCommerce) {
     <?php
     $chaty_updated_on = get_option("chaty_updated_on");
     if($chaty_updated_on === false) {
-        add_option("chaty_updated_on" , date("Y-m-d"));
+        add_option("chaty_updated_on" , gmdate("Y-m-d"));
     }
     ?>
-    <input type="hidden" name="chaty_updated_on" value="<?php echo time(); ?>">
+    <input type="hidden" name="chaty_updated_on" value="<?php echo esc_attr(time()); ?>">
 </section>

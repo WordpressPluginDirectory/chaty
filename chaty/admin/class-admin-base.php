@@ -2469,13 +2469,13 @@ class CHT_Admin_Base
             return $color;
         } else {
             // Check if it's a RGB color
-            $rgbPattern = '/^rgb\(\s*(2[0-5]{2}|1\d{2}|[1-9]\d|\d)\s*,\s*(2[0-5]{2}|1\d{2}|[1-9]\d|\d)\s*,\s*(2[0-5]{2}|1\d{2}|[1-9]\d|\d)\s*\)$/i';
+            $rgbPattern = "/^rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)$/";
             if(preg_match($rgbPattern, $color)) {
                 return $color;
             }
 
             // Check if it's a RGBA color
-            $rgbaPattern = '/^rgba\((\s*0*(?:1?[1-9]?\d|2[0-4]\d|25[0-5])\s*,\s*?){3}\s*0*(?:0(\.\d+)?|1(\.0+)?)\s*\)$/';
+            $rgbaPattern = "/^rgba\((\d{1,3}), (\d{1,3}), (\d{1,3}), (0(\.\d{1,2})?|1)\)$/";
             if(preg_match($rgbaPattern, $color)) {
                 return $color;
             }

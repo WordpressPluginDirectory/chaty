@@ -6157,3 +6157,132 @@ span.header-tooltip.header-icon-tooltip span.header-tooltip-text:before {
 .number-list a:hover {
     background-color: rgba(183, 141, 235, .15);
 }
+
+
+.add-chatyway-icon svg {
+    margin-left: 0 !important;
+    width: 100% !important;
+    margin-right: 0.5rem;
+}
+.add-chatyway-icon svg path {
+    fill: revert-layer !important;
+}
+.brd-cht-blue {
+    border-color: #0446de !important;
+}
+.brd-cht-blue:focus {
+    background-color: rgb(243 244 246/var(--tw-bg-opacity)) !important;
+    color: rgb(73 104 126/var(--tw-text-opacity)) !important;
+}
+.chatyway-popup-box {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+.chatyway-popup-box-title {
+    margin-top: 0;
+    font-size: 28px;
+    max-width: 450px;
+    font-weight: 500;
+    color: #49687E;
+    line-height: 39.2px;
+}
+#chatyway-info-popup .chaty-popup-inner {
+    width: 630px;
+}
+.chatyway-popup-box-logo {
+    margin-bottom: 10px;
+}
+.chatyway-popup-box-desc {
+    color: #49687E;
+    width: 100%;
+    max-width: 400px;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 1rem 0 10px 0;
+    font-weight: 400;
+}
+.chatyway-popup-box-img {
+    width: 100%;
+    max-width: 350px;
+    margin-inline: auto;
+    margin-top: 1rem;
+}
+.chatyway-popup-box-btn {
+    margin-top: 30px;
+}
+.chatyway-popup-box-btn a {
+    align-items: center;
+    background-color: #0446DE;
+    border-radius: 6px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: Rubik, sans-serif;
+    font-size: 1rem;
+    height: 40px;
+    outline: 0;
+    padding: 0 3rem;
+    font-weight: 400;
+    transition: all .15s ease-in-out;
+}
+.chatyway-popup-box-btn a:hover {
+    background-color: #082e87;
+    box-shadow: 0 12px 19px 0 rgb(141 173 255 / 40%);
+}
+.chatyway-popup-box-btn a svg {
+    margin-left: 5px;
+    height: 10px;
+}
+.action-dropdown .w-36 {
+    width: 10rem;
+}
+.chaty-setting-form hr {
+    margin: 20px 0;
+}
+.chatway-info-box .chatway-info-title {
+    margin-top: 2rem;
+    margin-bottom: 0;
+    font-size: 20px;
+    font-weight: 500;
+    position: relative;
+    line-height: 20px;
+    margin-left: 10px;
+    color: #49687E;
+}
+.chatway-info-box .chatway-info-title:before {
+    border-radius: 4px;
+    content: "";
+    width: 4px;
+    height: 80%;
+    color: #b78deb;
+    background-color: #b78deb;
+    position: absolute;
+    left: -10px;
+    top: 10%;
+}
+.chatway-info-box .chatway-info-desc {
+    color: #83A1B7;
+    font-size: 14px;
+    line-height: 21px;
+    margin: 10px 0;
+    font-weight: 400;
+}
+.chatway-info-box .chatway-info-btn {
+    width: max-content;
+}
+.chatway-info-box .chatway-info-btn a.brd-cht-blue {
+    border-color: rgb(156 163 175/var(--tw-border-opacity)) !important;
+    background-color: transparent;
+    padding: 10px 15px 10px 10px;
+}
+.chatway-info-box .add-chatyway-icon svg {
+    margin-right: 1rem;
+}
+.chatway-info-box .chatway-info-btn a.brd-cht-blue:hover {
+    background-color: rgba(73, 104, 126, .1);
+}

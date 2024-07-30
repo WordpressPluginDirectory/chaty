@@ -25,7 +25,7 @@ jQuery(document).ready(function(){
         jQuery("#button_type").val(2);
     });
 
-    jQuery(document).on("click", ".custom-channel-button a", function(e){
+    jQuery(document).on("click", ".custom-channel-button a.custom-channel-link", function(e){
         e.preventDefault();
         jQuery(".main .channels-icons > .icon.custom-link:not(.active):first").trigger("click");
         if(jQuery(".main .channels-icons > .icon.custom-link").length == jQuery(".main .channels-icons > .icon.custom-link.active").length) {

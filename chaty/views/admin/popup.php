@@ -275,3 +275,5 @@ if (defined('ABSPATH') === false) {
         </div>
     </div>
 </div>
+
+<?php include_once "chatyway-info-popup.php" ?>

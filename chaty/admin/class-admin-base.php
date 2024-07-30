@@ -95,7 +95,16 @@ class CHT_Admin_Base
         add_action("admin_head", [$this, "admin_head"]);
 
         add_action("admin_init", [$this, "check_for_redirection"]);
+
+        add_filter('check_for_chatway', [$this, 'check_for_chatway']);
     }//end __construct()
+
+
+    public function check_for_chatway()
+    {
+        $plugin = 'chatway-live-chat/chatway.php';
+        return is_plugin_active($plugin);
+    }
 
     /**
      * Checks for redirection and performs the necessary actions if certain conditions are met.
@@ -807,7 +816,7 @@ class CHT_Admin_Base
                 $step = ($step !== false && is_numeric($step) && $step > 0)?$step:0;
                 $channel_class = "";
                 $fonts         = self::get_font_list();
-                if (!in_array($step, [0, 1, 2])) {
+                if (!in_array($step, [0, 1, 2, 3])) {
                     $step = 0;
                 }
                 $hasWooCommerce = 0;
@@ -2507,7 +2516,7 @@ add_action('update_option_chaty_updated_on', function ($old_value, $value) {
     if ($old_value != $value) {
         $post_data = filter_input_array(INPUT_POST);
         $step      = isset($post_data['current_step']) && is_numeric($post_data['current_step']) ? $post_data['current_step'] : 1;
-        if (!in_array($step, [0,1,2])) {
+        if (!in_array($step, [0,1,2,3])) {
             $step = 0;
         }
 

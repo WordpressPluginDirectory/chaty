@@ -467,6 +467,7 @@
     display: block;
     width: 54px;
     height: 54px;
+    min-width: 1px;
     border-radius: 50%;
     cursor: pointer;
     position: relative;

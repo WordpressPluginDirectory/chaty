@@ -292,8 +292,8 @@ class CHT_Frontend extends CHT_Admin_Base
         }
         if (isset($postData['nonce']) && isset($postData['widget']) && wp_verify_nonce($postData['nonce'], "chaty_widget_nonce".$widgetIndex)) {
             $name    = isset($postData['name']) ? $postData['name'] : "";
-            $phone   = isset($postData['email']) ? $postData['phone'] : "";
-            $email   = isset($postData['phone']) ? $postData['email'] : "";
+            $phone   = isset($postData['phone']) ? $postData['phone'] : "";
+            $email   = isset($postData['email']) ? $postData['email'] : "";
             $message = isset($postData['message']) ? $postData['message'] : "";
             $refURL  = isset($postData['ref_url']) ? $postData['ref_url'] : "";
             $widget  = $postData['widget'];

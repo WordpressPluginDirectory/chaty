@@ -11,7 +11,11 @@ function headerModule( props ) {
     const $channels     = $('#chaty-social-channel');
     const $backButton   = $('.back-button');
     const $nextButton   = $('.next-button');
-    const tabList       = ['chaty-tab-social-channel', 'chaty-tab-customize-widget', 'chaty-tab-triger-targeting'];
+    const $stepTitle    = $('#process-step');
+    const $currentStep  = $('#current-step');
+    const $stepProgress = $('#step-progress');
+    const $currentStepInput = $('#current_step');
+    const tabList       = ['chaty-tab-social-channel', 'chaty-tab-customize-widget', 'chaty-tab-triger-targeting', 'chaty-tab-chatway'];
     let activeTab       = Number( props.route.get('step') || 0 );
 
     if( $header.length === 0 || $channels.length === 0 ) return;
@@ -45,9 +49,15 @@ function headerModule( props ) {
                 }
             })
 
+            $currentStep.text(`${index+1}/4`)
+            $stepTitle.text(setStepTitle(index))
+            $currentStepInput.val(index)
+
             //next and back button show/hide
             $backButton.removeClass('cht-disable');
             $nextButton.removeClass('cht-disable');
+            const $progress = strokeFullProgress() - ((index+1) / 4) * strokeFullProgress();
+            $stepProgress.css({strokeDashoffset: $progress})
 
             if( index <= 0 ) {
                 $backButton.addClass('cht-disable');
@@ -73,6 +83,21 @@ function headerModule( props ) {
         }
     }
 
+    function strokeFullProgress() {
+        return 46.5 * 2 * Math.PI
+    }
+
+    const setStepTitle = index => {
+        if(index == 0) {
+            return "Select channels";
+        } else if(index == 1) {
+            return "Widget customization";
+        } else if(index == 2) {
+            return "Triggers and targeting";
+        }
+        return "Add live Chat";
+    }
+
     /**
      * bring content into view
      */
@@ -80,6 +105,8 @@ function headerModule( props ) {
     $header.find('.chaty-tab').on('click', function(){
         // show tab setter method takes only the index of the tab 
         showTab( tabList.indexOf(this.dataset.tabId) );
+        $widgetBody.removeClass(["step-0", "step-1", "step-2", "step-3"]);
+        $widgetBody.addClass('step-'+tabList.indexOf(this.dataset.tabId))
         if( $header.css('position') === 'fixed' ) {
             window.scrollTo({
                 top: ( innerWidth > 768 ? $header.outerHeight() : 0 ) + 32 + 'px',

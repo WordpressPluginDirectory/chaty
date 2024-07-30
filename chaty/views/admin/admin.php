@@ -40,48 +40,69 @@ $proClass      = "none_pro";
             <!-- ---------------------
             Header Step (choose your chat channel | customize social widget launcher | triggers and targeting)
             ---------------------- -->
-            <div class="chaty-header z-50 flex sm:flex-wrap gap-y-3 items-center justify-between sm:justify-center lg:justify-center bg-white p-1.5 fixed top-0 left-0 w-full" id="chaty-header-tab-label">
+            <div class="chaty-header chaty-logo z-50 flex gap-3 items-center justify-between bg-white p-1.5 fixed top-0 left-0 w-full" id="chaty-header-tab-label">
                 <a href="<?php echo esc_url( $this->getDashboardUrl() ) ?>">
                     <img class="max-w-[100px]" src="<?php echo esc_url(CHT_PLUGIN_URL.'admin/assets/images/logo-color.svg'); ?>" alt="Chaty" class="logo">
+                    <img class="w-8 small-logo" src="<?php echo esc_url(CHT_PLUGIN_URL.'admin/assets/images/logo-small.svg'); ?>" alt="Chaty" class="logo">
                 </a>
 
-                <ul class="chaty-app-tabs md:flex-1 sm:flex items-start justify-between sm:min-w-[665px]">
-                    <li class="m-0">
-                        <a href="javascript:;" class="chaty-tab <?php echo ($step == 0) ? "active" : "completed" ?>" data-tab-id="chaty-tab-social-channel" id="chaty-social-channel" data-tab="first" data-tab-index="">
-                            <span class="chaty-tabs-heading"></span>
-                            <span class="sm:inline chaty-tabs-subheading"><?php esc_html_e("1. Choose your channels", "chaty") ?></span>
-                            <span class="inline sm:hidden chaty-tabs-subheading"><?php esc_html_e("Channels", "chaty") ?></span>
-                        </a>
-                    </li>
-                    <li class="my-0">
-                        <a href="javascript:;" class="chaty-tab <?php echo ($step == 1) ? "active" : (($step == 2) ? "completed" : "") ?>" data-tab-id="chaty-tab-customize-widget" id="chaty-app-customize-widget" data-tab-index="" data-tab="middle" data-forced-save="yes">
-                            <span class="chaty-tabs-heading"></span>
-                            <span class="sm:inline chaty-tabs-subheading"><?php esc_html_e("2. Customize your widget", "chaty") ?></span>
-                            <span class="inline sm:hidden chaty-tabs-subheading"><?php esc_html_e("Customization", "chaty") ?></span>
-                        </a>
-                    </li>
-                    <li class="m-0">
-                        <a href="javascript:;" class="chaty-tab <?php echo ($step == 2) ? "active" : "" ?>" data-tab-id="chaty-tab-triger-targeting" id="chaty-triger-targeting" data-tab="last" data-tab-index="" data-forced-save="yes">
-                            <span class="chaty-tabs-heading"></span>
-                            <span class="sm:inline chaty-tabs-subheading"><?php esc_html_e("3. Triggers and targeting", "chaty") ?></span>
-                            <span class="inline sm:hidden chaty-tabs-subheading"><?php esc_html_e("Triggers", "chaty") ?></span>
-                        </a>
-                    </li>
-                </ul>
+                <div class="header-items flex-1">
+                    <ul class="chaty-app-tabs flex items-start justify-between">
+                        <li class="m-0">
+                            <a href="javascript:;" class="chaty-tab <?php echo ($step == 0) ? "active" : "completed" ?>" data-tab-id="chaty-tab-social-channel" id="chaty-social-channel" data-tab="first" data-tab-index="">
+                                <span class="chaty-tabs-heading"></span>
+                                <span class="lg:inline hidden chaty-tabs-subheading"><?php esc_html_e("1. Select channels", "chaty") ?></span>
+                                <span class="inline lg:hidden chaty-tabs-subheading"><?php esc_html_e("1. Channels", "chaty") ?></span>
+                            </a>
+                        </li>
+                        <li class="my-0">
+                            <a href="javascript:;" class="chaty-tab <?php echo ($step == 1) ? "active" : (($step == 2) ? "completed" : "") ?>" data-tab-id="chaty-tab-customize-widget" id="chaty-app-customize-widget" data-tab-index="" data-tab="middle" data-forced-save="yes">
+                                <span class="chaty-tabs-heading"></span>
+                                <span class="lg:inline hidden chaty-tabs-subheading"><?php esc_html_e("2. Widget customization ", "chaty") ?></span>
+                                <span class="inline lg:hidden chaty-tabs-subheading"><?php esc_html_e("2. Customization", "chaty") ?></span>
+                            </a>
+                        </li>
+                        <li class="m-0">
+                            <a href="javascript:;" class="chaty-tab <?php echo ($step == 2) ? "active" : "" ?>" data-tab-id="chaty-tab-triger-targeting" id="chaty-triger-targeting" data-tab-index="middle" data-forced-save="yes">
+                                <span class="chaty-tabs-heading"></span>
+                                <span class="lg:inline hidden chaty-tabs-subheading"><?php esc_html_e("3. Triggers and targeting", "chaty") ?></span>
+                                <span class="inline lg:hidden chaty-tabs-subheading"><?php esc_html_e("2. Triggers & targeting", "chaty") ?></span>
+                            </a>
+                        </li>
+                        <li class="m-0">
+                            <a href="javascript:;" class="chaty-tab <?php echo ($step == 3) ? "active" : "" ?>" data-tab-id="chaty-tab-chatway" id="chaty-chatway" data-tab="last" data-tab-index="" data-forced-save="yes">
+                                <span class="chaty-tabs-heading"></span>
+                                <span class="lg:inline chaty-tabs-subheading"><?php esc_html_e("4. Add live chat", "chaty") ?></span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="chaty-app-steps">
+                        <div class="progress-stat">
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="whirlPath">
+                                <circle cx="50" cy="50" r="46.5" stroke-linecap="round" fill="none" stroke-width="4.5"></circle>
+                            </svg>
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="svg-progress">
+                                <circle cx="50" cy="50" r="46.5" stroke-linecap="round" fill="none" stroke-width="4.5" id="step-progress" style="stroke-dashoffset: 0;"></circle>
+                            </svg>
+                            <span class="current-step" id="current-step">4/4</span>
+                        </div>
+                        <div class="process-step" id="process-step"> Add live chat </div>
+                    </div>
+                </div>
 
                 <!-- footer start -->
                 <footer class="footer-buttons relative space-x-2 step-<?php echo esc_attr($step) ?>">
                 
-                    <div class="flex items-center flex-wrap gap-3 justify-center space-x-3">
-                        <div class="flex items-center space-x-2">
-                            <button type="button" class="hidden sm:flex back-button" id="back-button">
+                    <div class="flex items-center justify-center gap-3">
+                        <div class="flex items-center gap-2 next-prev-buttons">
+                            <button type="button" class="flex back-button" id="back-button">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                     <path d="M15.8333 10H4.16668" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M10 15.8333L4.16668 9.99996L10 4.16663" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                                 <span><?php esc_html_e("Back", "chaty") ?></span>
                             </button>
-                            <button type="button" class="hidden sm:flex next-button" id="next-button">
+                            <button type="button" class="flex next-button" id="next-button">
                                 <span><?php esc_html_e("Next", "chaty") ?></span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                     <path d="M4.16677 10H15.8334" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -90,15 +111,16 @@ $proClass      = "none_pro";
                             </button>
                         </div>
                         <span class="save-button-container">
-                            <button type="submit" class="save-button" id="save-button" name="save_button">
+                            <button type="submit" class="save-button whitespace-nowrap" id="save-button" name="save_button">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                     <path d="M15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V4.16667C2.5 3.72464 2.67559 3.30072 2.98816 2.98816C3.30072 2.67559 3.72464 2.5 4.16667 2.5H13.3333L17.5 6.66667V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5Z" stroke="currentColor" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M14.1666 17.5V10.8334H5.83331V17.5" stroke="currentColor" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M5.83331 2.5V6.66667H12.5" stroke="currentColor" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                                 <span><?php esc_html_e("Save Widget", "chaty") ?></span>
+                                <span class="mobile-text"><?php esc_html_e("Save", "chaty") ?></span>
                             </button>
-                            <button class="arrow-btn">
+                            <button class="arrow-btn !px-1.5">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                     <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
@@ -109,36 +131,19 @@ $proClass      = "none_pro";
                     <input type="submit" class="save-dashboard-button hidden" id="save-dashboard-button" name="save_and_view_dashboard" value="<?php esc_html_e('Save & View Dashboard', 'chaty'); ?>" />
                     <input type="hidden" name="current_step" value="<?php echo esc_attr($step) ?>" id="current_step">
                 </footer>
-            <!-- footer ends -->
+                <!-- footer ends -->
             </div>
             <!-- end of header step -->
-            <!-- responsive next prev button -->
-            <div class="responsive-nav-btns footer-buttons step-<?php echo esc_attr($step) ?>">
-                <button type="button" class="flex back-button" id="back-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M15.8333 10H4.16668" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M10 15.8333L4.16668 9.99996L10 4.16663" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <span><?php esc_html_e("Back", "chaty") ?></span>
-                </button>
-                <button type="button" class="flex next-button" id="next-button">
-                    <span><?php esc_html_e("Next", "chaty") ?></span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M4.16677 10H15.8334" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M10.0001 4.16663L15.8334 9.99996L10.0001 15.8333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-            </div>
-            
+
             <!-- settings and preview start -->
             <div class="js-error-message">
 
             </div>
-            <section class="grid grid-cols-1 lg:grid-cols-3 rounded-lg border border-gray-150/40 bg-white" id="chaty-widget-body-tab">
+            <section class="grid grid-cols-1 lg:grid-cols-3 rounded-lg border border-gray-150/40 bg-white chaty-widget-tab step-<?php echo esc_attr($step) ?>" id="chaty-widget-body-tab" data-step="<?php echo esc_attr($step) ?>">
                 <!-- settings column start -->
                 <div class="settings-column col-span-2 border-r border-gray-150/40">
                     <!--/* Social channel list section */-->
-                    <div id="chaty-tab-social-channel" class="social-channel-tabs <?php echo ($step == 1) ? "active" : "" ?>">
+                    <div id="chaty-tab-social-channel" class="social-channel-tabs <?php echo ($step == 0) ? "active" : "" ?>">
                         <h1 class="section-title font-primary text-cht-gray-150 text-2xl border-b border-gray-150/40 px-4 sm:px-8 py-5">
                             <strong><?php esc_html_e("Step 1:", "chaty") ?></strong> <?php esc_html_e("Choose your channels", "chaty") ?>
                         </h1>
@@ -148,7 +153,7 @@ $proClass      = "none_pro";
                     </div>
 
                     <!--/* Customize widget section */-->
-                    <div id="chaty-tab-customize-widget" class="social-channel-tabs <?php echo ($step == 2) ? "active" : "" ?>">
+                    <div id="chaty-tab-customize-widget" class="social-channel-tabs <?php echo ($step == 1) ? "active" : "" ?>">
                         <h1 class="section-title font-primary text-cht-gray-150 text-2xl border-b border-gray-150/40 px-4 sm:px-8 py-5">
                             <strong><?php esc_html_e("Step 2:", "chaty") ?></strong> <?php esc_html_e("Customize your widget", "chaty") ?>
                         </h1>
@@ -158,12 +163,22 @@ $proClass      = "none_pro";
                     </div>
 
                     <!--/* Customize widget section */-->
-                    <div id="chaty-tab-triger-targeting" class="social-channel-tabs <?php echo ($step == 3) ? "active" : "" ?>">
+                    <div id="chaty-tab-triger-targeting" class="social-channel-tabs <?php echo ($step == 2) ? "active" : "" ?>">
                         <h1 class="section-title font-primary text-cht-gray-150 text-2xl border-b border-gray-150/40 px-4 sm:px-8 py-5">
                             <strong><?php esc_html_e("Step 3:", "chaty") ?></strong> <?php esc_html_e("Triggers and targeting", "chaty") ?>
                         </h1>
                         <div class="p-5 md:p-8">
                             <?php require_once 'trigger-and-target.php'; ?>
+                        </div>
+                    </div>
+
+                    <!--/* Chatway */-->
+                    <div id="chaty-tab-chatway" class="social-channel-tabs <?php echo ($step == 3) ? "active" : "" ?>">
+                        <h1 class="section-title font-primary text-cht-gray-150 text-2xl border-b border-gray-150/40 px-4 sm:px-8 py-5">
+                            <strong><?php esc_html_e("Step 4:", "chaty") ?></strong> <?php esc_html_e("Add live chat", "chaty") ?>
+                        </h1>
+                        <div class="p-5 md:p-8 pl-0 md:pl-0">
+                            <?php require_once 'chatway.php'; ?>
                         </div>
                     </div>
                 </div>

@@ -568,7 +568,7 @@ class CHT_Admin_Base
             $url = "https://www.cloudflare.com/cdn-cgi/trace";
             $data = wp_remote_get($url);
             $user_country = "-";
-            if(!empty($data)) {
+            if(!empty($data) && is_array($data) && isset($data['body'])) {
                 $data_code = explode('loc=', $data['body']);
                 $data_code = explode('tls=', $data_code[1]);
                 $user_country = isset($data_code[0])?trim($data_code[0]):"-";

@@ -11,6 +11,7 @@ function headerModule( props ) {
     const $channels     = $('#chaty-social-channel');
     const $backButton   = $('.back-button');
     const $nextButton   = $('.next-button');
+    const $chatyTab     = $('.chaty-widget-tab');
     const $stepTitle    = $('#process-step');
     const $currentStep  = $('#current-step');
     const $stepProgress = $('#step-progress');
@@ -66,6 +67,9 @@ function headerModule( props ) {
             if( index >= (tabList.length - 1) ) {
                 $nextButton.addClass('cht-disable');
             }
+
+            $chatyTab.removeClass(['step-0','step-1','step-2','step-3'])
+            $chatyTab.addClass(`step-${index}`)
 
             // update url
             const locationURL = new URL(window.location.href);

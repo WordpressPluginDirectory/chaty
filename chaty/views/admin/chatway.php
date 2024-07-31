@@ -5,19 +5,19 @@
     <div class="chatway-right flex-1 pl-4 sm:pl-0 ">
         <div class="chatway-title text-xl font-semibold pb-4 font-primary text-cht-gray-150"><?php esc_html_e("Add Chatway Live Chat widget to your website", "chaty"); ?></div>
         <ul>
-            <li class="text-cht-gray-150 text-sm flex">
+            <li class="text-cht-gray-150 text-base flex">
                 <span class="flex-none inline-flex items-center w-6 h-6 bg-[#e4fff5] mr-2 rounded-full text-center"><svg class="mx-auto" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" svg-inline="" role="presentation" focusable="false" tabindex="-1"><path d="M13.333 4l-7.334 7.333L2.666 8" stroke="#68CB9B" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
                 <?php esc_html_e("Unlimited conversations, email, and Facebook Messenger integrations", "chaty"); ?>
             </li>
-            <li class="text-cht-gray-150 text-sm">
+            <li class="text-cht-gray-150 text-base flex">
                 <span class="flex-none inline-flex items-center w-6 h-6 bg-[#e4fff5] mr-2 rounded-full text-center"><svg class="mx-auto" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" svg-inline="" role="presentation" focusable="false" tabindex="-1"><path d="M13.333 4l-7.334 7.333L2.666 8" stroke="#68CB9B" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
                 <?php esc_html_e("Team collaboration with agents", "chaty"); ?>
             </li>
-            <li class="text-cht-gray-150 text-sm">
+            <li class="text-cht-gray-150 text-base flex">
                 <span class="flex-none inline-flex items-center w-6 h-6 bg-[#e4fff5] mr-2 rounded-full text-center"><svg class="mx-auto" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" svg-inline="" role="presentation" focusable="false" tabindex="-1"><path d="M13.333 4l-7.334 7.333L2.666 8" stroke="#68CB9B" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
                 <?php esc_html_e("Canned responses, private notes, reminders, and more", "chaty"); ?>
             </li>
-            <li class="text-cht-gray-150 text-sm">
+            <li class="text-cht-gray-150 text-base flex">
                 <span class="flex-none inline-flex items-center w-6 h-6 bg-[#e4fff5] mr-2 rounded-full text-center"><svg class="mx-auto" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" svg-inline="" role="presentation" focusable="false" tabindex="-1"><path d="M13.333 4l-7.334 7.333L2.666 8" stroke="#68CB9B" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
                 <?php esc_html_e("iOS & Android apps available", "chaty"); ?>
             </li>
@@ -39,6 +39,6 @@
                 </a>
             </div>
         <?php } ?>
-        <div class="font-primary w-64 text-center mt-1 text-cht-gray-150 text-xs"><?php esc_html_e("you can skip this step by saving the widget", "chaty") ?></div>
+        <div class="font-primary w-64 text-center mt-1 text-cht-gray-150 text-xs"><?php esc_html_e("You can skip this step by saving the widget", "chaty") ?></div>
     </div>
 </div>

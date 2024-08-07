@@ -34,7 +34,7 @@
                     <img src="<?php echo esc_url(CHT_PLUGIN_URL.'admin/assets/images/chatyway-app.png'); ?>" alt="chatyway">
                 </div>
                 <div class="chatway-footer mt-5">
-                    <a target="_blank" href="<?php echo self_admin_url("plugin-install.php?s=chatway&tab=search&type=author") ?>" class="close-chaty-popup-btn inline-flex font-primary items-center w-64 gap-2.5 py-1 border border-solid text-center justify-center border-[#0446de] h-10 text-base rounded-lg text-white hover:text-white bg-[#0446de] hover:bg-[#0446de]">
+                    <a target="_blank" href="<?php echo self_admin_url("admin.php?page=chaty-live-chat") ?>" class="close-chaty-popup-btn inline-flex font-primary items-center w-64 gap-2.5 py-1 border border-solid text-center justify-center border-[#0446de] h-10 text-base rounded-lg text-white hover:text-white bg-[#0446de] hover:bg-[#0446de]">
                         <?php esc_html_e("Add Live Chat", "chaty") ?>
                         <svg class="ml-1" width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M1 9.5L5 5.5L1 1.5" stroke="white" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"></path> </svg>
                     </a>

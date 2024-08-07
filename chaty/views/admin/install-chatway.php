@@ -9,63 +9,6 @@
 if (defined('ABSPATH') === false) {
     exit;
 }
-
-?>
-<style>
-    a.hide-recommended-btn {
-        background: #1da1f4;
-        display: block;
-        float: right;
-        color: #fff;
-        text-decoration: none;
-        padding: 5px 20px;
-        font-size: 18px;
-        /* font-weight: bold; */
-        border-radius: 4px;
-    }
-    .ui-dialog-titlebar {
-        background: none !important;
-    }
-    .ui-dialog {
-        z-index: 999999;
-        text-align: center;
-    }
-    .ui-dialog-buttonpane {
-        border: none;
-        background: transparent;
-        padding-top: 0;
-    }
-    .ui-dialog .ui-dialog-buttonset{
-        float:none;
-        text-align: center;
-    }
-    .ui-dialog .ui-dialog-buttonpane .ui-button {
-        margin: 0 10px;
-    }
-    .ui-dialog-buttonpane .ui-dialog-buttonset .red-btn,
-    .ui-dialog-buttonpane .ui-dialog-buttonset .purple-btn,
-    .ui-dialog-buttonpane .ui-dialog-buttonset .gray-btn {
-        background-color: #ffffff;
-        color: #fff;
-        border-color: #1da1f4;
-        line-height: 1.4;
-        padding: 5px 0;
-        height: auto;
-        display: inline-block;
-        vertical-align: top;
-        font-size: 16px;
-        min-width: 150px;
-        color: #1da1f4;
-    }
-    .ui-dialog-buttonpane .ui-dialog-buttonset .red-btn {
-        background-color: #1da1f4;
-        border-color: #1da1f4;
-        color: #ffffff;
-    }
-</style>
-<?php
-wp_enqueue_style( 'wp-jquery-ui-dialog' );
-wp_enqueue_script( 'jquery-ui-dialog' );
 // You may comment this out IF you're sure the function exists.
 require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
 remove_all_filters('plugins_api');
@@ -89,22 +32,6 @@ $pluginsAllowedTags = array(
 );
 
 $recommendedPlugins = array();
-/* Poptin Plugins */
-$args = [
-    'slug' => 'poptin',
-    'fields' => [
-        'short_description' => true,
-        'icons' => true,
-        'reviews'  => false, // excludes all reviews
-    ],
-];
-$data = plugins_api( 'plugin_information', $args );
-if ( $data && ! is_wp_error( $data ) ) {
-    $recommendedPlugins['poptin'] = $data;
-    $recommendedPlugins['poptin']->name = 'Poptin: Beautiful Pop Ups and Embedded Inline Contact Forms for Your Website';
-    $recommendedPlugins['poptin']->short_description = 'Pop ups and contact forms builder for your website. Get more sales, leads, and subscribers with beautiful popups & inline forms templates, no coding skills required';
-}
-
 
 /* Chatway Plugin */
 $args = [
@@ -118,48 +45,13 @@ $args = [
 $data = plugins_api( 'plugin_information', $args );
 if ( $data && ! is_wp_error( $data ) ) {
     $recommendedPlugins['chatway-live-chat'] = $data;
-    $recommendedPlugins['chatway-live-chat']->name = 'Free Live Chat, WordPress Website Chat Plugin, Support Chat App: Chatway';
-    $recommendedPlugins['chatway-live-chat']->short_description = 'Live chat with your website’s visitors through your WordPress website. With Chatway – live chat app, you can do just that and much more!';
+    $recommendedPlugins['chatway-live-chat']->name = 'Free Live Chat: Chatway';
+    $recommendedPlugins['chatway-live-chat']->short_description = 'Live chat with your website’s visitors through your WordPress website. Chatway includes unlimited chats, iOS & Android mobile apps, team collaboration, saved replies, integrations, and more.';
 }
-
-/* Folders Plugins */
-$args = [
-    'slug' => 'folders',
-    'fields' => [
-        'short_description' => true,
-        'icons' => true,
-        'reviews'  => false, // excludes all reviews
-    ],
-];
-$data = plugins_api( 'plugin_information', $args );
-if ( $data && ! is_wp_error( $data ) ) {
-    $recommendedPlugins['folders'] = $data;
-    $recommendedPlugins['folders']->name = 'Folders: Organize Your Media Library, Posts, Pages & Custom posts Using Drag & Drop';
-    $recommendedPlugins['folders']->short_description = 'Folders is a powerful WordPress plugin that will help you quickly and easily organize and manage your Media library files, Pages, Posts, and Custom Posts in folders';
-}
-
-/* mystickyelements Plugins */
-$args = [
-    'slug' => 'mystickyelements',
-    'fields' => [
-        'short_description' => true,
-        'icons' => true,
-        'reviews'  => false, // excludes all reviews
-    ],
-];
-$data = plugins_api( 'plugin_information', $args );
-if ( $data && ! is_wp_error( $data ) ) {
-    $recommendedPlugins['mystickyelements'] = $data;
-    $recommendedPlugins['mystickyelements']->name = 'All-in-one Floating Contact Form, Call, Chat, and 50+ Social Icon Tabs – My Sticky Elements';
-    $recommendedPlugins['mystickyelements']->short_description = 'Add floating form and tabs on any side of your website to help your visitors contact you and easily find your Facebook page, YouTube channel, open hours';
-}
-
-
 ?>
 <div class="wrap mystickyelement-wrap recommended-plugins">
     <h2>
-        <?php esc_html_e('Try out our recommended plugins', 'chaty'); ?>
-        <a class="hide-recommended-btn" href="#" class=""><?php esc_html_e('Hide From Menu', 'chaty');?></a>
+        <?php esc_html_e('Install Chatway Live Chat', 'chaty'); ?>
     </h2>
 </div>
 
@@ -473,48 +365,5 @@ if ( $data && ! is_wp_error( $data ) ) {
             ?>
         </div>
     </div>
-    <div id="hide-recommeded-plugins" style="display:none;" title="<?php esc_html_e('Are you sure?', 'folders');?>">
-        <p><?php esc_html_e("If you hide the recommended plugins page from your menu, it won't appear there again. Are you sure you'd like to do it?", 'folders');?></p>
-    </div>
-
 </div>
-
-<script>
-    ( function( $ ) {
-        "use strict";
-        $(document).ready(function(){
-            $('a.hide-recommended-btn').on('click',function(event){
-                event.preventDefault();
-                $( "#hide-recommeded-plugins" ).dialog({
-                    resizable: false,
-                    modal: true,
-                    draggable: false,
-                    height: 'auto',
-                    width: 400,
-                    open: function (event, ui) {
-                        $(".ui-widget-overlay").click(function () {
-                            $('#hide-recommeded-plugins').dialog('close');
-                        });
-                    },
-                    buttons: {
-                        "Hide it": {
-                            click: function () {
-                                window.location = "<?php echo esc_url(admin_url('admin.php?page=chaty-app&hide_chaty_recommended_plugin=1&nonce='.wp_create_nonce("chaty_recommended_plugin")));?>";
-                            },
-                            text: 'Hide it',
-                            class: 'btn red-btn'
-                        },
-                        "Keep it": {
-                            click: function () {
-                                $(this).dialog('close');
-                            },
-                            text: 'Keep it',
-                            class: 'btn alt gray-btn'
-                        },
-                    }
-                });
-            });
-        });
-    })( jQuery );
-</script>
 

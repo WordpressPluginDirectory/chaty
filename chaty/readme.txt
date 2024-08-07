@@ -1,9 +1,9 @@
-﻿=== Floating Chat Widget: Contact Chat Icons, Telegram Chat, Line Messenger, WeChat, Email, SMS, Call Button – Chaty ===
+=== Floating Chat Widget: Contact Chat Icons, Telegram Chat, Line Messenger, WeChat, Email, SMS, Call Button – Chaty ===
 Contributors: galdub, tomeraharon, premio
 Tags: whatsapp, whatsapp chat, facebook messenger, chat, chat button
 Requires at least: 3.1
 Tested up to: 6.6
-Stable tag: 3.2.8
+Stable tag: 3.2.9
 Plugin URI: https://premio.io/downloads/chaty/
 
 🔥 WhatsApp chat, Facebook Messenger, Telegram, TikTok, Viber, Email, Line, WeChat Phone call, SMS, + 20 chat icons, with a WhatsApp chat pop up 💬
@@ -89,7 +89,7 @@ Link to an external channel/contact page (New feature: add custom chat buttons a
 13. Different channels for mobile and desktop
 14. Change chat icons’ order
 15. Change the font of your chat widget
-16. Custom chat buttons can be openned in a new tab
+16. Custom chat buttons can be opened in a new tab
 17. Launch the Chaty chat button using a JavaScript
 18. Use same chat channels more than once. For example, create two WhatsApp buttons
 19. Third custom chat button, link to any page or JavaScript code
@@ -118,7 +118,7 @@ Different chats buttons based on purpose (support, sales, etc)
 11. Font Awesome support
 12. Create a pre-set WhatsApp chat message and pre-set email subject line
 13. Title and URL tags for the WhatsApp pre-set message
-14. Google Analytics suppoty
+14. Google Analytics support
 15. Available days and hours
 16. Country targeting
 17. Custom CSS
@@ -289,6 +289,9 @@ Yes! You can even decide what chat buttons will show up on each device (desktop/
 
 
 == Changelog ==
+
+= 3.2.9 =
+Improved live chat integration
 
 = 3.2.8 =
 Chat widget creation flow improvement

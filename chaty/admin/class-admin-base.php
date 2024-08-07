@@ -112,6 +112,10 @@ class CHT_Admin_Base
      * @return void
      */
     function check_for_redirection() {
+        if(isset($_GET['page']) && $_GET['page'] == 'cht-manage-live-chat') {
+            wp_redirect(admin_url('admin.php?page=chatway'));
+            exit;
+        }
         if(!defined("DOING_AJAX")) {
             $chaty_status = get_option("cht_redirect");
             if($chaty_status) {
@@ -623,6 +627,16 @@ class CHT_Admin_Base
                 ]
             );
 
+            $chatwayStatus = apply_filters('check_for_chatway', false);
+            add_submenu_page(
+                $this->pluginSlug,
+                esc_attr__('Chatway Live Chat', 'chaty'),
+                esc_attr__('Chatway Live Chat', 'chaty'),
+                'manage_options',
+                $chatwayStatus?'cht-manage-live-chat':'chaty-live-chat',
+                array($this, 'manage_chatway')
+            );
+
             $integrationPage = add_submenu_page(
                 $this->pluginSlug,
                 esc_attr__('Settings Admin', 'chaty'),
@@ -706,6 +720,22 @@ class CHT_Admin_Base
         add_action('admin_print_styles-'.$this->page, [$this, 'enqueue_styles']);
 
     }//end cht_admin_setting_page()
+
+    /**
+     * Manages the Chatway settings and views.
+     *
+     * @return void
+     */
+    public function manage_chatway() {
+        $chatwayStatus = apply_filters('check_for_chatway', false);
+        if(!$chatwayStatus) {
+            $onlyChatway = true;
+            include_once CHT_DIR . '/views/admin/install-chatway.php';
+        } else {
+            echo '<script>window.location="'.esc_url('admin.php?page=chatway').'"</script>';
+            exit;
+        }
+    }
 
     /**
      * Includes the necessary files for the contact form feed functionality.

@@ -122,6 +122,23 @@ if ( $data && ! is_wp_error( $data ) ) {
     $recommendedPlugins['chatway-live-chat']->short_description = 'Live chat with your website’s visitors through your WordPress website. With Chatway – live chat app, you can do just that and much more!';
 }
 
+
+/* Chaty Plugins */
+$args = [
+    'slug' => 'chaty',
+    'fields' => [
+        'short_description' => true,
+        'icons' => true,
+        'reviews'  => false, // excludes all reviews
+    ],
+];
+$data = plugins_api( 'plugin_information', $args );
+if ( $data && ! is_wp_error( $data ) ) {
+    $recommendedPlugins['chaty'] = $data;
+    $recommendedPlugins['chaty']->name = 'Chaty: WhatsApp, Facebook Messenger, and Many Other Chat Buttons For Your Website';
+    $recommendedPlugins['chaty']->short_description = 'Let your visitors contact you via Facebook Messenger, Whatsapp, Telegram, Viber, Email, Phone call, SMS and more with customizable chat & call bututons';
+}
+
 /* Folders Plugins */
 $args = [
     'slug' => 'folders',
@@ -134,27 +151,9 @@ $args = [
 $data = plugins_api( 'plugin_information', $args );
 if ( $data && ! is_wp_error( $data ) ) {
     $recommendedPlugins['folders'] = $data;
-    $recommendedPlugins['folders']->name = 'Folders: Organize Your Media Library, Posts, Pages & Custom posts Using Drag & Drop';
+    $recommendedPlugins['folders']->name = 'Folders: Organize Your Media Library, Posts, Pages, and Custom posts Using Drag and Drop';
     $recommendedPlugins['folders']->short_description = 'Folders is a powerful WordPress plugin that will help you quickly and easily organize and manage your Media library files, Pages, Posts, and Custom Posts in folders';
 }
-
-/* mystickyelements Plugins */
-$args = [
-    'slug' => 'mystickyelements',
-    'fields' => [
-        'short_description' => true,
-        'icons' => true,
-        'reviews'  => false, // excludes all reviews
-    ],
-];
-$data = plugins_api( 'plugin_information', $args );
-if ( $data && ! is_wp_error( $data ) ) {
-    $recommendedPlugins['mystickyelements'] = $data;
-    $recommendedPlugins['mystickyelements']->name = 'All-in-one Floating Contact Form, Call, Chat, and 50+ Social Icon Tabs – My Sticky Elements';
-    $recommendedPlugins['mystickyelements']->short_description = 'Add floating form and tabs on any side of your website to help your visitors contact you and easily find your Facebook page, YouTube channel, open hours';
-}
-
-
 ?>
 <div class="wrap mystickyelement-wrap recommended-plugins">
     <h2>

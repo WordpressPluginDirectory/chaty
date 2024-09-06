@@ -7,8 +7,8 @@
   Author URI: https://premio.io/downloads/chaty/
   Text Domain: chaty
   Domain Path: /languages
-  Version: 3.2.9
-  License: GPL2
+  Version: 3.3
+  License: GPLv3
 */
 
 if (!defined('ABSPATH')) {
@@ -27,7 +27,7 @@ define('CHT_INC', CHT_DIR . '/includes');
 define('CHT_PRO_URL', admin_url("admin.php?page=chaty-app-upgrade"));
 define('CHT_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('CHT_PLUGIN_BASE', plugin_basename(CHT_FILE));
-define('CHT_VERSION', "3.2.9");
+define('CHT_VERSION', "3.3");
 
 if (!function_exists('wp_doing_ajax')) {
     function wp_doing_ajax()

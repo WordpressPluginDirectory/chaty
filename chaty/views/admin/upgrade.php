@@ -426,18 +426,20 @@ $features = [
                                 foreach ($features as $feature) { ?>
                                     <li>
                                         <?php if(!empty($feature['tooltip'])) { ?>
-                                            <a href="javascript:;" class="has-tooltip">
+                                            <div class="has-tooltip">
                                                 <span class="table-text"><?php echo esc_attr($feature['title']); ?></span>
-                                                <span class="table-tooltip">
+                                                    <span class="table-tooltip">
                                                     <span class="table-tooltip-text">
                                                         <?php echo wp_kses($feature['tooltip'], $allowedTags); ?>
                                                     </span>
                                                     <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg"> <g opacity="0.5" clip-path="url(#clip0_1771_2646)"> <path d="M8.00016 14.9544C11.6821 14.9544 14.6668 11.9697 14.6668 8.28776C14.6668 4.60586 11.6821 1.62109 8.00016 1.62109C4.31826 1.62109 1.3335 4.60586 1.3335 8.28776C1.3335 11.9697 4.31826 14.9544 8.00016 14.9544Z" stroke="#747C97" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/> <path d="M8 10.9538V8.28711" stroke="#747C97" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/> <path d="M8 5.62109H8.00667" stroke="#747C97" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/> </g> <defs> <clipPath id="clip0_1771_2646"> <rect width="16" height="16" fill="white" transform="translate(0 0.287109)"/> </clipPath> </defs> </svg>
                                                 </span>
-                                            </a>
-                                        <?php } else {
-                                            echo esc_attr($feature['title']);
-                                        } ?>
+                                            </div>
+                                        <?php } else { ?>
+                                            <div class="no-tooltip">
+                                                <?php echo esc_attr($feature['title']); ?>
+                                            </div>
+                                        <?php } ?>
                                     </li>
                                 <?php } ?>
                             </ul>
@@ -480,7 +482,7 @@ $features = [
                                 foreach ($features as $feature) { ?>
                                     <li>
                                         <?php if(!empty($feature['tooltip'])) { ?>
-                                            <a href="javascript:;" class="has-tooltip">
+                                            <div class="has-tooltip">
                                                 <span class="table-text"><?php echo esc_attr($feature['title']); ?></span>
                                                 <span class="table-tooltip">
                                                     <span class="table-tooltip-text">
@@ -488,10 +490,12 @@ $features = [
                                                     </span>
                                                     <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg"> <g opacity="0.5" clip-path="url(#clip0_1771_2646)"> <path d="M8.00016 14.9544C11.6821 14.9544 14.6668 11.9697 14.6668 8.28776C14.6668 4.60586 11.6821 1.62109 8.00016 1.62109C4.31826 1.62109 1.3335 4.60586 1.3335 8.28776C1.3335 11.9697 4.31826 14.9544 8.00016 14.9544Z" stroke="#747C97" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/> <path d="M8 10.9538V8.28711" stroke="#747C97" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/> <path d="M8 5.62109H8.00667" stroke="#747C97" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/> </g> <defs> <clipPath id="clip0_1771_2646"> <rect width="16" height="16" fill="white" transform="translate(0 0.287109)"/> </clipPath> </defs> </svg>
                                                 </span>
-                                            </a>
-                                        <?php } else {
-                                            echo esc_attr($feature['title']);
-                                        } ?>
+                                            </div>
+                                        <?php } else { ?>
+                                            <div class="no-tooltip">
+                                                <?php echo esc_attr($feature['title']); ?>
+                                            </div>
+                                        <?php } ?>
                                     </li>
                                 <?php } ?>
                             </ul>
@@ -530,7 +534,7 @@ $features = [
                                 foreach ($features as $feature) { ?>
                                     <li>
                                         <?php if(!empty($feature['tooltip'])) { ?>
-                                            <a href="javascript:;" class="has-tooltip">
+                                            <div class="has-tooltip">
                                                 <span class="table-text"><?php echo esc_attr($feature['title']); ?></span>
                                                 <span class="table-tooltip">
                                                     <span class="table-tooltip-text">
@@ -538,10 +542,12 @@ $features = [
                                                     </span>
                                                     <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg"> <g opacity="0.5" clip-path="url(#clip0_1771_2646)"> <path d="M8.00016 14.9544C11.6821 14.9544 14.6668 11.9697 14.6668 8.28776C14.6668 4.60586 11.6821 1.62109 8.00016 1.62109C4.31826 1.62109 1.3335 4.60586 1.3335 8.28776C1.3335 11.9697 4.31826 14.9544 8.00016 14.9544Z" stroke="#747C97" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/> <path d="M8 10.9538V8.28711" stroke="#747C97" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/> <path d="M8 5.62109H8.00667" stroke="#747C97" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/> </g> <defs> <clipPath id="clip0_1771_2646"> <rect width="16" height="16" fill="white" transform="translate(0 0.287109)"/> </clipPath> </defs> </svg>
                                                 </span>
-                                            </a>
-                                        <?php } else {
-                                            echo esc_attr($feature['title']);
-                                        } ?>
+                                            </div>
+                                        <?php } else { ?>
+                                            <div class="no-tooltip">
+                                                <?php echo esc_attr($feature['title']); ?>
+                                            </div>
+                                        <?php } ?>
                                     </li>
                                 <?php } ?>
                             </ul>

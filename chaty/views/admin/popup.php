@@ -205,36 +205,60 @@ if (defined('ABSPATH') === false) {
             <div class="chat-view-data">
                 <div class="chat-view-data-left">
                     <div class="chat-view-content">
-                        <img src="<?php echo esc_url(CHT_PLUGIN_URL) ?>admin/assets/images/pro-feature.png">
+                        <img class="chaty-logo" alt="<?php esc_html_e("Chaty logo", "chaty"); ?>" src="<?php echo esc_url(CHT_PLUGIN_URL) ?>admin/assets/images/logo-color.svg">
                         <div class="view-pro-title"><?php esc_html_e("Upgrade to Pro", "chaty"); ?> 🎉</div>
-                        <div class="view-pro-desc"><?php esc_html_e("Enjoy awesome features like chat view, a customized pop-up view. Use the amazing WooCommerce customization to add merge tags like the title, URL, product name, and more. Customize pop-ups for various products, pages, and more!", "chaty"); ?></div>
-                        <div class="view-pro-btn">
-                            <a target="_blank" href="<?php echo esc_url(admin_url("admin.php?page=chaty-app-upgrade")) ?>">
+                        <ul class="text-left text-[#49687E] mt-8">
+                            <li class="text-base flex text-[#49687E] mb-4">
+                                <span class="flex-none inline-flex items-center w-6 h-6 bg-[#e4fff5] mr-2 rounded-full text-center"><svg class="mx-auto" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" svg-inline="" role="presentation" focusable="false" tabindex="-1"><path d="M13.333 4l-7.334 7.333L2.666 8" stroke="#68CB9B" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+                                <?php esc_html_e("Dynamic chat pop-up", "chaty"); ?>
+                            </li>
+                            <li class="text-base flex text-[#49687E] mb-4">
+                                <span class="flex-none inline-flex items-center w-6 h-6 bg-[#e4fff5] mr-2 rounded-full text-center"><svg class="mx-auto" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" svg-inline="" role="presentation" focusable="false" tabindex="-1"><path d="M13.333 4l-7.334 7.333L2.666 8" stroke="#68CB9B" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+                                <?php esc_html_e("Create Multiple widgets and show multiple agents", "chaty"); ?>
+                            </li>
+                            <li class="text-base flex text-[#49687E] mb-4">
+                                <span class="flex-none inline-flex items-center w-6 h-6 bg-[#e4fff5] mr-2 rounded-full text-center"><svg class="mx-auto" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" svg-inline="" role="presentation" focusable="false" tabindex="-1"><path d="M13.333 4l-7.334 7.333L2.666 8" stroke="#68CB9B" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+                                <?php esc_html_e("Country and Page targeting", "chaty"); ?>
+                            </li>
+                            <li class="text-base flex text-[#49687E] mb-4">
+                                <span class="flex-none inline-flex items-center w-6 h-6 bg-[#e4fff5] mr-2 rounded-full text-center"><svg class="mx-auto" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" svg-inline="" role="presentation" focusable="false" tabindex="-1"><path d="M13.333 4l-7.334 7.333L2.666 8" stroke="#68CB9B" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+                                <?php esc_html_e("Get Notified via email when new a lead comes in", "chaty"); ?>
+                            </li>
+                            <li class="text-base flex text-[#49687E] mb-4">
+                                <span class="flex-none inline-flex items-center w-6 h-6 bg-[#e4fff5] mr-2 rounded-full text-center"><svg class="mx-auto" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" svg-inline="" role="presentation" focusable="false" tabindex="-1"><path d="M13.333 4l-7.334 7.333L2.666 8" stroke="#68CB9B" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+                                <?php esc_html_e("Custom visibility of the widget", "chaty"); ?>
+                            </li>
+                        </ul>
+                        <div class="view-pro-btn mt-12">
+                            <a class="flex rounded-md text-base text-white py-3 bg-[#B78DEB] hover:bg-[#8f59d3] hover:text-white" target="_blank" href="<?php echo esc_url(admin_url("admin.php?page=chaty-app-upgrade")) ?>">
                                 <?php esc_html_e("Upgrade to Pro", "chaty"); ?>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 12L10 8L6 4" stroke="white" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </a>
                         </div>
-                        <div class="view-pro-bottom">
-                            <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg><?php esc_html_e("Cancel anytime. No strings attached", "chaty"); ?></span>
-                            <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg><?php esc_html_e("30 days refund", "chaty"); ?></span>
+                        <div class="view-pro-bottom text-center">
+                            <span class="block text-[#83A1B7] text-xs mb-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg><?php esc_html_e("Cancel anytime. No strings attached", "chaty"); ?></span>
+                            <span class="block text-[#83A1B7] text-xs"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg><?php esc_html_e("30 days refund", "chaty"); ?></span>
                         </div>
                     </div>
                 </div>
-                <div class="chat-view-data-right">
+                <div class="chat-view-data-right relative flex">
                     <div class="chat-view-content">
                         <div class="chat-slider">
                             <div class="chat-slides">
                                 <div class="chat-slide chat-slide-1 active" data-slide="1">
+                                    <span class="text-top text-[#49687E]"><?php esc_html_e("Chat view for all your channels!", "chaty"); ?></span>
                                     <img src="<?php echo esc_url(CHT_PLUGIN_URL) ?>admin/assets/images/chat-view-preview.png" alt="chaty" />
-                                    <span class="text-bottom"><?php esc_html_e("Chat view for all your channels!", "chaty"); ?></span>
                                 </div>
                                 <div class="chat-slide chat-slide-2" data-slide="2">
-                                    <span class="text-top"><?php esc_html_e("Customize Pop-ups for product pages!", "chaty"); ?></span>
+                                    <span class="text-top text-[#49687E]"><?php esc_html_e("Customize Pop-ups for product pages!", "chaty"); ?></span>
                                     <img src="<?php echo esc_url(CHT_PLUGIN_URL) ?>admin/assets/images/woo-commerce-preview.png" alt="chaty" />
                                 </div>
                             </div>
                         </div>
                         <div class="chat-slider-options">
-                            <ul>
+                            <ul >
                                 <li><a href="javascript:;" class="prev-slide">❮</a></li>
                                 <li><a href="javascript:;" class="slide-option slide-1 active" data-slide="1"><span></span></a></li>
                                 <li><a href="javascript:;" class="slide-option slide-2" data-slide="2"><span></span></a></li>

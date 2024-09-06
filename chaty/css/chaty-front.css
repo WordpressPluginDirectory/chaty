@@ -467,11 +467,16 @@
     display: block;
     width: 54px;
     height: 54px;
-    min-width: 1px;
     border-radius: 50%;
     cursor: pointer;
     position: relative;
-    outline: 0
+    outline: 0;
+    min-width: unset;
+}
+
+* .chaty-channel button {
+    min-width: unset;
+    max-width: unset;
 }
 
 .chaty-channel button {

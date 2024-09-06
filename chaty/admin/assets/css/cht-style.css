@@ -2989,6 +2989,38 @@ label.custom-control.custom-radio:before {
     transition: all linear .2s;
 }
 
+@media screen and (max-width: 680px) {
+    .chat-view-data-right {
+        display: none !important;
+    }
+    .chat-view-data-left {
+        background: rgba(183, 141, 235, 0.1) url(../images/pro-bottom-corner.png) no-repeat bottom left;
+        border-radius: 15px;
+        position: relative;
+    }
+
+    .chat-view-data-left:before {
+        content: "";
+        background: url("../images/pro-top-corner.png") no-repeat bottom left;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 127px;
+        height: 185px;
+        pointer-events: none;
+    }
+    .chat-view-data-left:after {
+        content: "";
+        background: url("../images/pro-right-corner.png") no-repeat bottom right;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 127px;
+        height: 185px;
+        pointer-events: none;
+    }
+}
+
 @media screen and (max-width: 575px) {
     .channels-selected-list > li:not(.has-agent-view) {
         padding: 20px 8px !important;
@@ -4483,7 +4515,18 @@ html[dir='rtl'] .toast-message:not(.bottom-pos) .active {
 .first-chaty-popup-data {
     position: relative;
     padding: 20px;
-    text-align: center
+    text-align: center;
+    background: url(../images/first-widget-before.png) no-repeat top left;
+}
+.first-chaty-popup-data:after {
+    content: '';
+    background: url(../images/first-widget-after.png) no-repeat bottom right;
+    width: 92px;
+    height: 77px;
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: 160px;
 }
 .first-chaty-popup-data img {
     margin: 0 auto;
@@ -5064,24 +5107,47 @@ span.device-view-txt {
     margin: 0;
     top: 0;
     width: 100%;
-    background: #ffffff url("../images/chat-view-bg.png") no-repeat right center;
+    background: #ffffff;
     border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0px 18px 16px -18px rgb(0 0 0 / 24%), 0px 40px 48px -16px rgb(35 35 35 / 25%);
+    box-shadow: 0 18px 16px -18px rgb(0 0 0 / 24%), 0 40px 48px -16px rgb(35 35 35 / 25%);
 }
 .chat-view-data {
     display: flex;
-    align-items: center;
+    align-items: normal;
     position: relative;
 }
 .chat-view-data-left {
     flex: 1;
     text-align: right;
-    padding: 0 20px 0 0;
+    padding: 25px;
 }
 .chat-view-data-right {
-    flex: 1;
-    padding: 0 0 0 20px;
+    flex: 0 0 360px;
+    background: rgba(183, 141, 235, 0.1) url("../images/pro-bottom-corner.png") no-repeat bottom left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.chat-view-data-right:before {
+    content: "";
+    background: url("../images/pro-top-corner.png") no-repeat bottom left;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 127px;
+    height: 185px;
+    pointer-events: none;
+}
+.chat-view-data-right:after {
+    content: "";
+    background: url("../images/pro-right-corner.png") no-repeat bottom right;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 127px;
+    height: 185px;
+    pointer-events: none;
 }
 .chat-view-content {
     text-align: center;
@@ -5089,13 +5155,17 @@ span.device-view-txt {
 .chat-view-content img {
     margin: 0 auto;
 }
+.chat-view-content img.chaty-logo {
+    width: 100px;
+    height: auto;
+}
 .view-pro-title {
-    font-size: 24px;
-    line-height: 36px;
+    font-size: 28px;
+    line-height: 1.4;
     margin: 0;
-    color: #181749;
+    color: #49687E;
     font-weight: 500;
-    padding: 10px 0;
+    padding: 25px 0 15px;
 }
 .view-pro-desc {
     font-size: 16px;
@@ -5107,34 +5177,29 @@ span.device-view-txt {
     padding: 0 0 20px 0;
 }
 .view-pro-btn a {
-    font-weight: 600;
-    align-items: center;
-    color: #fff;
-    padding: 9px 32px;
-    background: #656BE8;
-    box-shadow: 0px 12px 12px -6px rgb(101 107 232 / 25%);
-    border-radius: 200px;
+    background: #B78DEB;
+    box-shadow: 0 12px 12px -6px rgba(183, 141, 235, 0.52);
     border: none;
     cursor: pointer;
-    font-size: 14px;
-    line-height: 20px;
     transition: all 0.6s;
-    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    gap: 4px
 }
 .view-pro-btn a:hover {
-    background: #4146AE;
-    box-shadow: 0px 16px 28px -6px rgb(101 107 232 / 55%);
+    box-shadow: 0 12px 12px -6px rgba(143, 89, 211, 0.52);
 }
-.view-pro-bottom span {
-    display: block;
-    text-align: center;
-    color: #181749;
+.chaty-primary-btn {
+    box-shadow: 0 12px 12px -6px rgba(183, 141, 235, 0.52);
+}
+.chaty-primary-btn:hover {
+    box-shadow: 0 12px 12px -6px rgba(143, 89, 211, 0.52);
 }
 .view-pro-bottom span svg {
     width: 12px;
     height: 12px;
     margin: 0 5px 0 0;
-    fill: #181749;
+    fill: #83A1B7;
 }
 .chat-slides .chat-slide {
     display: none;
@@ -5146,8 +5211,7 @@ span.device-view-txt {
 .chat-slides .text-top {
     display: block;
     text-align: center;
-    padding: 0 0 24px 0;
-    color: #181749;
+    padding: 0 0 10px 0;
     font-size: 12px;
     font-weight: 500;
     font-style: italic;
@@ -5170,7 +5234,7 @@ span.device-view-txt {
     font-size: 18px;
 }
 .chat-slider-options ul li a:hover {
-    color: #4146AE;
+    color: #B78DEB;
 }
 .chat-slider-options ul li a span {
     height: 4px;
@@ -5182,14 +5246,14 @@ span.device-view-txt {
     transition: all 0.2s linear;
 }
 .chat-slider-options ul li a:hover span, .chat-slider-options ul li a.active span {
-    background-color: #4146AE;
+    background-color: #B78DEB;
 }
 .chat-slider-options {
     position: absolute;
-    left: 10px;
+    left: 0;
     right: 0;
     bottom: 25px;
-    margin-left: 50%;
+    margin: 0 auto;
 }
 .chat-slider-options .prev-slide, .chat-slider-options .next-slide {
     margin: 0 4px;
@@ -5268,7 +5332,6 @@ span.device-view-txt {
         -moz-border-radius-bottomleft: 15px;
         border-bottom-right-radius: 15px;
         border-bottom-left-radius: 15px;
-        background: #e2dcfc url("../images/chat-view-bg.png") no-repeat left top;
     }
     .chat-slider-options {
         position: relative;
@@ -5404,15 +5467,6 @@ a.close-dashboard-pro-box svg {
 .text-center {
     text-align: center;
 }
-.first-widget-title {
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 36px;
-    padding: 25px 0 0;
-}
-.first-widget-desc {
-    font-size: 16px;
-}
 .upgrade-features {
     background: rgba(248, 247, 255, 1);
     padding: 15px;
@@ -5444,7 +5498,7 @@ a.close-dashboard-pro-box svg {
     color: #ffffff;
     padding: 8px 30px;
     border-radius: 30px;
-    box-shadow: 0px 12px 12px -6px rgba(101, 107, 232, 0.25);
+    box-shadow: 0 12px 12px -6px rgba(101, 107, 232, 0.25);
     display: inline-block;
     margin: 0 0 10px 0;
 }
@@ -5592,7 +5646,7 @@ html[dir="rtl"] .page-body .csaas-tooltip:after {
     height: 100%;
     margin: 0;
     padding: 0;
-    stroke-width: 0px !important;
+    stroke-width: 0 !important;
 }
 .upgrade-user-rating {
     font-size: 14px;
@@ -5645,7 +5699,7 @@ div#step-4 {
     font-size: 14px;
 }
 a.upgrade-review-button {
-    box-shadow: 0px 12px 12px -6px rgba(183, 141, 235, 0.52);
+    box-shadow: 0 12px 12px -6px rgba(183, 141, 235, 0.52);
     background: rgba(183, 141, 235, 1);
     border: none;
     color: #fff;
@@ -5710,7 +5764,7 @@ select.upgrade-review-reminder:focus {
 }
 .upgrade-footer a.upgrade-button {
     background: rgba(101, 107, 232, 1);
-    box-shadow: 0px 12px 12px -6px rgba(101, 107, 232, 0.25);
+    box-shadow: 0 12px 12px -6px rgba(101, 107, 232, 0.25);
     padding: 10px 40px;
     border-radius: 20px;
     color: #ffffff;

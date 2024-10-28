@@ -221,6 +221,9 @@ $cta_type = "simple-view";
 
         <?php
         $color = $this->get_current_color();
+        if($color == '#000') {
+            $color = '#000000';
+        }
         $color = empty($color) ? '#A886CD' : $color;
         $color = $this->validate_color($color, '#A886CD');
         ?>
@@ -251,7 +254,7 @@ $cta_type = "simple-view";
                             </label>
 
                             <label style="background-color: #000">
-                                <input type="checkbox" name="cht_color" value="#000" title="Black" <?php checked($color, '#000') ?>  >
+                                <input type="checkbox" name="cht_color" value="#000000" title="Black" <?php checked($color, '#000000') ?>  >
                                 <span></span>
                             </label>
 
@@ -291,6 +294,9 @@ $cta_type = "simple-view";
                     <button class="color-picker-btn text-cht-gray-150">
                         <?php
                         $color = !empty($color) ? $color : '#A886CD';
+                        if($color == '#000') {
+                            $color = '#000000';
+                        }
                         $color = $this->validate_color($color, '#A886CD');
                         ?>
                         <span class="circle" style="background-color: <?php echo esc_attr($color) ?>"></span>

@@ -2,8 +2,8 @@
 Contributors: galdub, tomeraharon, premio
 Tags: whatsapp, whatsapp chat, facebook messenger, chat, chat button
 Requires at least: 3.1
-Tested up to: 6.6
-Stable tag: 3.3
+Tested up to: 6.7
+Stable tag: 3.3.1
 Plugin URI: https://premio.io/downloads/chaty/
 License: GPLv3
 
@@ -22,7 +22,7 @@ License: GPLv3
 
 [youtube  https://www.youtube.com/watch?v=i6t05AeuyWg]
 
-= 💬 WhatsApp & 20+ chat channels =
+= 💬 WhatsApp & 20+ chat buttons =
 Connect on WhatsApp or WhatsApp Business by entering your WhatsApp number. Get WhatsApp features like the WhatsApp popup that emulates a WhatsApp chat window, WhatsApp Merge tags, WhatsApp agents & many other features that’ll help you chat on WhatsApp.
 
 = 📞 Click to chat & call now phone button =
@@ -290,6 +290,9 @@ Yes! You can even decide what chat buttons will show up on each device (desktop/
 
 
 == Changelog ==
+
+= 3.3.1 =
+Icon color bug fixed
 
 = 3.3 =
 LiteSpeed Cache plugin "Load JS Deferred" settings compatibility

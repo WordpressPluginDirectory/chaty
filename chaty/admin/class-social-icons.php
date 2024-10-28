@@ -60,7 +60,7 @@ class CHT_Social_Icons
             '#86CD91' => esc_html__('Green', 'chaty'),
             '#4F6ACA' => esc_html__('Blue', 'chaty'),
             '#FF6060' => esc_html__('Red', 'chaty'),
-            '#000'    => esc_html__('Black', 'chaty'),
+            '#000000'    => esc_html__('Black', 'chaty'),
             '#EEF075' => esc_html__('Yellow', 'chaty'),
             '#FF95EE' => esc_html__('Pink', 'chaty')
         );

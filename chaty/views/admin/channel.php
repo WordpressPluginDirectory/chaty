@@ -562,7 +562,7 @@ $isAgent = 0;
                     $isMobile  = isset($value['is_mobile']) && $value['is_mobile'] == "checked" ? "checked" : '';
                     ?>
                     <!-- setting for desktop -->
-                    <label class="device_view" for="<?php echo esc_attr($slug); ?>Desktop">
+                    <label class="device_view cursor-pointer" for="<?php echo esc_attr($slug); ?>Desktop">
                         <input type="checkbox" id="<?php echo esc_attr($slug); ?>Desktop" class="channels__view-check sr-only js-chanel-icon js-chanel-desktop" data-type="<?php echo esc_attr(str_replace(' ', '_', strtolower(esc_attr($this->del_space($social['slug']))))); ?>" name="cht_social_<?php echo esc_attr($social['slug']); ?>[is_desktop]" value="checked" data-gramm_editor="false" <?php echo esc_attr($isDesktop) ?> />
                         <span class="channels__view-txt">
                             <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -576,7 +576,7 @@ $isAgent = 0;
                     </label>
 
                     <!-- setting for mobile -->
-                    <label class="device_view" for="<?php echo esc_attr($slug); ?>Mobile">
+                    <label class="device_view cursor-pointer" for="<?php echo esc_attr($slug); ?>Mobile">
                         <input type="checkbox" id="<?php echo esc_attr($slug); ?>Mobile" class="channels__view-check sr-only js-chanel-icon js-chanel-mobile" data-type="<?php echo esc_attr(str_replace(' ', '_', strtolower(esc_attr($this->del_space($social['slug']))))); ?>" name="cht_social_<?php echo esc_attr($social['slug']); ?>[is_mobile]" value="checked" data-gramm_editor="false" <?php echo esc_attr($isMobile) ?>>
                         <span class="channels__view-txt">
                             <svg width="9" height="16" viewBox="0 0 9 16" fill="none"
@@ -722,7 +722,7 @@ $isAgent = 0;
                         <option value="<?php echo esc_attr($social['slug']) ?>"><?php esc_html_e("Custom channel", "chaty") ?></option>
                         <?php foreach ($socials as $socialIcon) {
                             $selected = ($socialIcon['slug'] == $channelType) ? "selected" : "";
-                            if ($socialIcon['slug'] != 'Custom_Link' && $socialIcon['slug'] != 'Custom_Link_3' && $socialIcon['slug'] != 'Custom_Link_4' && $socialIcon['slug'] != 'Custom_Link_5' && $socialIcon['slug'] != 'Contact_Us' && $socialIcon['slug'] != 'Link') { ?>
+                            if ($socialIcon['slug'] != 'Custom_Link' && $socialIcon['slug'] != 'Custom_Link_3' && $socialIcon['slug'] != 'Custom_Link_4' && $socialIcon['slug'] != 'Custom_Link_5' && $socialIcon['slug'] != 'Contact_Us' && $socialIcon['slug'] != 'Link' && $socialIcon['slug'] != 'Chatway') { ?>
                             <option <?php echo esc_attr($selected) ?> value="<?php echo esc_attr($socialIcon['slug']) ?>"><?php echo esc_attr($socialIcon['title']) ?></option>
                         <?php }
                         }?>

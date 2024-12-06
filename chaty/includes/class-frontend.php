@@ -6,6 +6,7 @@
 namespace CHT\frontend;
 
 use CHT\admin\CHT_Admin_Base;
+use CHT\admin\CHT_PRO_Social_Icons;
 use CHT\admin\CHT_Social_Icons;
 
 if (defined('ABSPATH') === false) {
@@ -19,9 +20,7 @@ $socialIcons = CHT_ADMIN_INC.'/class-social-icons.php';
 require_once $socialIcons;
 
 /**
- * Class CHT_Frontend
- *
- * This class is responsible for handling the frontend functionality of the Chaty plugin.
+ * Class for managing frontend functionalities.
  */
 class CHT_Frontend extends CHT_Admin_Base
 {
@@ -60,6 +59,10 @@ class CHT_Frontend extends CHT_Admin_Base
      */
     public $hasEmoji = false;
 
+    public $hasChatway = false;
+
+    public $chatwayIcons = [];
+
     /**
      * Class constructor.
      *
@@ -68,6 +71,7 @@ class CHT_Frontend extends CHT_Admin_Base
     public function __construct()
     {
         $this->socials = CHT_Social_Icons::get_instance()->get_icons_list();
+        $this->chatwayIcons = CHT_Social_Icons::get_instance()->get_chatway_icons();
         if (wp_doing_ajax()) {
             add_action('wp_ajax_choose_social', [$this, 'choose_social_handler']);
             add_action('wp_ajax_get_chaty_settings', [$this, 'get_chaty_settings']);
@@ -719,19 +723,22 @@ class CHT_Frontend extends CHT_Admin_Base
                     }
                 }
 
+                $in_footer = apply_filters('show_chaty_script_in_footer', true);
+
                 // WP change this
                 wp_enqueue_style('chaty-front-css', CHT_PLUGIN_URL."css/chaty-front.min.css", [], CHT_VERSION.$chaty_updated_on);
-                // wp_add_inline_style('chaty-front-css', $chaty_css);
-                wp_enqueue_script("chaty-front-end", CHT_PLUGIN_URL."js/cht-front-script.min.js", [ 'jquery' ], CHT_VERSION.$chaty_updated_on, true);
+                wp_enqueue_script("chaty-front-end", CHT_PLUGIN_URL."js/cht-front-script.min.js", [ 'jquery' ], CHT_VERSION.$chaty_updated_on, $in_footer);
 
                 if($this->hasEmail) {
-                    wp_enqueue_script("chaty-mail-check", CHT_PLUGIN_URL . "admin/assets/js/mailcheck.js", ['jquery'], CHT_VERSION, true);
+                    wp_enqueue_script("chaty-mail-check", CHT_PLUGIN_URL . "admin/assets/js/mailcheck.js", ['jquery'], CHT_VERSION, $in_footer);
                 }
 
                 if($this->hasEmoji) {
-                    wp_enqueue_script('chaty-picmo-js', CHT_PLUGIN_URL . 'admin/assets/js/picmo-umd.min.js', ['jquery'], CHT_VERSION, true);
-                    wp_enqueue_script('chaty-picmo-latest-js', CHT_PLUGIN_URL . 'admin/assets/js/picmo-latest-umd.min.js', ['jquery'], CHT_VERSION, true);
+                    wp_enqueue_script('chaty-picmo-js', CHT_PLUGIN_URL . 'admin/assets/js/picmo-umd.min.js', ['jquery'], CHT_VERSION, $in_footer);
+                    wp_enqueue_script('chaty-picmo-latest-js', CHT_PLUGIN_URL . 'admin/assets/js/picmo-latest-umd.min.js', ['jquery'], CHT_VERSION, $in_footer);
                 }
+
+                $data['has_chatway'] = $this->hasChatway;
                 wp_localize_script('chaty-front-end', 'chaty_settings',  $data);
 
                 if ( version_compare( get_bloginfo( 'version' ), '6.2.3', '>=' ) ) {
@@ -840,7 +847,11 @@ class CHT_Frontend extends CHT_Admin_Base
                 $hasWooCommerce = 1;
             }
             ob_start();
-            include CHT_DIR.DIRECTORY_SEPARATOR."views".DIRECTORY_SEPARATOR."admin".DIRECTORY_SEPARATOR."channel.php";
+            if($slug == 'Chatway') {
+                include CHT_DIR . DIRECTORY_SEPARATOR . "views" . DIRECTORY_SEPARATOR . "admin" . DIRECTORY_SEPARATOR . "chatway-setting.php";
+            } else {
+                include CHT_DIR . DIRECTORY_SEPARATOR . "views" . DIRECTORY_SEPARATOR . "admin" . DIRECTORY_SEPARATOR . "channel.php";
+            }
             $html = ob_get_clean();
             echo wp_json_encode($html);
         }
@@ -877,7 +888,7 @@ class CHT_Frontend extends CHT_Admin_Base
                     $slug      = strtolower($social['slug']);
                     $channelId = "cht-channel-0";
                     $channelId = trim($channelId, "_");
-                    if (!empty($value['value']) || $slug == "contact_us" || (isset($value['is_agent']) && $value['is_agent'])) {
+                    if (!empty($value['value']) || $slug == "contact_us" || (isset($value['is_agent']) && $value['is_agent']) || ($slug == 'chatway' && $this->is_chatway_active($value))) {
                         $url           = "";
                         $mobileURL     = "";
                         $desktopTarget = "";
@@ -891,6 +902,10 @@ class CHT_Frontend extends CHT_Admin_Base
                             $value['value'] = "";
                         }
 
+                        if(!isset($value['chatway_position'])) {
+                            $value['chatway_position'] = '';
+                        }
+
                         $svgIcon = $social['svg'];
                         if ($slug == "link" || $slug == "custom_link" || $slug == "custom_link_3" || $slug == "custom_link_4" || $slug == "custom_link_5") {
                             if (isset($value['channel_type']) && !empty($value['channel_type'])) {
@@ -902,6 +917,8 @@ class CHT_Frontend extends CHT_Admin_Base
                                     }
                                 }
                             }
+                        } else if($slug == 'chatway' && isset($value['chatway_icon'])) {
+                            $svgIcon = isset($this->chatwayIcons[$value['chatway_icon']])?$this->chatwayIcons[$value['chatway_icon']]:$this->chatwayIcons['icon_1'];
                         }
 
                         $channelType   = strtolower($channelType);
@@ -1141,7 +1158,10 @@ class CHT_Frontend extends CHT_Admin_Base
                             $url           = esc_url("https://www.tiktok.com/".$val);
                             $desktopTarget = $mobileTarget = "_blank";
                             $url           = esc_url($url);
-                        }//end if
+                        } else if ($channelType == "chatway") {
+                            $url = "javascript:;";
+                            $desktopTarget = $mobileTarget = "";
+                        } //end if//end if
 
                         // Instagram checking for custom color
                         if ($channelType == "instagram" && $value['bg_color'] == "#ffffff") {
@@ -1279,6 +1299,7 @@ class CHT_Frontend extends CHT_Admin_Base
                                 "channel"               => $social['slug'],
                                 "value"                 => $this->sanitize_xss(wp_unslash($val)),
                                 "hover_text"            => $this->sanitize_xss(wp_unslash($value['title'])),
+                                "chatway_position"      => $this->sanitize_xss(wp_unslash($value['chatway_position'])),
                                 "svg_icon"              => $svg,
                                 "is_desktop"            => $isDesktop,
                                 "is_mobile"             => $isMobile,
@@ -1328,6 +1349,29 @@ class CHT_Frontend extends CHT_Admin_Base
         return $arr;
 
     }//end get_social_icon_list()
+
+    public function add_chatway_class_to_body() {
+        $classes[] = 'csaas-has-chatway';
+        return $classes;
+    }
+
+    public function is_chatway_active($settings)
+    {
+        if (!function_exists( 'is_plugin_active' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+        if (is_plugin_active('chatway-live-chat/chatway.php')) {
+            $user_identifier = get_option( 'chatway_user_identifier', '' );
+            if(!empty($user_identifier)) {
+                $position = isset($settings['chatway_position'])?$settings['chatway_position']:"above-chaty";
+                if($position == 'above-chaty' || $position == 'inside-chaty') {
+                    $this->hasChatway = true;
+                    return $user_identifier;
+                }
+            }
+        }
+        return false;
+    }
 
 
     /**

@@ -2740,6 +2740,10 @@ ul#channels-selected-list {
     font-size: 13px;
 }
 
+.main .channels-selected {
+    position: relative;
+}
+
 .chaty-pro-block {
     position: relative
 }
@@ -2927,7 +2931,7 @@ select.multiple-options {
     display: none
 }
 span.facustom-icon {
-    display: block;
+    display: none;
     width: 50px;
     height: 50px;
     font-size: 30px;
@@ -6339,4 +6343,75 @@ span.header-tooltip.header-icon-tooltip span.header-tooltip-text:before {
 }
 .chatway-info-box .chatway-info-btn a.brd-cht-blue:hover {
     background-color: rgba(73, 104, 126, .1);
+}
+
+.chaty-advance-settings .chaty-channel-setting {
+    padding-top: 20px;
+    border-top: solid 1px #eaeff2;
+}
+.chatway-info-box .chatway-info-btn a.brd-cht-blue:hover {
+    background-color: rgba(73, 104, 126, .1);
+}
+.channels-icons .chat-channel-Chatway:not(.active) {
+    display: none;
+}
+.chaty-widget-tab:not(.has--chatway) .manage--chatway {
+    display: none;
+}
+.chaty-widget-tab.has--chatway .add-chatyway-btn {
+    display: none;
+}
+.chaty-widget-tab:not(.chatway--active) .plugin-manage--chatway {
+    display: none;
+}
+.chaty-widget-tab.chatway--active .plugin-add--chatyway {
+    display: none;
+}
+.chaty-widget-tab:not(.has--chatway) .chatway--notice  {
+    display: none;
+}
+.chaty-icon.img-active .custom-chaty-image {
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.custom-chaty-image img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+span.remove-icon-img {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: #ff6624;
+    right: -4px;
+    top: -4px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    cursor: pointer;
+    display: none;
+}
+
+span.remove-icon-img:after {
+    content: "\f335";
+    line-height: 1;
+    font-family: dashicons;
+    font-size: 16px;
+    color: #fff;
+    width: 16px;
+    text-align: center;
+    padding: 0 0 0 1px;
+    top: 0;
+    position: absolute;
+    left: 0;
+}
+.chaty-icon.img-active .chaty-main-svg {
+    display: none;
+}
+.chaty-icon.img-active .remove-icon-img {
+    display: block;
 }

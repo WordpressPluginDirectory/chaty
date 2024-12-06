@@ -1,9 +1,9 @@
-=== Floating Chat Widget: Contact Chat Icons, Telegram Chat, Line Messenger, WeChat, Email, SMS, Call Button – Chaty ===
+=== Floating Chat Widget: Contact Chat Icons, Telegram Chat, Line Messenger, WeChat, Email, SMS, Call Button, WhatsApp – Chaty ===
 Contributors: galdub, tomeraharon, premio
 Tags: whatsapp, whatsapp chat, facebook messenger, chat, chat button
 Requires at least: 3.1
 Tested up to: 6.7
-Stable tag: 3.3.1
+Stable tag: 3.3.3
 Plugin URI: https://premio.io/downloads/chaty/
 License: GPLv3
 
@@ -41,6 +41,7 @@ Chaty is the perfect chat plugin to display a call widget, WhatsApp button, emai
 
 = 👩‍💻 Looking for a Live Chat plugin? =
 If you're not looking for WhatsApp, Facebook Messenger, and other chat buttons, and prefer to use a live chat solution for your website, <a href="https://chatway.app/?utm_source=chatylisting" target="_blank" title="Chatway Live Chat">Chatway Live Chat</a> is the perfect solution for you. Implementing Chatway, a WordPress live chat solution, enhances your customer engagement.
+Chatway integrates seamlessly with Chaty, allowing you to customize the live chat icon. You can include it as part of the Chaty chat icons, overlay it on the main Chaty icon, or position it anywhere you prefer on your site.
 <a href="https://wordpress.org/plugins/chatway-live-chat/" target="_blank" title="Chatway Live Chat"><strong>Try Chatway Now 🔗</strong></a>
 
 = ▶️ Chaty Live Demo =
@@ -61,7 +62,7 @@ Twitter
 LinkedIn
 Skype
 Slack
-Vkontakte
+Vkontakte (ВКонтакте)
 Phone (click to call)
 Telegram
 Line
@@ -176,7 +177,7 @@ In the Pro version, Chaty has many WooCommerce integrations, including dynamic c
 
 * Skype - add your Skype username and let your visitors call and message you easily via Skype.
 
-* Vkontakte - add your Vkontakte username and let your visitors contact you directly through the app.
+* Vkontakte (ВКонтакте) - add your Vkontakte username and let your visitors contact you directly through the app.
 
 * LinkedIn icon - link to your LinkedIn profile so your visitors can connect with you and send you direct messages.
 
@@ -290,6 +291,12 @@ Yes! You can even decide what chat buttons will show up on each device (desktop/
 
 
 == Changelog ==
+
+= 3.3.3 =
+Display bugs fixed
+
+= 3.3.2 =
+Exciting news! The Chatway integration just got even better. You can now add the live chat icon as part of the Chaty chat icons, overlay it on the main Chaty icon, or position it anywhere you like.
 
 = 3.3.1 =
 Icon color bug fixed

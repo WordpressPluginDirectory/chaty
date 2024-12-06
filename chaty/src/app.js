@@ -9,7 +9,8 @@ import settingsButton from './components/settings-button';
 import widgetSize from './components/widget-size';
 import collapse from './components/collapse';
 import channels from './modules/channels';
-import ruleButtonHandler from './components/rule-button'; 
+import ruleButtonHandler from './components/rule-button';
+import chatwayChannel from './modules/chatway';
 
 jQuery(function(){
     headerModule();
@@ -23,4 +24,5 @@ jQuery(function(){
     collapse();
     channels();
     ruleButtonHandler();
+    chatwayChannel();
 })

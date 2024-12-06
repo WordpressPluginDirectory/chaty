@@ -80,17 +80,17 @@
     display: none !important
 }
 
-.chaty-tooltip.pos-top:before {
+.chaty-tooltip.pos-top:before, .chaty-tooltip.pos-top .on-hover-text:before {
     border-bottom-width: 0;
     border-top-color: #fff;
     bottom: calc(100% + 5px)
 }
 
-.chaty-tooltip.pos-top:after {
+.chaty-tooltip.pos-top:after, .chaty-tooltip.pos-top .on-hover-text:after  {
     bottom: calc(100% + 10px)
 }
 
-.chaty-tooltip.pos-top:after, .chaty-tooltip.pos-top:before {
+.chaty-tooltip.pos-top:after, .chaty-tooltip.pos-top:before, .chaty-tooltip.pos-top .on-hover-text {
     left: 50%;
     transform: translate(-50%, -.5em)
 }
@@ -385,7 +385,7 @@
     padding: 0
 }
 
-.chaty .sr-only, .hide-cht-svg-bg {
+.chaty .sr-only, .hide-cht-svg-bg, .chaty-outer-forms .sr-only {
     position: absolute !important;
     width: 1px !important;
     height: 1px !important;
@@ -1361,6 +1361,7 @@ html[dir="rtl"] .chaty-tooltip:after {
 
 .add-bg-blur-effect {
     background-color: rgba(0, 0, 0, 0.4);
+    overflow-x: hidden;
 }
 .add-bg-blur-effect >:not(.chaty, .chaty-outer-forms, .picmo__popupContainer) {
     filter: blur(6px);
@@ -1455,7 +1456,7 @@ input[type=number]::-webkit-outer-spin-button {
     padding: 10px 15px;
     position: relative;
     justify-content: space-between;
-    box-shadow: 0px 16px 32px 0px #1A0E3529;
+    box-shadow: 0 16px 32px 0 #1A0E3529;
 }
 .chaty-whatsapp-header .header-wp-icon {
     height: 30px;
@@ -1611,7 +1612,7 @@ body .picmo__emojiButton:focus {
     position: relative;
     justify-content: space-between;
     color: #fff;
-    box-shadow: 0px 16px 32px 0px #1A0E3529;
+    box-shadow: 0 16px 32px 0 #1A0E3529;
     z-index: 999999;
 }
 .chaty-close-button {
@@ -1655,9 +1656,64 @@ body .picmo__emojiButton:focus {
 }
 .chaty-whatsapp-input[placeholder]:focus::-webkit-input-placeholder{-webkit-transition:opacity .5s .5s ease;transition:opacity .5s .5s ease;opacity:40% !important;}
 [placeholder]:focus::-webkit-input-placeholder{-webkit-transition:opacity .5s .5s ease;transition:opacity .5s .5s ease;opacity:1 !important;}
-.chaty-outer-forms forms {
+.chaty-outer-forms form {
     margin: 0;
 }
 .chaty, .chaty *, .chaty-form, .chaty-form *, .chaty-whatsapp-form, .chaty-whatsapp-form * {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+/* Chatway CSS */
+body.csaas-has-chatway:not(.chatway-is-open) .chatway--trigger-container {
+    display: none !important;
+}
+body.csaas-has-chatway:not(.chatway-is-open) .chatway--frame-container {
+    opacity: 0;
+    visibility: hidden;
+}
+body.csaas-has-chatway.chatway-is-open .chaty {
+    display: none !important;
+}
+.chaty-widget.has-chatway .Chatway-channel-link {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+.has-chat-view.active .chaty-widget.has-chatway.chaty-open .chaty-channel-list {
+    display: none !important;
+}
+.chaty-widget:not(.has-chatway):not(.chaty-open) .csaas-widget-trigger.has-unread-message:after, .chaty-channel.Chatway-channel-link.has-unread-message:after {
+    content: attr(data-unread-message);
+    width: 20px;
+    height: 20px;
+    background: #ff4545;
+    position: absolute;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 44px;
+    z-index: 1111;
+    right: -4px
+}
+body:not(.chatway--active) .chaty-widget.has-chatway.above-chaty .Chatway-channel-link {
+    display: none !important;
+}
+body:not(.chatway--active) .chaty-widget.inside-chaty .chaty-channels .Chatway-channel-link {
+    display: none !important;
+}
+body.csaas-has-chatway.has--chaty.chatway--active:not(.chatway--visible) .chatway--container {
+    display: block;
+}
+.chaty.chaty-has-chat-view .has-chatway.chaty-open .Chatway-channel-link {
+    display: none !important;
+}
+
+.chaty-view-channels .chaty-channel.Chatway-channel.has-unread-message:after {
+    right: 0;
+    top: -8px;
+    bottom: auto;
 }

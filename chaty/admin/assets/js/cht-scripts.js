@@ -40,13 +40,39 @@ jQuery( function($) {
                 }
             });
             if(inputError == $("#channels-selected-list > li:not(#chaty-social-close)").find(".channels__input").length) {
-                if(!$("#chaty-social-Contact_Us").length) {
+                if (!$("#chaty-social-Contact_Us").length && !$("#chaty-social-Chatway").length) {
                     $("#no-device-value").show();
                     return false;
                 }
             }
         }
         return checkForTriggers();
+    }
+
+    function get_chatway_status() {
+        $.ajax({
+            type: 'POST',
+            url: ajaxurl,
+            data: {
+                action: 'get_chatway_status',
+            },
+            success: function(dataStatus) {
+                if(dataStatus == 'completed') {
+                    $(".chatway--notice--info").addClass('hidden');
+                    $('.chatway--notice').addClass('hidden');
+                } else {
+                    $('.chatway--notice').removeClass('hidden');
+                    $(".chatway--notice--info").addClass('hidden');
+                    $(".plugin-"+dataStatus).removeClass('hidden');
+                }
+
+                if(dataStatus == 'not-installed' || dataStatus == 'not-activated') {
+                    $(".chaty-widget-tab").removeClass('chatway--active');
+                } else {
+                    $(".chaty-widget-tab").addClass('chatway--active');
+                }
+            }
+        });
     }
 
     function checkForTriggers() {
@@ -81,7 +107,7 @@ jQuery( function($) {
                 if($("#channel_input_Whatsapp").val().indexOf("-0") != -1) {
                     let inputVal = $("#channel_input_Whatsapp").val();
                     let phoneLabel = $(".phone-number-list").data("label");
-                    let testLink = `https://wa.me/`+($.trim(inputVal).replace(/[^a-zA-Z0-9 ]/g, '')).toHtmlEntities() ;
+                    let testLink = `https://wa.me/`+toHtmlEntities($.trim(inputVal).replace(/[^a-zA-Z0-9 ]/g, '')) ;
                     let phoneLink = `<a class="whatsapp-test-btn" target="_blank" href='${testLink}'>Test</a>`;
                     let btnHtml = `<div class='number-list is-not-agent'>${phoneLabel}: <b>${inputVal}</b> ${phoneLink}</div>`;
                     $(".phone-number-list").html(btnHtml);
@@ -177,6 +203,12 @@ jQuery( function($) {
         return checkForDevices();
     }
 
+    $(document).on("change", 'input[name="cht_social_Chatway[chatway_position]"]:checked', function(e){
+        $("#chaty-social-Chatway").removeClass(['above-chaty', 'inside-chaty', 'outside-chaty']);
+        $("#chaty-social-Chatway").addClass($(this).val());
+        change_custom_preview();
+    });
+
     $(window).on("load", function(){
         setTimeout(() => {
             $(".wp-editor-container iframe").contents().find('body').css({
@@ -190,6 +222,185 @@ jQuery( function($) {
     let isWhatsAppValidated = true;
 
     $(document).ready(function () {
+
+        $(document).on("click", ".btn-cancel.is-chatway, .icon.chat-channel-Chatway", function(e){
+            e.preventDefault();
+            $("#remove-chatway-channel").show();
+        });
+
+        $(document).on("click", ".btn-cancel.is-chatway", function(e){
+            e.preventDefault();
+            $("#remove-chatway-channel").show();
+        });
+
+        $(document).on("click", "#chatway-view-button", function (e){
+            let token = 'free';
+            if ($('section').is('#pro')) {
+                token = 'pro';
+            }
+            $("#chatyway-info-popup .chaty-popup-inner").removeClass(['step-1','step-2','step-3']);
+            $("#chatyway-info-popup .chaty-popup-inner").addClass('step-3');
+            const chatwayPosition = $('input[name="chatway_position"]:checked').val();
+            if($("#chaty_widget_url").length) {
+                $("#chatyway-info-popup").hide();
+                window.location = $("#chaty_widget_url").val() + "&chatway_position=" + chatwayPosition;
+                return;
+            }
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: ajaxurl,
+                data: {
+                    action: 'choose_social',
+                    social: 'Chatway',
+                    position: chatwayPosition,
+                    nonce_code: cht_nonce_ajax.cht_nonce,
+                    version: token,
+                    widget_index: $("#widget_index").val()
+                },
+                beforeSend: function (xhr) {
+
+                },
+                success: function (data) {
+                    $("#channels-selected-list").prepend(data);
+                    let social = 'Chatway';
+                    var newIconLib = {
+                        "material":{
+                            "regular":{
+                                "list-icon":"",
+                                "icon-style":"mt-regular",
+                                "icons":["some","some2"],
+                            }
+                        }
+                    }
+                    if($("#icon-picker-"+social).length && $("#select-icon-"+social).length) {
+                        AestheticIconPicker({
+                            'selector': '#icon-picker-' + social, // must be an ID
+                            'onClick': '#select-icon-' + social,  // must be an ID
+                            "iconLibrary": newIconLib
+                        });
+                    }
+                    if($("#icon-picker-agent-"+social).length && $("#select-icon-agent-"+social).length) {
+                        AestheticIconPicker({
+                            'selector': '#icon-picker-agent-' + social, // must be an ID
+                            'onClick': '#select-icon-agent-' + social,  // must be an ID
+                            "iconLibrary": newIconLib
+                        });
+                    }
+
+                    $(document).trigger('chatyColorPicker/trigger', [{
+                        $scope   : $(`#chaty-social-Chatway`),
+                        element  : '.chaty-color-field'
+                    }]);
+
+                    // call when any channel is removed or updated
+                    const channel_list = [];
+                    $('.channels-icons > .icon.active').each( (i, item) => {
+                        channel_list.push( item.dataset.social );
+                    } )
+                    wp.hooks.doAction('chaty.channel_update', {
+                        channel     : channel_list,         // active channel list
+                        target      : 'Chatway',            // channel that removed last
+                        action      : 'added',              // added || removed,
+                        isExceeded  : false,
+                    });
+
+                    if($("#chaty-chatway").hasClass('completed')) {
+                        $("#chaty-social-channel").trigger('click');
+                    }
+
+                    get_chatway_status();
+
+                    change_custom_preview();
+                }
+            });
+            //$("#chatyway-info-popup").hide();
+        });
+
+        document.addEventListener('visibilitychange', function() {
+            if ($("#chaty-social-Chatway").length && document.visibilityState === 'visible') {
+                get_chatway_status();
+            }
+        });
+
+        $(".add-live-chat-btn").on("click", function (){
+            $("#chatyway-info-popup").hide();
+        });
+
+        $(document).on("change", 'input[name="cht_social_Chatway[chatway_icon]"]:checked', function(){
+            let chatwayIcon = $('label[for="icon-'+$(this).val()+'"] .chatway-icon').html();
+            let iconColor = $('input[name="cht_social_Chatway[bg_color]"]').val();
+            let socId = 'Chatway';
+            $("#chaty-social-Chatway .chaty-main-svg").html(chatwayIcon);
+            $("#chaty-social-Chatway .chaty-main-svg .color-element").css({'fill': iconColor});
+            jQuery('#cht_social_image_' + socId).val("");
+            jQuery('#cht_social_image_src_' + socId).attr("src", default_image);
+            jQuery("#chaty_image_"+socId).removeClass("icon-active").removeClass("img-active");
+            jQuery("#chaty_image_"+socId+ " .fa-icon").val("");
+            change_custom_preview();
+        });
+
+        $(document).on("click", "#chatway-custom-image", function(e){
+            e.preventDefault();
+            let selectedsocialSlug = 'Chatway';
+            var image = wp.media({
+                title: 'Upload Image',
+                // mutiple: true if you want to upload multiple files at once
+                multiple: false,
+                library: {
+                    type: 'image',
+                }
+            }).open()
+                .on('select', function (e) {
+                    var uploaded_image = image.state().get('selection').first();
+                    let imageData = uploaded_image.toJSON();
+                    $('#cht_social_image_' + selectedsocialSlug).val(imageData.id);
+                    $('.custom-image-' + selectedsocialSlug + " img").attr("src", imageData.url);
+                    $('.chatway-custom-image img').attr('src', imageData.url);
+                    $("#chaty_image_" + selectedsocialSlug).addClass("img-active").removeClass("icon-active");
+                    $("#chaty_image_"+selectedsocialSlug+ " .fa-icon").val("");
+                    $(".chatway-custom-image").addClass('img-active')
+                    change_custom_preview();
+                    $("#chatway-custom-image").prop('checked', true)
+                });
+        });
+
+        $(document).on("click", "#chatway-remove-custom-image", function(e){
+            $(".chatway-custom-image").removeClass('img-active');
+            $("#chaty_image_Chatway").removeClass("img-active").removeClass("icon-active");
+            $("#chaty_image_Chatway .fa-icon").val("");
+            $('#cht_social_image_Chatway').val('');
+        })
+
+        $(document).on("click", ".remove--chatway", function(e){
+            e.preventDefault();
+            $("#chaty-social-Chatway").remove();
+            $(".chat-channel-Chatway").removeClass("active");
+            change_custom_preview();
+            $("#remove-chatway-channel").hide();
+            // call when any channel is removed or updated
+            const channel_list4 = [];
+            jQuery('.channels-icons > .icon.active').each( (i, item) => {
+                channel_list4.push( item.dataset.social );
+            } )
+            wp.hooks.doAction('chaty.channel_update', {
+                channel     : channel_list4,        // active channel list
+                target      : 'Chatway',            // channel that removed last
+                action      : 'removed',            // added || removed,
+                isExceeded  : false,
+            });
+        });
+
+
+
+        $(document).on("change", "input[name='cht_position']:checked", function(){
+            if($(this).val() == "custom") {
+                $("#positionPro").show();
+            } else {
+                $("#positionPro").hide();
+            }
+            change_custom_preview();
+        });
 
         jQuery(".add-live-chat-btn").on("click", function (){
             jQuery("#chatyway-info-popup").hide();
@@ -959,7 +1170,7 @@ function check_for_number_chaty(phoneNumber, validationFor) {
     jQuery(document).ready(function () {
         two_soc();
 
-        var socialIcon = jQuery('.channels-icons > .icon-sm');
+        var socialIcon = jQuery('.channels-icons > .icon-sm:not(.chat-channel-Chatway)');
 
         var socialInputsContainer = jQuery('.social-inputs');
 
@@ -1205,7 +1416,7 @@ function check_for_number_chaty(phoneNumber, validationFor) {
          */
         var cancelBtn = jQuery('body');
 
-        cancelBtn.on('click', '.icon, .btn-cancel:not(.close-btn-set)', function (e) {
+        cancelBtn.on('click', '.icon, .btn-cancel:not(.close-btn-set):not(.is-chatway)', function (e) {
 
             if (jQuery(this).hasClass("close-btn-set")) {
                 return;
@@ -2271,4 +2482,21 @@ function chatyCheckCookie(cookieName) {
 
 function chatyDeleteCookie(cookieName) {
     document.cookie = cookieName + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+
+function remove_custom_image(socId) {
+    console.log('socId: '+ socId);
+    default_image = jQuery("#default_image").val();
+    jQuery('#cht_social_image_' + socId).val("");
+    jQuery('#cht_social_image_src_' + socId).attr("src", default_image);
+    jQuery("#chaty_image_"+socId).removeClass("icon-active").removeClass("img-active");
+    jQuery("#chaty_image_"+socId+ " .fa-icon").val("");
+    jQuery("input[name='cht_social_Chatway[chatway_icon]']:first").prop('checked', true).trigger('change');
+    console.log(socId)
+    if(socId == 'Chatway') {
+        jQuery(".chatway-custom-image").removeClass('img-active');
+    }
+    change_custom_preview();
+
 }

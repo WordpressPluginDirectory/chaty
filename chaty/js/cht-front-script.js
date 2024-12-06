@@ -31,20 +31,23 @@
     var chatyHideTimeInterval;
     var chatyHideIntervalTime = 0;
     var ariaLabel = "";
-    var chatyInterval = 0;
 
     function checkForChatySettings() {
         chatyInterval = setInterval(function () {
             if (typeof(chaty_settings) == "object") {
                 clearInterval(chatyInterval);
-                if (typeof chaty_settings == "object" && chaty_settings.data_analytics_settings != "on" || chaty_settings.data_analytics_settings == "off") {
+                if (typeof chaty_settings == "object" && (chaty_settings.data_analytics_settings != "on" || chaty_settings.data_analytics_settings == "off")) {
                     isBoatUser = true;
+                }
+                if(isTrue(chaty_settings.has_chatway)) {
+                    $("body").addClass("csaas-has-chatway");
                 }
                 widgetData = chaty_settings.chaty_widgets;
                 checkForCountry();
             }
         }, 1000)
     }
+
 
     $(document).ready(function () {
         var botPattern = "(googlebot\/|bot|Googlebot-Mobile|Googlebot-Image|Google favicon|Mediapartners-Google|bingbot|slurp|java|wget|curl|Commons-HttpClient|Python-urllib|libwww|httpunit|nutch|phpcrawl|msnbot|jyxobot|FAST-WebCrawler|FAST Enterprise Crawler|biglotron|teoma|convera|seekbot|gigablast|exabot|ngbot|ia_archiver|GingerCrawler|webmon |httrack|webcrawler|grub.org|UsineNouvelleCrawler|antibot|netresearchserver|speedy|fluffy|bibnum.bnf|findlink|msrbot|panscient|yacybot|AISearchBot|IOI|ips-agent|tagoobot|MJ12bot|dotbot|woriobot|yanga|buzzbot|mlbot|yandexbot|purebot|Linguee Bot|Voyager|CyberPatrol|voilabot|baiduspider|citeseerxbot|spbot|twengabot|postrank|turnitinbot|scribdbot|page2rss|sitebot|linkdex|Adidxbot|blekkobot|ezooms|dotbot|Mail.RU_Bot|discobot|heritrix|findthatfile|europarchive.org|NerdByNature.Bot|sistrix crawler|ahrefsbot|Aboundex|domaincrawler|wbsearchbot|summify|ccbot|edisterbot|seznambot|ec2linkfinder|gslfbot|aihitbot|intelium_bot|facebookexternalhit|yeti|RetrevoPageAnalyzer|lb-spider|sogou|lssbot|careerbot|wotbox|wocbot|ichiro|DuckDuckBot|lssrocketcrawler|drupact|webcompanycrawler|acoonbot|openindexspider|gnam gnam spider|web-archive-net.com.bot|backlinkcrawler|coccoc|integromedb|content crawler spider|toplistbot|seokicks-robot|it2media-domain-crawler|ip-web-crawler.com|siteexplorer.info|elisabot|proximic|changedetection|blexbot|arabot|WeSEE:Search|niki-bot|CrystalSemanticsBot|rogerbot|360Spider|psbot|InterfaxScanBot|Lipperhey SEO Service|CC Metadata Scaper|g00g1e.net|GrapeshotCrawler|urlappendbot|brainobot|fr-crawler|binlar|SimpleCrawler|Livelapbot|Twitterbot|cXensebot|smtbot|bnf.fr_bot|A6-Indexer|ADmantX|Facebot|Twitterbot|OrangeBot|memorybot|AdvBot|MegaIndex|SemanticScholarBot|ltx71|nerdybot|xovibot|BUbiNG|Qwantify|archive.org_bot|Applebot|TweetmemeBot|crawler4j|findxbot|SemrushBot|yoozBot|lipperhey|y!j-asr|Domain Re-Animator Bot|AddThis)";
@@ -58,6 +61,10 @@
             $("body").addClass("cht-in-mobile");
         } else {
             $("body").addClass("cht-in-desktop");
+        }
+
+        if(isTrue(chaty_settings.has_chatway)) {
+            $("body").addClass("csaas-has-chatway");
         }
 
         if (typeof chaty_settings == "undefined") {
@@ -99,6 +106,8 @@
                 $("body").removeClass("add-bg-blur-effect");
             }
             $("body").removeClass("add-bg-blur-effect");
+            chatySetCookie("hide-bg-blur-effect", true, 365);
+            hideDefaultOpenWidgets();
         });
 
         $(document).on("click", ".chaty, .chaty-outer-forms", function (e) {
@@ -109,13 +118,18 @@
             $("body").removeClass("add-bg-blur-effect");
         });
 
-        $(document).on("click", ".chaty-close-view-list", function(){
-            $(this).closest(".chaty").find(".chaty-widget").removeClass("chaty-open");
+        $(document).on("click", ".chaty.form-open .chaty-i-trigger.single-channel .chaty-cta-close", function (e) {
             $("body").removeClass("add-bg-blur-effect");
         });
 
-        $(document).on("submit", ".whatsapp-chaty-form", function () {
+        $(document).on("click", ".chaty-close-view-list", function(){
+            $(this).closest(".chaty").find(".chaty-widget").removeClass("chaty-open");
+            $("body").removeClass("add-bg-blur-effect");
+            chatySetCookie("hide-bg-blur-effect", true, 365);
+            hideDefaultOpenWidgets();
+        });
 
+        $(document).on("submit", ".whatsapp-chaty-form", function () {
             if ($(this).hasClass("form-google-analytics")) {
                 var widgetChannel = "Whatsapp";
                 if (window.hasOwnProperty("gtag")) {
@@ -165,7 +179,10 @@
                     $("#chaty-widget-" + widgetId).find(".chaty-widget:not(.has-single)").addClass("chaty-open")
                 }
             }
-            $("body").removeClass("add-bg-blur-effect");
+            if($("body").hasClass("add-bg-blur-effect")) {
+                $("body").removeClass("add-bg-blur-effect");
+                hideDefaultOpenWidgets();
+            }
         });
 
         $(document).on("click", ".chaty-close-button, .chaty-close-agent-list, .whatsapp-form-close-btn", function (e) {
@@ -300,7 +317,7 @@
                         $(this).closest(".chaty").find(".chaty-widget").removeClass("chaty-open");
                         $(this).closest(".chaty").addClass("form-open");
                         $("#" + dataForm).addClass("active");
-                        var buttonHtml = $(this).closest(".chaty").find(".chaty-widget .chaty-cta-close").find("button").html()+"<span class='hide-cht-svg-bg'>"+chaty_settings.lang.hide_whatsapp_form+"</span>";
+                        var buttonHtml = $(this).closest(".chaty").find(".chaty-widget .chaty-cta-close").find("button").html();
                         $(this).closest(".chaty").find(".chaty-widget").find(".open-chaty-channel").html(buttonHtml);
                     }
                     setTimeout(function(){
@@ -350,7 +367,6 @@
         /* track google analytics event */
         $(document).on("click", ".chaty-channel a.has-gae", function (e) {
             var widgetChannel = $(this).closest(".chaty-channel").data("channel");
-            console.log("widgetChannel: "+widgetChannel);
             if (widgetChannel !== undefined && widgetChannel != "" && widgetChannel != null) {
                 if (window.hasOwnProperty("gtag")) {
                     gtag("event", "chaty_" + widgetChannel, {
@@ -423,7 +439,7 @@
 
                 var chatyWidgetId = $(this).closest(".chaty").data("id");
                 if($("#chaty-form-"+chatyWidgetId+"-Whatsapp").length && $("#chaty-form-"+chatyWidgetId+"-Whatsapp").hasClass("active")) {
-                    var clickStatus = checkChatyCookieExpired(chatyWidgetId, "c-Whatsapp");
+                    clickStatus = checkChatyCookieExpired(chatyWidgetId, "c-Whatsapp");
                     if ((!isEmpty(chatyWidgetId) || chatyWidgetId == 0) && clickStatus) {
                         saveChatyCookieString(chatyWidgetId, "c-Whatsapp");
                     }
@@ -454,14 +470,20 @@
         $(document).on("click", ".chaty-channel.single a", function(){
             var chatyWidgetId = $(this).closest(".chaty").data("id");
             if($(this).closest(".chaty").hasClass("first_click")) {
-                saveChatyCookieString(chatyWidgetId, "c-widget");
+                //saveChatyCookieString(chatyWidgetId, "c-widget");
                 $(this).closest(".chaty-channel").removeClass("active");
             }
             removeChatyAnimation(chatyWidgetId);
         });
 
+        $(document).on("click", ".chaty-chatway-channel", function (){
+            if(typeof(window.$chatway) == 'object') {
+                window.$chatway.openChatwayWidget()
+            }
+        });
+
         /* check for channel or widget click event */
-        $(document).on("click", ".chaty-channel", function (e) {
+        $(document).on("click", ".chaty-channel a, .chaty-channel button", function (e) {
             // return;
             var clickStatus;
             var chatyChannel;
@@ -474,10 +496,7 @@
                 if (typeof chatyWidgetIdentifier != 'undefined') {
                     var userId = $("#chaty-widget-" + chatyWidgetId).data("user");
                     removeChatyAnimation(chatyWidgetId);
-                    if ($(this).hasClass("chaty-cta-main") || $(this).hasClass("chaty-cta-close")) {
-                        console.log("@!3123");
-                        console.log($("#chaty-form-"+chatyWidgetId+"-Whatsapp").length);
-                        console.log($("#chaty-form-"+chatyWidgetId+"-Whatsapp").length && $("#chaty-form-"+chatyWidgetId+"-Whatsapp").hasClass("active"));
+                    if ($(this).closest(".chaty-channel").hasClass("chaty-cta-main") || $(this).closest(".chaty-channel").hasClass("chaty-cta-close")) {
                         if($("#chaty-form-"+chatyWidgetId+"-Whatsapp").length && $("#chaty-form-"+chatyWidgetId+"-Whatsapp").hasClass("active")) {
                             clickStatus = checkChatyCookieExpired(chatyWidgetId, "c-Whatsapp");
                             if ((!isEmpty(chatyWidgetId) || chatyWidgetId == 0) && clickStatus) {
@@ -488,7 +507,7 @@
                         $("#chaty-widget-" + chatyWidgetId).find(".ch-pending-msg").remove();
                         if (clickStatus) {
                             saveChatyCookieString(chatyWidgetId, "c-widget");
-                            if ($(this).hasClass("chaty-cta-main")) {
+                            if ($(this).closest(".chaty-channel").hasClass("chaty-cta-main")) {
                                 chatyChannels = [];
                                 if($("#chaty-widget-" + chatyWidgetId).hasClass("chaty-has-chat-view")) {
                                     $(".chaty-chat-view.chaty-chat-view-" + chatyWidgetId + " .chaty-view-channels").find(".chaty-channel").each(function () {
@@ -532,7 +551,7 @@
                             $("#chaty-widget-" + chatyWidgetId + " .chaty-cta-main").removeClass("active");
                             $("#chaty-widget-" + chatyWidgetId + " .chaty-cta-main").removeClass("chaty-tooltip");
                         }
-                    } else if ($(this).hasClass("single")) {
+                    } else if ($(this).closest(".chaty-channel").hasClass("single")) {
                         $("#chaty-widget-" + chatyWidgetId).find(".ch-pending-msg").remove();
                         clickStatus = checkChatyCookieExpired(chatyWidgetId, 'c-widget');
                         var widgetNonce = $("#chaty-widget-" + chatyWidgetId).data("nonce")
@@ -540,7 +559,7 @@
                             saveChatyCookieString(chatyWidgetId, 'c-widget');
                             isSingle = 0;
                             chatyChannels = [];
-                            chatyChannel = $(this).data("channel");
+                            chatyChannel = $(this).closest(".chaty-channel").data("channel");
                             clickStatus = checkChatyCookieExpired(chatyWidgetId, "c-" + chatyChannel);
                             if (clickStatus) {
                                 chatyChannels.push(chatyChannel);
@@ -569,8 +588,8 @@
                             $("#chaty-widget-" + chatyWidgetId + " .chaty-tooltip").removeClass("chaty-tooltip");
                             $("#chaty-widget-" + chatyWidgetId + " .single-channel a").addClass("chaty-tooltip");
                         }
-                    } else if ($(this).hasClass("chaty-channel")) {
-                        chatyChannel = $(this).data("channel");
+                    } else if ($(this).hasClass("chaty-link")) {
+                        chatyChannel = $(this).closest(".chaty-channel").data("channel");
                         clickStatus = checkChatyCookieExpired(chatyWidgetId, "c-" + chatyChannel);
                         if (clickStatus) {
                             saveChatyCookieString(chatyWidgetId, "c-" + chatyChannel);
@@ -693,20 +712,16 @@
             return false;
         });
 
-        var domains = ['hotmail.com', 'gmail.com', 'aol.com', 'premio.io'];
-        var topLevelDomains = ["com", "net", "org", "io"];
-        jQuery(document).on('blur','.chaty-contact-form-box .field-email', function(event) {
+        $(document).on('blur','.chaty-contact-form-box .field-email', function(event) {
             var widget_id = $(this).closest(".chaty-contact-form-box").data("widget");
-            jQuery(this).mailcheck({
-                // domains: domains,                       // optional
-                // topLevelDomains: topLevelDomains,       // optional
+            $(this).mailcheck({
                 suggested: function(element, suggestion) {
                     // callback code
-                    jQuery('#email_suggestion'+widget_id).html("Did you mean <b><i>" + suggestion.full + "</b></i>?");
+                    $('#email_suggestion'+widget_id).html("Did you mean <b><i>" + suggestion.full + "</b></i>?");
                 },
                 empty: function(element) {
                     // callback code
-                    jQuery('#email_suggestion'+widget_id).html('');
+                    $('#email_suggestion'+widget_id).html('');
                 }
             });
         });
@@ -871,6 +886,7 @@
                 var customCSS = "";
                 var advanceCustomCSS = "";
                 var activeChannels = 0;
+                var activeChannelList = [];
                 var channelSetting = {};
 
                 /* check for country filter */
@@ -878,20 +894,45 @@
                 widgetStatus = widgetStatus && checkForTimeSchedule(widgetRecord);
                 widgetStatus = widgetStatus && checkForDayAndTimeSchedule(widgetRecord);
 
+                // Chatway Settings
+                let chatwaySettings = null;
+                let hasChatway = 0;
+                let chatwayPosition = null;
+                let hasOnlyChatway = false;
+
                 $.each(widgetRecord.channels, function (key, channel) {
                     var channelStatus = checkForChannel(channel);
                     if (channelStatus) {
-                        activeChannels++;
-                        channelSetting = channel;
+                        if(channel.channel === "Chatway") {
+                            hasChatway = true;
+                            chatwayPosition = channel.chatway_position;
+                            chatwaySettings = channel;
+                            if (chatwayPosition === "inside-chaty" || widgetRecord.settings.cta_type === "chat-view") {
+                                hasOnlyChatway = true;
+                                activeChannels++;
+                                activeChannelList.push(channel);
+                            }
+                        } else {
+                            channelSetting = channel;
+                            activeChannelList.push(channel);
+                            activeChannels++;
+                        }
                     }
                 });
 
-                if (widgetRecord.settings.default_state == "open" && activeChannels == 1) {
+                if (widgetRecord.settings.default_state == "open" && activeChannels == 1 && widgetRecord.settings.cta_type != "chat-view") {
                     widgetRecord.settings.default_state = "click";
                     widgetData[key].settings.default_state = "click";
                 }
 
-                if (widgetStatus && activeChannels > 0 && !$("#chaty-widget-" + widgetRecord.id).length) {
+                let chatwayClass = '';
+                if(hasChatway) {
+                    chatwayClass = 'has-chatway-channel'
+                }
+
+                let skipWidget = (activeChannels == 1 && hasOnlyChatway) ? false : true;
+
+                if (skipWidget && widgetStatus && activeChannels > 0 && !$("#chaty-widget-" + widgetRecord.id).length) {
                     var widgetPosition = getWidgetPosition(widgetRecord.settings);
                     widgetPosition = (widgetPosition == "right") ? "right" : "left";
                     var toolTipPosition = getToolTipPosition(widgetRecord);
@@ -899,7 +940,8 @@
                         var widgetHtml = "<div style='display: none' class='chaty chaty-has-chat-view chaty-id-" + widgetRecord.id + " chaty-widget-" + widgetRecord.id + " chaty-key-" + key + "' id='chaty-widget-" + widgetRecord.id + "' data-key='" + key + "' data-id='" + widgetRecord.id + "' data-identifier='" + widgetRecord.identifier + "' data-nonce='" + widgetRecord.settings.widget_token + "' >" +
                             "<div class='chaty-widget " + widgetPosition + "-position'>" +
                             "<div class='chaty-channels'>" +
-                            "<div class='chaty-i-trigger'></div>" +
+                            "<div class='chaty-channel-list' id='csaas-channels-"+widgetRecord.id+"'></div>" +
+                            "<div class='chaty-i-trigger csaas-widget-trigger "+chatwayClass+"'></div>" +
                             "</div>" +
                             "</div>" +
                             "</div>";
@@ -910,8 +952,8 @@
                         var widgetHtml = "<div style='display: none' class='chaty chaty-id-" + widgetRecord.id + " chaty-widget-" + widgetRecord.id + " chaty-key-" + key + "' id='chaty-widget-" + widgetRecord.id + "' data-key='" + key + "' data-id='" + widgetRecord.id + "' data-identifier='" + widgetRecord.identifier + "' data-nonce='" + widgetRecord.settings.widget_token + "' >" +
                             "<div class='chaty-widget " + widgetPosition + "-position'>" +
                             "<div class='chaty-channels'>" +
-                            "<div class='chaty-channel-list'></div>" +
-                            "<div class='chaty-i-trigger'></div>" +
+                            "<div class='chaty-channel-list' id='csaas-channels-"+widgetRecord.id+"'></div>" +
+                            "<div class='chaty-i-trigger csaas-widget-trigger "+chatwayClass+"'></div>" +
                             "</div>" +
                             "</div>" +
                             "</div>";
@@ -930,7 +972,7 @@
                             toolTipPosition = (widgetPosition != "right") ? "right" : "left";
                         }
                         var channelHtml = getChannelSetting(channelSetting, widgetRecord.id, toolTipPosition);
-                        $("#chaty-widget-" + widgetRecord.id + " .chaty-i-trigger").html(channelHtml);
+                        $("#chaty-widget-" + widgetRecord.id + " .chaty-i-trigger").append(channelHtml);
                         $("#chaty-widget-" + widgetRecord.id + " .chaty-i-trigger").addClass("single-channel");
                         $("#chaty-widget-" + widgetRecord.id + " .chaty-i-trigger .chaty-channel").addClass("single");
 
@@ -985,7 +1027,8 @@
                     } else {
                         $.each(widgetRecord.channels, function (key, channel) {
                             var channelStatus = checkForChannel(channel);
-                            if (channelStatus) {
+                            if (channelStatus && (channel.channel !== "Chatway" || (chatwayPosition === "inside-chaty" || widgetRecord.settings.cta_type === "chat-view"))) {
+
                                 if (isValueEmpty(channel.channel_type)) {
                                     channel.channel_type = channel.channel;
                                 }
@@ -1047,7 +1090,7 @@
                             widgetIcon +
                             '<span class="sr-only">Open chaty</span>' +
                             '</button>' +
-                            '<button type="button" class="open-chaty-channel"><span class="sr-only">chaty button</span></button>' +
+                            '<button type="button" class="open-chaty-channel"><span class="sr-only">chaty buttons</span></button>' +
                             '</div>' +
                             '</div>';
                         $("#chaty-widget-" + widgetRecord.id + " .chaty-i-trigger").html(widgetButton);
@@ -1065,11 +1108,17 @@
                         $("#chaty-widget-" + widgetRecord.id + " .chaty-i-trigger").append(closeHtml);
                     }
 
+                    /* check for State */
                     $.each(widgetRecord.channels, function (key, channel) {
                         if(channel.channel_type == "Contact_Us" && channel.hide_recaptcha_badge == "yes") {
                             customCSS += ".grecaptcha-badge {visibility: hidden;}";
                         }
                     });
+
+
+                    if(widgetRecord.settings.cta_type == "chat-view") {
+                        widgetRecord.settings.show_close_button == "yes";
+                    }
 
 
                     var clickStatus = checkChatyCookieExpired(widgetRecord.id, 'c-widget');
@@ -1083,6 +1132,27 @@
                     if (widgetRecord.settings.default_state == "open" && !isTrue(widgetRecord.settings.show_close_button)) {
                         $("#chaty-widget-" + widgetRecord.id + " .chaty-widget").addClass("chaty-no-close-button").addClass("chaty-open");
                         extraSpace = 1;
+                    }
+
+                    if(hasChatway) {
+                        $("#chaty-widget-"+widgetRecord.id+" .chaty-widget").addClass(chatwayPosition);
+                        if (chatwayPosition === "above-chaty") {
+                            $("#chaty-widget-"+widgetRecord.id+" .chaty-widget").addClass("has-chatway");
+
+                            let toolTipPosition = getToolTipPosition(widgetRecord);
+
+                            let channelHtml = getChannelSetting(chatwaySettings, widgetRecord.id, toolTipPosition, key, widgetRecord.settings);
+                            if ($("#chaty-widget-"+widgetRecord.id).length) {
+                                $("#chaty-widget-"+widgetRecord.id+" .chaty-channel-list").prepend(channelHtml);
+                                customExtraCSS += "#chaty-widget-" + widgetRecord.id + " ." + chatwaySettings.channel_type + "-channel .color-element{ fill: " + chatwaySettings.icon_color + "; color: " + chatwaySettings.icon_color + ";}";
+                                customExtraCSS += "#chaty-widget-" + widgetRecord.id + " ." + chatwaySettings.channel_type + "-channel .csaas-svg { background-color: " + chatwaySettings.icon_color + ";}";
+                                customExtraCSS += ".channel-" + widgetRecord.id + "-" + chatwaySettings.channel_type + " .csaas-svg { background-color: " + chatwaySettings.icon_color + ";}";
+
+                                customCSS += "#chaty-widget-" + widgetRecord.id + " ." + chatwaySettings.channel_type + "-channel .chaty-custom-icon { background-color: " + chatwaySettings.icon_color + "; }";
+                                customCSS += "#chaty-widget-" + widgetRecord.id + " ." + chatwaySettings.channel_type + "-channel .chaty-svg { background-color: " + chatwaySettings.icon_color + ";}";
+                                customCSS += "#chaty-widget-" + widgetRecord.id + " .channel-icon-" + chatwaySettings.channel_type + " .chaty-svg { background-color: " + chatwaySettings.icon_color + ";}";
+                            }
+                        }
                     }
 
                     /* checking for google analytics */
@@ -1104,6 +1174,7 @@
                     if (widgetRecord.settings.default_state == "hover") {
                         $("#chaty-widget-" + widgetRecord.id).addClass("open-on-hover");
                     } else if (widgetRecord.settings.default_state == "open") {
+
                         $("#chaty-widget-" + widgetRecord.id + " .chaty-widget").addClass("default-open");
                         if (clickStatus || !isTrue(widgetRecord.settings.show_close_button)) {
                             $("#chaty-widget-" + widgetRecord.id + " .chaty-widget:not(.has-single)").addClass("chaty-open");
@@ -1115,7 +1186,6 @@
 
                     if($("#chaty-widget-" + widgetRecord.id + " .chaty-widget:not(.has-single):not(.chaty-no-close-button)").hasClass("default-open")) {
                         if (isTrue(widgetRecord.settings.bg_blur_effect)) {
-                            console.log("@323");
                             $("body").addClass("add-bg-blur-effect");
                         }
                     } else {
@@ -1155,23 +1225,62 @@
                     customCSS += "#chaty-widget-" + widgetRecord.id + " .chaty-i-trigger .chaty-channel .chaty-svg .widget-fa-icon {line-height: " + widgetSize + "px; font-size:" + (parseInt(widgetSize / 2)) + "px; }";
 
                     if (widgetRecord.settings.icon_view == "vertical") {
-                        //customCSS += "#chaty-widget-"+widgetRecord.id+" .chaty-channel-list {bottom: "+(widgetSize+4)+"px; }";
                         customCSS += "#chaty-widget-" + widgetRecord.id + " .chaty-channel-list {height: " + (activeChannels * (widgetSize + 8)) + "px; }";
                         customCSS += "#chaty-widget-" + widgetRecord.id + " .chaty-channel-list {width: " + (widgetSize + 8) + "px; }";
 
                         for (var i = 0; i <= activeChannels; i++) {
                             customCSS += "#chaty-widget-" + widgetRecord.id + " .chaty-open .chaty-channel-list .chaty-channel:nth-child(" + (i + 1) + ") {-webkit-transform: translateY(-" + ((widgetSize + 8) * (activeChannels - i - extraSpace)) + "px); transform: translateY(-" + ((widgetSize + 8) * (activeChannels - i - extraSpace)) + "px);}";
+                            customCSS += "#chaty-widget-" + widgetRecord.id + " .chaty-open.above-chaty.has-chatway .chaty-channel-list .chaty-channel:nth-child(" + (i + 1) + ") {-webkit-transform: translateY(-" + ((widgetSize + 8) * (activeChannels - i - extraSpace + 1)) + "px); transform: translateY(-" + ((widgetSize + 8) * (activeChannels - i - extraSpace + 1)) + "px);}";
+                        }
+                        if(hasChatway && chatwayPosition == "inside-chaty") {
+                            let i = 0, j = 1;
+                            for(let key = 0; key < activeChannelList.length; key++){
+                                channel = activeChannelList[key]
+                                customCSS += "body.chatway--active #chaty-widget-" + widgetRecord.id + " .chaty-open .chaty-channel-list .chaty-channel."+channel.channel+"-link {-webkit-transform: translateY(-" + ((widgetSize + 8) * (activeChannels - i - extraSpace)) + "px); transform: translateY(-" + ((widgetSize + 8) * (activeChannels - i - extraSpace)) + "px);}";
+                                if(channel.channel != "Chatway") {
+                                    customCSS += "body:not(.chatway--active) #chaty-widget-" + widgetRecord.id + " .chaty-open .chaty-channel-list .chaty-channel."+channel.channel+"-channel-link {-webkit-transform: translateY(-" + ((widgetSize + 8) * (activeChannels - i  - j - extraSpace)) + "px); transform: translateY(-" + ((widgetSize + 8) * (activeChannels - i - j - extraSpace)) + "px);}";
+                                } else {
+                                    j = 0;
+                                }
+                                i++;
+                            }
+                        } else {
+                            let i = 0;
+                            for (i = 0; i <= activeChannels; i++) {
+                                customCSS += "#chaty-widget-" + widgetRecord.id + " .chaty-open .chaty-channel-list .chaty-channel:nth-child(" + (i + 1) + ") {-webkit-transform: translateY(-" + ((widgetSize + 8) * (activeChannels - i - extraSpace)) + "px); transform: translateY(-" + ((widgetSize + 8) * (activeChannels - i - extraSpace)) + "px);}";
+                            }
+                            if (chatwayPosition == "above-chaty") {
+                                customCSS += "#chaty-widget-" + widgetRecord.id + " .chaty-channel-list .Chatway-channel-link {-webkit-transform: translateY(-" + ((widgetSize + 8) * (extraSpace)) + "px); transform: translateY(-" + ((widgetSize + 8) * (1 - extraSpace)) + "px);}";
+                            }
                         }
                     } else {
                         $("#chaty-widget-" + widgetRecord.id + " .chaty-widget").addClass("hor-mode");
                         customCSS += "#chaty-widget-" + widgetRecord.id + " .chaty-channel-list {width: " + (activeChannels * (widgetSize + 8)) + "px; }";
                         customCSS += "#chaty-widget-" + widgetRecord.id + " .chaty-channel-list {height: " + (widgetSize) + "px; }";
-                        // customCSS += "#chaty-widget-"+widgetRecord.id+" .chaty-widget.left-position.hor-mode .chaty-channel-list {left: "+(widgetSize+8)+"px; }";
-                        // customCSS += "#chaty-widget-"+widgetRecord.id+" .chaty-widget.right-position.hor-mode .chaty-channel-list {right: "+(widgetSize+8)+"px; }";
-
-                        for (var i = 0; i <= activeChannels; i++) {
-                            customCSS += "#chaty-widget-" + widgetRecord.id + " .chaty-widget.left-position.hor-mode.chaty-open .chaty-channel-list .chaty-channel:nth-child(" + (i + 1) + ") {-webkit-transform: translateX(" + ((widgetSize + 8) * (activeChannels - i - extraSpace)) + "px); transform: translateX(" + ((widgetSize + 8) * (activeChannels - i - extraSpace)) + "px);}";
-                            customCSS += "#chaty-widget-" + widgetRecord.id + " .chaty-widget.right-position.hor-mode.chaty-open .chaty-channel-list .chaty-channel:nth-child(" + (i + 1) + ") {-webkit-transform: translateX(-" + ((widgetSize + 8) * (activeChannels - i - extraSpace)) + "px); transform: translateX(-" + ((widgetSize + 8) * (activeChannels - i - extraSpace)) + "px);}";
+                        let i = 0;
+                        if(hasChatway && chatwayPosition == "inside-chaty") {
+                            let i = 0, j = 1;
+                            for(let key = 0; key < activeChannelList.length; key++){
+                                channel = activeChannelList[key]
+                                customCSS += "body.chatway--active .chaty-widget-" + widgetRecord.id + " .chaty-widget.left-position.hor-mode.chaty-open .chaty-channel-list .chaty-channel:nth-child(" + (i + 1) + ") {-webkit-transform: translateX(" + ((widgetSize + 8) * (activeChannels - i - extraSpace)) + "px); transform: translateX(" + ((widgetSize + 8) * (activeChannels - i - extraSpace)) + "px);}";
+                                customCSS += "body.chatway--active .chaty-widget-" + widgetRecord.id + " .chaty-widget.right-position.hor-mode.chaty-open .chaty-channel-list .chaty-channel:nth-child(" + (i + 1) + ") {-webkit-transform: translateX(-" + ((widgetSize + 8) * (activeChannels - i - extraSpace)) + "px); transform: translateX(-" + ((widgetSize + 8) * (activeChannels - i - extraSpace)) + "px);}";
+                                if(channel.channel != "Chatway") {
+                                    customCSS += "body:not(.chatway--active) #chaty-widget-" + widgetRecord.id + " .chaty-widget.left-position.hor-mode.chaty-open .chaty-channel-list .chaty-channel:nth-child(" + (i + 1) + ") {-webkit-transform: translateX(" + ((widgetSize + 8) * (activeChannels - i - j - extraSpace)) + "px); transform: translateX(" + ((widgetSize + 8) * (activeChannels - i - j - extraSpace)) + "px);}";
+                                    customCSS += "body:not(.chatway--active) #chaty-widget-" + widgetRecord.id + " .chaty-widget.right-position.hor-mode.chaty-open .chaty-channel-list .chaty-channel:nth-child(" + (i + 1) + ") {-webkit-transform: translateX(-" + ((widgetSize + 8) * (activeChannels - i - j - extraSpace)) + "px); transform: translateX(-" + ((widgetSize + 8) * (activeChannels - i - j - extraSpace)) + "px);}";
+                                } else {
+                                    j = 0;
+                                }
+                                i++;
+                            }
+                        } else {
+                            for (i = 0; i <= activeChannels; i++) {
+                                customCSS += "#chaty-widget-" + widgetRecord.id + " .chaty-widget.left-position.hor-mode.chaty-open .chaty-channel-list .chaty-channel:nth-child(" + (i + 1) + ") {-webkit-transform: translateX(" + ((widgetSize + 8) * (activeChannels - i - extraSpace)) + "px); transform: translateX(" + ((widgetSize + 8) * (activeChannels - i - extraSpace)) + "px);}";
+                                customCSS += "#chaty-widget-" + widgetRecord.id + " .chaty-widget.right-position.hor-mode.chaty-open .chaty-channel-list .chaty-channel:nth-child(" + (i + 1) + ") {-webkit-transform: translateX(-" + ((widgetSize + 8) * (activeChannels - i - extraSpace)) + "px); transform: translateX(-" + ((widgetSize + 8) * (activeChannels - i - extraSpace)) + "px);}";
+                            }
+                            if(chatwayPosition == "above-chaty") {
+                                customCSS += "#chaty-widget-" + widgetRecord.id + " .chaty-widget.left-position.hor-mode .chaty-channel-list .Chatway-channel-link {-webkit-transform: translateX(" + ((widgetSize + 8) * (1 - extraSpace)) + "px); transform: translateX(" + ((widgetSize + 8) * (1 - extraSpace)) + "px);}";
+                                customCSS += "#chaty-widget-" + widgetRecord.id + " .chaty-widget.right-position.hor-mode .chaty-channel-list .Chatway-channel-link {-webkit-transform: translateX(-" + ((widgetSize + 8) * (1 - extraSpace)) + "px); transform: translateX(-" + ((widgetSize + 8) * (1 - extraSpace)) + "px);}";
+                            }
                         }
                     }
 
@@ -1338,7 +1447,6 @@
                         if ($(this).closest(".chaty").hasClass("form-open")) {
                             if (isTrue(widgetRecord.settings.bg_blur_effect)) {
                                 $("body").addClass("add-bg-blur-effect");
-                                console.log("@3233");
                             } else {
                                 $("body").removeClass("add-bg-blur-effect");
                             }
@@ -1350,7 +1458,6 @@
                             if (!$(this).closest(".chaty-widget").hasClass("chaty-no-close-button")) {
                                 if (isTrue(widgetRecord.settings.bg_blur_effect)) {
                                     $("body").addClass("add-bg-blur-effect");
-                                    console.log("@32334");
                                 }
                             }
                         }
@@ -1441,7 +1548,7 @@
                 }
             }
         } else {
-            if (((!isChatyInMobile && isTrue(channel.is_desktop)) || (isChatyInMobile && isTrue(channel.is_mobile))) && (channel.value != '' || channel.channel == "Contact_Us")) {
+            if (((!isChatyInMobile && isTrue(channel.is_desktop)) || (isChatyInMobile && isTrue(channel.is_mobile))) && (channel.value != '' || (channel.channel == "Contact_Us" || channel.channel == "Chatway"))) {
                 return true;
             }
         }
@@ -1474,7 +1581,6 @@
                         $("#" + dataForm).addClass("active");
                         if($("#chaty-widget-" + widgetId + " .chaty-widget:not(.chaty-no-close-button)").hasClass("has-bg-blur-effect")) {
                             $("body").addClass("add-bg-blur-effect");
-                            console.log("@32333");
                         }
                         setTimeout(function(){
                             $(".chaty-whatsapp-btn-form.active .chaty-whatsapp-input").focus();
@@ -1538,6 +1644,11 @@
                 hideAfter = hideAfter + chatyHideIntervalTime;
                 $("#chaty-widget-" + widgetId).addClass("hide-after-" + hideAfter);
             }
+        }
+
+        var blur_effrct = chatyGetCookie("hide-bg-blur-effect");
+        if(blur_effrct) {
+            $("body").removeClass("add-bg-blur-effect");
         }
 
         var viewStatus = checkChatyCookieExpired(widgetId, "v-widget");
@@ -1674,13 +1785,13 @@
     function getSvgIcon(iconName, widgetColor, iconColor, widgetId) {
         switch (iconName) {
             case"chat-smile":
-                return '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-496.8 507.1 54 54" style="enable-background-color:new -496.8 507.1 54 54;" xml:space="preserve"><style type="text/css">.chaty-sts1-'+widgetId+'{fill:'+ iconColor +';} .chaty-sts2{fill:none;stroke:#808080;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}</style><g><circle cx="-469.8" cy="534.1" r="27" fill="' + widgetColor + '"/></g><path class="chaty-sts1-'+ widgetId +'" d="M-459.5,523.5H-482c-2.1,0-3.7,1.7-3.7,3.7v13.1c0,2.1,1.7,3.7,3.7,3.7h19.3l5.4,5.4c0.2,0.2,0.4,0.2,0.7,0.2c0.2,0,0.2,0,0.4,0c0.4-0.2,0.6-0.6,0.6-0.9v-21.5C-455.8,525.2-457.5,523.5-459.5,523.5z"/><path class="chaty-sts2" d="M-476.5,537.3c2.5,1.1,8.5,2.1,13-2.7"/><path class="chaty-sts2" d="M-460.8,534.5c-0.1-1.2-0.8-3.4-3.3-2.8"/></svg>';
+                return '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="-496.8 507.1 54 54" xml:space="preserve"><style type="text/css">.chaty-sts1-'+widgetId+'{fill:'+ iconColor +';} .chaty-sts2{fill:none;stroke:#808080;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}</style><g><circle cx="-469.8" cy="534.1" r="27" fill="' + widgetColor + '"/></g><path class="chaty-sts1-'+ widgetId +'" d="M-459.5,523.5H-482c-2.1,0-3.7,1.7-3.7,3.7v13.1c0,2.1,1.7,3.7,3.7,3.7h19.3l5.4,5.4c0.2,0.2,0.4,0.2,0.7,0.2c0.2,0,0.2,0,0.4,0c0.4-0.2,0.6-0.6,0.6-0.9v-21.5C-455.8,525.2-457.5,523.5-459.5,523.5z"/><path class="chaty-sts2" d="M-476.5,537.3c2.5,1.1,8.5,2.1,13-2.7"/><path class="chaty-sts2" d="M-460.8,534.5c-0.1-1.2-0.8-3.4-3.3-2.8"/></svg>';
             case"chat-bubble":
-                return '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-496.9 507.1 54 54" style="enable-background-color:new -496.9 507.1 54 54;" xml:space="preserve"><style type="text/css">.chaty-sts2-'+widgetId+'{fill:'+ iconColor +';}</style><g><circle  cx="-469.9" cy="534.1" r="27" fill="' + widgetColor + '"/></g><path class="chaty-sts2-'+ widgetId +'" d="M-472.6,522.1h5.3c3,0,6,1.2,8.1,3.4c2.1,2.1,3.4,5.1,3.4,8.1c0,6-4.6,11-10.6,11.5v4.4c0,0.4-0.2,0.7-0.5,0.9   c-0.2,0-0.2,0-0.4,0c-0.2,0-0.5-0.2-0.7-0.4l-4.6-5c-3,0-6-1.2-8.1-3.4s-3.4-5.1-3.4-8.1C-484.1,527.2-478.9,522.1-472.6,522.1z   M-462.9,535.3c1.1,0,1.8-0.7,1.8-1.8c0-1.1-0.7-1.8-1.8-1.8c-1.1,0-1.8,0.7-1.8,1.8C-464.6,534.6-463.9,535.3-462.9,535.3z   M-469.9,535.3c1.1,0,1.8-0.7,1.8-1.8c0-1.1-0.7-1.8-1.8-1.8c-1.1,0-1.8,0.7-1.8,1.8C-471.7,534.6-471,535.3-469.9,535.3z   M-477,535.3c1.1,0,1.8-0.7,1.8-1.8c0-1.1-0.7-1.8-1.8-1.8c-1.1,0-1.8,0.7-1.8,1.8C-478.8,534.6-478.1,535.3-477,535.3z"/></svg>';
+                return '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="-496.9 507.1 54 54" xml:space="preserve"><style type="text/css">.chaty-sts2-'+widgetId+'{fill:'+ iconColor +';}</style><g><circle  cx="-469.9" cy="534.1" r="27" fill="' + widgetColor + '"/></g><path class="chaty-sts2-'+ widgetId +'" d="M-472.6,522.1h5.3c3,0,6,1.2,8.1,3.4c2.1,2.1,3.4,5.1,3.4,8.1c0,6-4.6,11-10.6,11.5v4.4c0,0.4-0.2,0.7-0.5,0.9   c-0.2,0-0.2,0-0.4,0c-0.2,0-0.5-0.2-0.7-0.4l-4.6-5c-3,0-6-1.2-8.1-3.4s-3.4-5.1-3.4-8.1C-484.1,527.2-478.9,522.1-472.6,522.1z   M-462.9,535.3c1.1,0,1.8-0.7,1.8-1.8c0-1.1-0.7-1.8-1.8-1.8c-1.1,0-1.8,0.7-1.8,1.8C-464.6,534.6-463.9,535.3-462.9,535.3z   M-469.9,535.3c1.1,0,1.8-0.7,1.8-1.8c0-1.1-0.7-1.8-1.8-1.8c-1.1,0-1.8,0.7-1.8,1.8C-471.7,534.6-471,535.3-469.9,535.3z   M-477,535.3c1.1,0,1.8-0.7,1.8-1.8c0-1.1-0.7-1.8-1.8-1.8c-1.1,0-1.8,0.7-1.8,1.8C-478.8,534.6-478.1,535.3-477,535.3z"/></svg>';
             case"chat-db":
-                return '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-496 507.1 54 54" style="enable-background-color:new -496 507.1 54 54;" xml:space="preserve"><style type="text/css">.chaty-sts3-'+widgetId+'{fill:'+ iconColor +';}</style><g><circle  cx="-469" cy="534.1" r="27" fill="' + widgetColor + '"/></g><path class="chaty-sts3-'+ widgetId +'" d="M-464.6,527.7h-15.6c-1.9,0-3.5,1.6-3.5,3.5v10.4c0,1.9,1.6,3.5,3.5,3.5h12.6l5,5c0.2,0.2,0.3,0.2,0.7,0.2c0.2,0,0.2,0,0.3,0c0.3-0.2,0.5-0.5,0.5-0.9v-18.2C-461.1,529.3-462.7,527.7-464.6,527.7z"/><path class="chaty-sts3-'+ widgetId +'" d="M-459.4,522.5H-475c-1.9,0-3.5,1.6-3.5,3.5h13.9c2.9,0,5.2,2.3,5.2,5.2v11.6l1.9,1.9c0.2,0.2,0.3,0.2,0.7,0.2c0.2,0,0.2,0,0.3,0c0.3-0.2,0.5-0.5,0.5-0.9v-18C-455.9,524.1-457.5,522.5-459.4,522.5z"/></svg>';
+                return '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="-496 507.1 54 54" xml:space="preserve"><style type="text/css">.chaty-sts3-'+widgetId+'{fill:'+ iconColor +';}</style><g><circle  cx="-469" cy="534.1" r="27" fill="' + widgetColor + '"/></g><path class="chaty-sts3-'+ widgetId +'" d="M-464.6,527.7h-15.6c-1.9,0-3.5,1.6-3.5,3.5v10.4c0,1.9,1.6,3.5,3.5,3.5h12.6l5,5c0.2,0.2,0.3,0.2,0.7,0.2c0.2,0,0.2,0,0.3,0c0.3-0.2,0.5-0.5,0.5-0.9v-18.2C-461.1,529.3-462.7,527.7-464.6,527.7z"/><path class="chaty-sts3-'+ widgetId +'" d="M-459.4,522.5H-475c-1.9,0-3.5,1.6-3.5,3.5h13.9c2.9,0,5.2,2.3,5.2,5.2v11.6l1.9,1.9c0.2,0.2,0.3,0.2,0.7,0.2c0.2,0,0.2,0,0.3,0c0.3-0.2,0.5-0.5,0.5-0.9v-18C-455.9,524.1-457.5,522.5-459.4,522.5z"/></svg>';
             default:
-                return '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-496 507.7 54 54" style="enable-background-color:new -496 507.7 54 54;" xml:space="preserve"><style type="text/css">.chaty-sts4-'+widgetId+'{fill: '+ iconColor +';}.chaty-st0{fill: #808080;}</style><g><circle cx="-469" cy="534.7" r="27" fill="' + widgetColor + '"/></g><path class="chaty-sts4-'+  widgetId +'" d="M-459.9,523.7h-20.3c-1.9,0-3.4,1.5-3.4,3.4v15.3c0,1.9,1.5,3.4,3.4,3.4h11.4l5.9,4.9c0.2,0.2,0.3,0.2,0.5,0.2 h0.3c0.3-0.2,0.5-0.5,0.5-0.8v-4.2h1.7c1.9,0,3.4-1.5,3.4-3.4v-15.3C-456.5,525.2-458,523.7-459.9,523.7z"/><path class="chaty-st0" d="M-477.7,530.5h11.9c0.5,0,0.8,0.4,0.8,0.8l0,0c0,0.5-0.4,0.8-0.8,0.8h-11.9c-0.5,0-0.8-0.4-0.8-0.8l0,0C-478.6,530.8-478.2,530.5-477.7,530.5z"/><path class="chaty-st0" d="M-477.7,533.5h7.9c0.5,0,0.8,0.4,0.8,0.8l0,0c0,0.5-0.4,0.8-0.8,0.8h-7.9c-0.5,0-0.8-0.4-0.8-0.8l0,0C-478.6,533.9-478.2,533.5-477.7,533.5z"/></svg>'
+                return '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="-496 507.7 54 54" xml:space="preserve"><style type="text/css">.chaty-sts4-'+widgetId+'{fill: '+ iconColor +';}.chaty-st0{fill: #808080;}</style><g><circle cx="-469" cy="534.7" r="27" fill="' + widgetColor + '"/></g><path class="chaty-sts4-'+  widgetId +'" d="M-459.9,523.7h-20.3c-1.9,0-3.4,1.5-3.4,3.4v15.3c0,1.9,1.5,3.4,3.4,3.4h11.4l5.9,4.9c0.2,0.2,0.3,0.2,0.5,0.2 h0.3c0.3-0.2,0.5-0.5,0.5-0.8v-4.2h1.7c1.9,0,3.4-1.5,3.4-3.4v-15.3C-456.5,525.2-458,523.7-459.9,523.7z"/><path class="chaty-st0" d="M-477.7,530.5h11.9c0.5,0,0.8,0.4,0.8,0.8l0,0c0,0.5-0.4,0.8-0.8,0.8h-11.9c-0.5,0-0.8-0.4-0.8-0.8l0,0C-478.6,530.8-478.2,530.5-477.7,530.5z"/><path class="chaty-st0" d="M-477.7,533.5h7.9c0.5,0,0.8,0.4,0.8,0.8l0,0c0,0.5-0.4,0.8-0.8,0.8h-7.9c-0.5,0-0.8-0.4-0.8-0.8l0,0C-478.6,533.9-478.2,533.5-477.7,533.5z"/></svg>'
         }
     }
 
@@ -1739,7 +1850,7 @@
                     }
                 }
             }
-            return "<div class='chaty-channel " + channel.channel + "-channel" + extraClass + "' id='" + channel.channel + "-" + widgetId + "-channel' data-id='" + channel.channel_type + "-" + widgetId + "' data-widget='" + widgetId + "' data-channel='" + channel.channel + "'>" + channelLink + "</div>";
+            return "<div class='chaty-channel " + channel.channel + "-channel-link" + extraClass + "' id='" + channel.channel + "-" + widgetId + "-channel' data-id='" + channel.channel_type + "-" + widgetId + "' data-widget='" + widgetId + "' data-channel='" + channel.channel + "'>" + channelLink + "</div>";
         }
     }
 
@@ -1909,7 +2020,7 @@
         } else if (channel.channel_type == "Twitter") {
             agentURL = "https://twitter.com/" + $.trim(agent.value);
         } else if (channel.channel_type == "Instagram") {
-            agentURL = "https://www.instagram.com/" + $.trim(agent.value);
+            agentURL = "https://www.instagram.com/" + trimChar(agent.value, "@");
         } else if (channel.channel_type == "Phone") {
             agentTarget = "";
             agentURL = "tel:" + $.trim(agent.value);
@@ -2056,13 +2167,15 @@
                 channel.target = "";
             } else if (channel.channel_type == "Vkontakte") {
                 channel.url = "https://vk.me/" + $.trim(channel.value);
+            } else if (channel.channel_type == "Waze") {
+                channel.url = decodeURI($.trim(channel.value));
             }
         }
         if(channel.channel == "Link" || channel.channel == "Custom_Link" || channel.channel == "Custom_Link_3" || channel.channel == "Custom_Link_4" || channel.channel == "Custom_Link_5") {
             if(!isEmpty(channel.hover_text)) {
                 ariaLabel = channel.hover_text;
             } else {
-                ariaLabel = channel.channell
+                ariaLabel = channel.channel
             }
         }else {
             ariaLabel = channel.channel;
@@ -2074,7 +2187,7 @@
             channel.target = "";
             channel.url = "javascript:;";
         }
-        return "<a href='" + channel.url + "' " + onClickFn + " target='" + channel.target + "' rel='nofollow noopener' aria-label='" + ariaLabel + "' class='chaty-tooltip chaty-"+(channel.channel_type).toLowerCase()+"-channel pos-" + toolTipPosition + extraClass + "' data-form='chaty-form-" + widgetId + "-" + channel.channel_type + "' data-hover='" + channel.hover_text + "'>" + channelIcon + "</a>";
+        return "<a href='" + channel.url + "' " + onClickFn + " target='" + channel.target + "' rel='nofollow noopener' aria-label='" + ariaLabel + "' class='chaty-tooltip " + channel.channel_type + "-channel chaty-link chaty-"+(channel.channel_type).toLowerCase()+"-channel pos-" + toolTipPosition + extraClass + "' data-form='chaty-form-" + widgetId + "-" + channel.channel_type + "' data-hover='" + channel.hover_text + "'>" + channelIcon + "</a>";
     }
 
     function startMakingContactForm(channel, widgetId) {
@@ -2086,114 +2199,79 @@
         formHtml += "<div style='display:none;' class='chaty-outer-forms chaty-contact-form-box chaty-form-" + widgetId + "' data-channel='" + channel.channel_type + "' id='chaty-form-" + widgetId + "-" + channel.channel_type + "' data-widget='" + widgetId + "' data-index='" + widgetIndex + "'>";
         formHtml += "<div class='chaty-form'>";
         formHtml += "<div class='chaty-form-body'>";
-        formHtml += "<div role='button' class='close-chaty-form'><div class='chaty-close-button'></div></div>";
+        formHtml += "<div role='button' class='close-chaty-form'>" +
+            "<div aria-hidden='true' class='chaty-close-button'></div>" +
+            "<span class='hide-cht-svg-bg'>"+chaty_settings.lang.hide_whatsapp_form+"</span>" +
+            "</div>";
         formHtml += "<form class='chaty-ajax-contact-form' id='chaty-ajax-contact-form-" + widgetIndex + "' method='post' data-channel='" + channel.channel_type + "' data-widget='" + widgetId + "' data-token='" + channel.widget_token + "' data-index='" + channel.widget_index + "' enctype='multipart/form-data'>";
         formHtml += "<div class='chaty-contact-form-body'>";
-        formHtml += "<div class='chaty-contact-form-title'><div class='form-title'>" + channel.contact_form_settings.contact_form_title + "</div><div class='chaty-close-button'><svg width='15' height='9' viewBox='0 0 15 9' fill='none' xmlns='http://www.w3.org/2000/svg'> <path d='M1 1L7.31429 8L14 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'></path></svg></div></div>";
+        formHtml += "<div class='chaty-contact-form-title'>" +
+            "<div class='form-title'>" + channel.contact_form_settings.contact_form_title + "</div>" +
+            "<div aria-hidden='true' class='chaty-close-button'>" +
+            "<span class='hide-cht-svg-bg'>"+chaty_settings.lang.hide_whatsapp_form+"</span>" +
+            "<svg width='15' height='9' viewBox='0 0 15 9' fill='none' xmlns='http://www.w3.org/2000/svg'> <path d='M1 1L7.31429 8L14 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'></path></svg>" +
+            "</div>" +
+            "</div>";
         formHtml += "<div class='chaty-contact-inputs'>";
 
-        if(channel.contact_form_settings.contact_form_field_order == '') {
-            $.each(channel.contact_fields, function (key, contactField) {
-                formHtml += "<div class='chaty-contact-input'>";
-                var isRequired = isTrue(contactField.is_required) ? "is-required" : "";
-                var required_indicator = "";
-                if(isTrue(contactField.is_required)) {
-                    required_indicator = "<span class='required_indicate'>*</span>"
+        $.each(channel.contact_fields, function (key, contactField) {
+            formHtml += "<div class='chaty-contact-input'>";
+            var isRequired = isTrue(contactField.is_required) ? "is-required" : "";
+            var required_indicator = "";
+            if(isTrue(contactField.is_required)) {
+                required_indicator = "<span class='required_indicate'>*</span>"
+            }
+            if (isTrue(contactField.is_custom)) {
+                formHtml += "<label class='chaty-form-label' for='" + contactField.field_dropdown + "-" + key + "'>" + contactField.field_label + " " + required_indicator + "</label>";
+                formHtml += "<input type='hidden' name='custom_fields[" + key + "][label_" + contactField.field_dropdown + "]' value='" + contactField.field_label + "'>";
+                formHtml += "<input type='hidden' name='custom_fields[" + key + "][slug]' value='" + contactField.field_dropdown + "'>";
+
+                if (contactField.field_dropdown == 'text' || contactField.field_dropdown == 'url' || contactField.field_dropdown == 'date') {
+                    formHtml += "<input type='" + contactField.field_dropdown + "' class='chaty-input-field " + isRequired + " field-" + contactField.field_dropdown + "' placeholder='" + contactField.placeholder + "' name='custom_fields[" + key + "][" + contactField.field_dropdown + "]' id='" + contactField.field_dropdown + "-" + key + "' />"
+                } else if (contactField.field_dropdown == "file") {
+                    formHtml += "<input type='file' class='chaty-input-field " + isRequired + " field-" + contactField.field_dropdown + "' name='custom_fields[" + key + "][" + contactField.field_dropdown + "]' id='" + contactField.field_dropdown + "-" + key + "' accept='.jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.ppt,.pptx,.pps,.ppsx,.odt,.xls,.xlsx,.mp3,.mp4,.wav,.mpg,.avi,.mov,.wmv,.3gp,.ogv' multiple/>"
+                } else if (contactField.field_dropdown == "textarea") {
+                    formHtml += "<textarea class='chaty-textarea-field " + isRequired + " field-" + contactField.field_dropdown + "' placeholder='" + contactField.placeholder + "' name='custom_fields[" + key + "][" + contactField.field_dropdown + "]' id='" + contactField.field_dropdown + "-" + key + "' ></textarea>"
+                } else if (contactField.field_dropdown == "dropdown") {
+                    formHtml += "<select name='custom_fields[" + key + "][" + contactField.field_dropdown + "]' class='chaty-input-field " + isRequired + "'>";
+                    if (contactField.dropdown_placeholder) {
+                        formHtml += "<option value=''>" + contactField.dropdown_placeholder + "</option>";
+                    }
+                    $.each(contactField.dropdown_option, function (key, val) {
+                        if (val) {
+                            formHtml += "<option value='"+val+"'>" + val + "</option>";
+                        }
+                    });
+                    formHtml += "</select>";
+                } else if (contactField.field_dropdown == "textblock") {
+                    formHtml += contactField.placeholder;
+                } else if (contactField.field_dropdown == 'number') {
+                    formHtml += "<input type='tel' class='chaty-input-field " + isRequired + " field-" + contactField.field_dropdown + "' placeholder='" + contactField.placeholder + "' name='custom_fields[" + key + "][" + contactField.field_dropdown + "]' id='" + contactField.field_dropdown + "-" + key + "' />"
                 }
+            } else {
                 if (contactField.type == "textarea") {
                     if (!isEmpty(contactField.title)) {
-                        formHtml += "<label class='chaty-form-label' for='" + contactField.field + "-" + widgetId + "'>" + contactField.title +" "+required_indicator+"</label>";
+                        formHtml += "<label class='chaty-form-label' for='" + contactField.field + "-" + widgetId + "'>" + contactField.title + " " + required_indicator + "</label>";
                     } else {
                         formHtml += "<label class='sr-only' for='" + contactField.field + "-" + widgetId + "'>" + contactField.field + "</label>";
                     }
                     formHtml += "<textarea type='" + contactField.type + "' class='chaty-textarea-field " + isRequired + " field-" + contactField.field + "' placeholder='" + contactField.placeholder + "' name='" + contactField.field + "' id='" + contactField.field + "-" + widgetId + "' ></textarea>"
                 } else {
                     if (!isEmpty(contactField.title)) {
-                        formHtml += "<label class='chaty-form-label' for='" + contactField.field + "-" + widgetId + "'>" + contactField.title + " "+required_indicator+"</label>";
+                        formHtml += "<label class='chaty-form-label' for='" + contactField.field + "-" + widgetId + "'>" + contactField.title + " " + required_indicator + "</label>";
                     } else {
                         formHtml += "<label class='sr-only' for='" + contactField.field + "-" + widgetId + "'>" + contactField.field + "</label>";
                     }
-                    console.log(contactField.field);
                     formHtml += "<input type='" + contactField.type + "' class='chaty-input-field " + isRequired + " field-" + contactField.field + "' placeholder='" + contactField.placeholder + "' name='" + contactField.field + "' id='" + contactField.field + "-" + widgetId + "' />"
                     if (contactField.field == "email") {
                         formHtml += '<p id="email_suggestion' + widgetId + '" class="email_suggestion"></p>';
                     }
                 }
-                formHtml += "</div>";
-            });
-        } else {
-            $.each(channel.contact_form_settings.contact_form_field_order, function (orderKey, orderValue) {
-                $.each(channel.contact_fields, function (key, contactField) {
-                    if (contactField.title == orderValue) {
-                        formHtml += "<div class='chaty-contact-input'>";
-                        var isRequired = isTrue(contactField.is_required) ? "is-required" : "";
-                        var required_indicator = "";
-                        if(isTrue(contactField.is_required)) {
-                            required_indicator = "<span class='required_indicate'>*</span>"
-                        }
-                        if (contactField.type == "textarea") {
-                            if (!isEmpty(contactField.title)) {
-                                formHtml += "<label class='chaty-form-label' for='" + contactField.field + "-" + widgetId + "'>" + contactField.title +" "+required_indicator+"</label>";
-                            } else {
-                                formHtml += "<label class='sr-only' for='" + contactField.field + "-" + widgetId + "'>" + contactField.field + "</label>";
-                            }
-                            formHtml += "<textarea type='" + contactField.type + "' class='chaty-textarea-field " + isRequired + " field-" + contactField.field + "' placeholder='" + contactField.placeholder + "' name='" + contactField.field + "' id='" + contactField.field + "-" + widgetId + "' ></textarea>"
-                        } else {
-                            if (!isEmpty(contactField.title)) {
-                                formHtml += "<label class='chaty-form-label' for='" + contactField.field + "-" + widgetId + "'>" + contactField.title + " "+required_indicator+"</label>";
-                            } else {
-                                formHtml += "<label class='sr-only' for='" + contactField.field + "-" + widgetId + "'>" + contactField.field + "</label>";
-                            }
-                            formHtml += "<input type='" + contactField.type + "' class='chaty-input-field " + isRequired + " field-" + contactField.field + "' placeholder='" + contactField.placeholder + "' name='" + contactField.field + "' id='" + contactField.field + "-" + widgetId + "' />"
-                            if (contactField.field == "email") {
-                                formHtml += '<p id="email_suggestion' + widgetId + '" class="email_suggestion"></p>';
-                            }
-                        }
-                        formHtml += "</div>";
-                    }
-                });
+            }
+            formHtml += "</div>";
 
-                $.each(channel.contact_custom_fields, function (key, value) {
-                    if (value.unique_id == orderValue) {
-                        if (value.is_active == 'yes') {
-                            var isRequired = isTrue(value.is_required) ? "is-required" : "";
-                            var required_indicator = "";
-                            if(isTrue(value.is_required)) {
-                                required_indicator = "<span class='required_indicate'>*</span>"
-                            }
-                            formHtml += "<div class='chaty-contact-input'>";
-                            formHtml += "<label class='chaty-form-label' for='" + value.field_dropdown + "-" + key + "'>" + value.field_label + " "+required_indicator+"</label>";
-                            formHtml += "<input type='hidden' name='custom_fields[" + key + "][label_" + value.field_dropdown + "]' value='" + value.field_label + "'>";
-                            formHtml += "<input type='hidden' name='custom_fields[" + key + "][slug]' value='" + value.field_dropdown + "'>";
-                            if (value.field_dropdown == 'text' || value.field_dropdown == 'url' || value.field_dropdown == 'date') {
-                                formHtml += "<input type='" + value.field_dropdown + "' class='chaty-input-field " + isRequired + " field-" + value.field_dropdown + "' placeholder='" + value.placeholder + "' name='custom_fields[" + key + "][" + value.field_dropdown + "]' id='" + value.field_dropdown + "-" + key + "' />"
-                            } else if (value.field_dropdown == "file") {
-                                formHtml += "<input type='file' class='chaty-input-field " + isRequired + " field-" + value.field_dropdown + "' name='custom_fields[" + key + "][" + value.field_dropdown + "]' id='" + value.field_dropdown + "-" + key + "' accept='.jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.ppt,.pptx,.pps,.ppsx,.odt,.xls,.xlsx,.mp3,.mp4,.wav,.mpg,.avi,.mov,.wmv,.3gp,.ogv' multiple/>"
-                            } else if (value.field_dropdown == "textarea") {
-                                formHtml += "<textarea class='chaty-textarea-field " + isRequired + " field-" + value.field_dropdown + "' placeholder='" + value.placeholder + "' name='custom_fields[" + key + "][" + value.field_dropdown + "]' id='" + value.field_dropdown + "-" + key + "' ></textarea>"
-                            } else if (value.field_dropdown == "dropdown") {
-                                formHtml += "<select name='custom_fields[" + key + "][" + value.field_dropdown + "]' class='chaty-input-field " + isRequired + "'>";
-                                if (value.dropdown_placeholder) {
-                                    formHtml += "<option value=''>" + value.dropdown_placeholder + "</option>";
-                                }
-                                $.each(value.dropdown_option, function (key, val) {
-                                    if (val) {
-                                        formHtml += "<option value='"+val+"'>" + val + "</option>";
-                                    }
-                                });
-                                formHtml += "</select>";
-                            } else if (value.field_dropdown == "textblock") {
-                                var unique_id = Math.floor(Math.random() * Math.random()) + Date.now();
-                                formHtml += "<textarea rows='5' name='custom_fields[" + key + "][" + value.field_dropdown + "]' class='chaty-text-block chaty-textarea-field "+isRequired+"' id='text_editor_"+unique_id+"'></textarea>";
-                            } else if (value.field_dropdown == 'number') {
-                                formHtml += "<input type='tel' class='chaty-input-field " + isRequired + " field-" + value.field_dropdown + "' placeholder='" + value.placeholder + "' name='custom_fields[" + key + "][" + value.field_dropdown + "]' id='" + value.field_dropdown + "-" + key + "' />"
-                            }
-                            formHtml += "</div>";
-                        }
-                    }
-                });
-            });
-        }
+        });
+
 
         if(isTrue(channel.enable_recaptcha)) {
             if (!isEmpty(channel.v2_site_key)) {
@@ -2235,7 +2313,7 @@
         formHtml += "</div>";
         $("body").append(formHtml);
 
-        setChatyEditor();
+        // setChatyEditor();
 
     }
 
@@ -2308,7 +2386,7 @@
         formHtml += "<div class='chaty-whatsapp-data'>";
         formHtml += `<div class='chaty-whatsapp-field ${(isTrue(channel.emoji_picker))?"has_emoji":""}'>`;
         if(isTrue(channel.emoji_picker)) {
-            formHtml += '<button type="button" class="chaty-wp-emoji-input"><span class="hide-cht-svg-bg">' + chaty_settings.lang.emoji_picker + '</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12 2C6.47 2 2 6.5 2 12C2 14.6522 3.05357 17.1957 4.92893 19.0711C5.85752 19.9997 6.95991 20.7362 8.17317 21.2388C9.38642 21.7413 10.6868 22 12 22C14.6522 22 17.1957 20.9464 19.0711 19.0711C20.9464 17.1957 22 14.6522 22 12C22 10.6868 21.7413 9.38642 21.2388 8.17317C20.7362 6.95991 19.9997 5.85752 19.0711 4.92893C18.1425 4.00035 17.0401 3.26375 15.8268 2.7612C14.6136 2.25866 13.3132 2 12 2ZM15.5 8C15.8978 8 16.2794 8.15804 16.5607 8.43934C16.842 8.72064 17 9.10218 17 9.5C17 9.89782 16.842 10.2794 16.5607 10.5607C16.2794 10.842 15.8978 11 15.5 11C15.1022 11 14.7206 10.842 14.4393 10.5607C14.158 10.2794 14 9.89782 14 9.5C14 9.10218 14.158 8.72064 14.4393 8.43934C14.7206 8.15804 15.1022 8 15.5 8ZM8.5 8C8.89782 8 9.27936 8.15804 9.56066 8.43934C9.84196 8.72064 10 9.10218 10 9.5C10 9.89782 9.84196 10.2794 9.56066 10.5607C9.27936 10.842 8.89782 11 8.5 11C8.10218 11 7.72064 10.842 7.43934 10.5607C7.15804 10.2794 7 9.89782 7 9.5C7 9.10218 7.15804 8.72064 7.43934 8.43934C7.72064 8.15804 8.10218 8 8.5 8ZM12 17.5C9.67 17.5 7.69 16.04 6.89 14H17.11C16.3 16.04 14.33 17.5 12 17.5Z" fill="#CDD9E2"/> </svg></button>';
+            formHtml += '<button type="button" class="chaty-wp-emoji-input"><span class="hide-cht-svg-bg">"+chaty_settings.lang.emoji_picker+"</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12 2C6.47 2 2 6.5 2 12C2 14.6522 3.05357 17.1957 4.92893 19.0711C5.85752 19.9997 6.95991 20.7362 8.17317 21.2388C9.38642 21.7413 10.6868 22 12 22C14.6522 22 17.1957 20.9464 19.0711 19.0711C20.9464 17.1957 22 14.6522 22 12C22 10.6868 21.7413 9.38642 21.2388 8.17317C20.7362 6.95991 19.9997 5.85752 19.0711 4.92893C18.1425 4.00035 17.0401 3.26375 15.8268 2.7612C14.6136 2.25866 13.3132 2 12 2ZM15.5 8C15.8978 8 16.2794 8.15804 16.5607 8.43934C16.842 8.72064 17 9.10218 17 9.5C17 9.89782 16.842 10.2794 16.5607 10.5607C16.2794 10.842 15.8978 11 15.5 11C15.1022 11 14.7206 10.842 14.4393 10.5607C14.158 10.2794 14 9.89782 14 9.5C14 9.10218 14.158 8.72064 14.4393 8.43934C14.7206 8.15804 15.1022 8 15.5 8ZM8.5 8C8.89782 8 9.27936 8.15804 9.56066 8.43934C9.84196 8.72064 10 9.10218 10 9.5C10 9.89782 9.84196 10.2794 9.56066 10.5607C9.27936 10.842 8.89782 11 8.5 11C8.10218 11 7.72064 10.842 7.43934 10.5607C7.15804 10.2794 7 9.89782 7 9.5C7 9.10218 7.15804 8.72064 7.43934 8.43934C7.72064 8.15804 8.10218 8 8.5 8ZM12 17.5C9.67 17.5 7.69 16.04 6.89 14H17.11C16.3 16.04 14.33 17.5 12 17.5Z" fill="#CDD9E2"/> </svg></button>';
         }
         formHtml += "<input name='text' type='text' id='chaty_whatsapp_input' class='chaty-whatsapp-input' />";
         formHtml += "<button type='submit' class='chaty-whatsapp-button-button' >";
@@ -2337,10 +2415,12 @@
             preSetMessage = preSetMessage.replace(/{url}/g, window.location);
             $("#chaty-form-" + widgetId + "-" + channel.channel_type + " .chaty-whatsapp-input").val(preSetMessage);
         }
-        $("#chaty-form-" + widgetId + "-" + channel.channel_type).show();
         $("#chaty-form-" + widgetId + "-" + channel.channel_type + " .chaty-whatsapp-input").attr("placeholder", channel.input_placeholder);
+        $("#chaty-form-" + widgetId + "-" + channel.channel_type).show();
         $("#chaty-form-" + widgetId + "-" + channel.channel_type+" .chaty-whatsapp-header").css("background-color", channel.wp_popup_head_bg_color);
+
     }
+
 
     /**
      *
@@ -2396,7 +2476,7 @@
         if(!isEmpty(channel.wechat_qr_code_title)) {
             formHtml += '<div class="qr-code-title">'+channel.wechat_qr_code_title+':</div>';
         }
-        formHtml += "<div role='button' class='close-chaty-form is-whatsapp-btn'><div aria-hidden='true' class='chaty-close-button'></div><span class='hide-cht-svg-bg'>"+chaty_settings.lang.hide_whatsapp_form+"</span></div>";
+        formHtml += "<div role='button' class='close-chaty-form is-whatsapp-btn'><div aria-hidden='true' class='chaty-close-button'></div><span class='hide-cht-svg-bg'>"+chaty_settings.lang.hide_whatsapp_form+"</span></div></div>";
         formHtml += "<div class='qr-code-box'><div class='qr-code-image'><img src='" + channel.qr_code_image_url + "' alt='" + channel.title + "' /></div>";
         formHtml += "</div>";
         formHtml += "</div>";
@@ -3126,6 +3206,16 @@
     }
 
 
+    function hideDefaultOpenWidgets() {
+        if($(".chaty-widget.default-open.has-bg-blur-effect").length) {
+            $(".chaty-widget.default-open.has-bg-blur-effect").each(function(){
+                var chatyWidgetId = $(this).closest(".chaty").data("id");
+                saveChatyCookieString(chatyWidgetId, "c-widget");
+            });
+        }
+    }
+
+
     /**
      *
      * To check widget's setting cookie status stored in Array
@@ -3246,7 +3336,10 @@
 
 function launch_chaty(widget_number) {
     if (widget_number == undefined || widget_number == "widget_index") {
-        widget_number = 1;
+        widget_number = 0;
+    }
+    if (jQuery("#chaty-widget-"+widget_number).length) {
+        jQuery("#chaty-widget-"+widget_number+" .chaty-cta-button .open-chaty").trigger("click");
     }
     if (jQuery("#chaty-widget-_"+widget_number).length) {
         jQuery("#chaty-widget-_"+widget_number+" .chaty-cta-button .open-chaty").trigger("click");

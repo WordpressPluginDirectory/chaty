@@ -139,7 +139,12 @@ $proClass      = "none_pro";
             <div class="js-error-message">
 
             </div>
-            <section class="grid grid-cols-1 lg:grid-cols-3 rounded-lg border border-gray-150/40 bg-white chaty-widget-tab step-<?php echo esc_attr($step) ?>" id="chaty-widget-body-tab" data-step="<?php echo esc_attr($step) ?>">
+
+            <?php
+            $chatwayStatus = apply_filters('check_for_chatway_status', 'not-installed');
+            $pluginClass = ($chatwayStatus != 'not-installed' && $chatwayStatus != 'not-activated')?'chatway--active':'';
+            ?>
+            <section class="grid <?php echo esc_attr($pluginClass) ?> grid-cols-1 lg:grid-cols-3 rounded-lg border border-gray-150/40 bg-white chaty-widget-tab step-<?php echo esc_attr($step) ?>" id="chaty-widget-body-tab" data-step="<?php echo esc_attr($step) ?>">
                 <!-- settings column start -->
                 <div class="settings-column col-span-2 border-r border-gray-150/40">
                     <!--/* Social channel list section */-->

@@ -97,14 +97,70 @@ class CHT_Admin_Base
 
         add_action("admin_init", [$this, "check_for_redirection"]);
 
+        add_action('wp_ajax_get_chatway_status', [$this, 'get_chatway_status']);
         add_filter('check_for_chatway', [$this, 'check_for_chatway']);
+        add_filter('check_for_chatway_status', [$this, 'check_for_chatway_status']);
     }//end __construct()
 
+
+    function get_chatway_status()
+    {
+        echo $this->check_for_chatway_status();
+        wp_die();
+    }
 
     public function check_for_chatway()
     {
         $plugin = 'chatway-live-chat/chatway.php';
         return is_plugin_active($plugin);
+    }
+
+    public function check_for_chatway_status()
+    {
+        if ( !function_exists( 'get_plugins' ) || !function_exists( 'is_plugin_active' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+        $all_plugins = get_plugins();
+        $plugin = 'chatway-live-chat/chatway.php';
+        if (!isset($all_plugins[$plugin])) {
+            return 'not-installed';
+        } else if(!is_plugin_active($plugin)){
+            return 'not-activated';
+        } else if(!get_option( 'chatway_user_identifier', false )) {
+            return 'not-logged-in';
+        } else {
+            $token      = get_option( 'chatway_token', '' );
+            $user_id    = get_option( 'chatway_user_identifier', '' );
+            if( empty( $token ) || empty( $user_id ) ) {
+                return 'not-logged-in';
+            }
+
+            $response = wp_safe_remote_get(
+                'https://prod-api.chatway.app/api/profile?include[]=',
+                [
+                    'redirect' => 'follow',
+                    'headers'  => [
+                        'Accept'        => 'application/json',
+                        'Authorization' => 'Bearer ' . $token
+                    ],
+                ]
+            );
+            
+            if (is_wp_error($response)) {
+                return 'not-logged-in';
+            }
+
+            $response = json_decode(wp_remote_retrieve_body($response), true);
+
+            if(isset($response['message']) && $response['message'] == 'Unauthenticated.') {
+                delete_option( 'chatway_token' );
+                delete_option( 'chatway_user_identifier' );
+                return 'not-logged-in';
+            } else if(!isset($response['data']['attributes']['registration_step']) || $response['data']['attributes']['registration_step'] != 'ONBOARDED') {
+                return 'not-onboarded';
+            }
+        }
+        return 'completed';
     }
 
     /**
@@ -2591,6 +2647,9 @@ add_action('update_option_chaty_updated_on', function ($old_value, $value) {
     if ($show_first === false) {
         add_option("show_first_chaty_box", 1);
     }
+
+    delete_option("cht_is_chatway_added");
+    add_option("cht_is_chatway_added", true);
 
     delete_option("cht_is_default_deleted");
 

@@ -345,6 +345,10 @@ function change_custom_preview() {
                 if(jQuery(this).val() != "#ffffff") {
                     jQuery(this).closest("li.chaty-channel").find(".chaty-main-svg").find(".color-element").attr("fill", jQuery(this).val());
                 }
+            } else if(jQuery(this).closest(".chaty-channel").data("channel") == "Instagram_DM") {
+                if(jQuery(this).val() != "#ffffff") {
+                    jQuery(this).closest("li.chaty-channel").find(".chaty-main-svg").find(".color-element").attr("fill", jQuery(this).val());
+                }
             } else {
                 jQuery(this).closest("li.chaty-channel").find(".chaty-main-svg").find(".color-element").attr("fill", jQuery(this).val());
             }
@@ -353,6 +357,10 @@ function change_custom_preview() {
     if(jQuery(".agent-icon-color").length) {
         jQuery(".agent-icon-color").each(function () {
             if(jQuery(this).closest(".chaty-channel").data("channel") == "Instagram") {
+                if(jQuery(this).val() != "#ffffff") {
+                    jQuery(this).closest("li.chaty-channel").find(".chaty-main-svg").find(".color-element").attr("fill", jQuery(this).val());
+                }
+            } else if(jQuery(this).closest(".chaty-channel").data("channel") == "Instagram_DM") {
                 if(jQuery(this).val() != "#ffffff") {
                     jQuery(this).closest("li.chaty-channel").find(".chaty-main-svg").find(".color-element").attr("fill", jQuery(this).val());
                 }

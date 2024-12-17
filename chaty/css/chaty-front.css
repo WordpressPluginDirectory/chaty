@@ -1438,8 +1438,8 @@ html[dir="rtl"] .chaty-tooltip:after {
 .chaty-custom-whatsapp-form .chaty-whatsapp-body {
     min-height: auto;
 }
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+.chaty-outer-forms input[type=number]::-webkit-inner-spin-button,
+.chaty-outer-forms input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;

@@ -538,7 +538,7 @@ class CHT_Admin_Base
                 wp_enqueue_style('jquery-ui-css', plugins_url('../admin/assets/css/datepicker.min.css', __FILE__), [], CHT_VERSION);
             }
 
-            wp_enqueue_style($this->pluginSlug, plugins_url('../admin/assets/css/cht-style.min.css', __FILE__), [], CHT_VERSION);
+            wp_enqueue_style($this->pluginSlug, plugins_url('../admin/assets/css/cht-style.css', __FILE__), [], CHT_VERSION);
             wp_enqueue_style($this->pluginSlug."-tailwind", plugins_url('../admin/assets/css/app.css', __FILE__), [], CHT_VERSION);
             wp_enqueue_style($this->pluginSlug."-preview", plugins_url('../admin/assets/css/preview.css', __FILE__), [], CHT_VERSION);
         }
@@ -617,8 +617,8 @@ class CHT_Admin_Base
         // WP change this
         wp_enqueue_editor();
         wp_enqueue_media();
-        wp_enqueue_script($this->pluginSlug.'chaty', plugins_url('../admin/assets/js/cht-scripts.min.js', __FILE__), ['jquery', 'wp-color-picker', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-hooks'], CHT_VERSION, true);
-        wp_enqueue_script($this->pluginSlug.'preview', plugins_url('../admin/assets/js/preview.min.js', __FILE__), ['jquery'], CHT_VERSION, true);
+        wp_enqueue_script($this->pluginSlug.'chaty', plugins_url('../admin/assets/js/cht-scripts.js', __FILE__), ['jquery', 'wp-color-picker', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-hooks'], CHT_VERSION, true);
+        wp_enqueue_script($this->pluginSlug.'preview', plugins_url('../admin/assets/js/preview.js', __FILE__), ['jquery'], CHT_VERSION, true);
         wp_enqueue_script($this->pluginSlug.'acolorpicker', plugins_url('../admin/assets/js/acolorpicker.js', __FILE__), ['jquery'], CHT_VERSION, true);
         wp_enqueue_script($this->pluginSlug.'widget-script', plugins_url('../admin/assets/js/app.js', __FILE__), ['jquery', 'wp-hooks'], CHT_VERSION, true);
 

@@ -880,7 +880,7 @@
      * */
     function startMakingWidgets() {
         if (widgetData.length) {
-            $("body").append('<svg width="39" height="39" viewBox="0 0 39 39" class="hide-cht-svg-bg" fill="none" xmlns="http://www.w3.org/2000/svg"><defs> <linearGradient id="linear-gradient" x1="0.892" y1="0.192" x2="0.128" y2="0.85" gradientUnits="objectBoundingBox"> <stop offset="0" stop-color="#4a64d5"/> <stop offset="0.322" stop-color="#9737bd"/> <stop offset="0.636" stop-color="#f15540"/> <stop offset="1" stop-color="#fecc69"/> </linearGradient> </defs>');
+            $("body").append('<svg width="39" height="39" viewBox="0 0 39 39" class="hide-cht-svg-bg" fill="none" xmlns="http://www.w3.org/2000/svg"><defs> <linearGradient id="linear-gradient" x1="0.892" y1="0.192" x2="0.128" y2="0.85" gradientUnits="objectBoundingBox"> <stop offset="0" stop-color="#4a64d5"/> <stop offset="0.322" stop-color="#9737bd"/> <stop offset="0.636" stop-color="#f15540"/> <stop offset="1" stop-color="#fecc69"/> </linearGradient> <linearGradient id="linear-gradient-insta-dm" x1="0.892" y1="0.192" x2="0.128" y2="0.85" gradientUnits="objectBoundingBox"> <stop offset="0" stop-color="#4A64D5"></stop> <stop offset="0.322" stop-color="#9737BD"></stop> <stop offset="0.636" stop-color="#F15540"></stop> <stop offset="1" stop-color="#FECC69"></stop> </linearGradient></defs>');
             $.each(widgetData, function (key, widgetRecord) {
 
                 var customCSS = "";
@@ -1041,7 +1041,7 @@
                                     $("#chaty-widget-" + widgetRecord.id + " .chaty-channel-list").append(channelHtml);
                                 }
 
-                                if (channel.channel_type != "Instagram" || (channel.icon_color != "#ffffff" && channel.icon_color != "#fff")) {
+                                if ((channel.channel_type != "Instagram" && channel.channel_type != "Instagram_DM") || (channel.icon_color != "#ffffff" && channel.icon_color != "#fff")) {
                                     customCSS += "#chaty-widget-" + widgetRecord.id + " ." + channel.channel_type + "-channel .color-element{ fill: " + channel.icon_color + "; color: " + channel.icon_color + ";}";
                                     customCSS += "#chaty-widget-" + widgetRecord.id + " .channel-icon-" + channel.channel_type + " .color-element{ fill: " + channel.icon_color + "; color: " + channel.icon_color + ";}";
                                 }
@@ -1825,7 +1825,7 @@
                     channelIcon = getChannelIcon(channel, widgetId);
                     channelLink = getChannelURL(channel, channelIcon, toolTipPosition, widgetId);
 
-                    if (channel.channel != "Instagram" || (channel.icon_color != "#ffffff" && channel.icon_color != "#fff")) {
+                    if ((channel.channel_type != "Instagram" && channel.channel_type != "Instagram_DM") || (channel.icon_color != "#ffffff" && channel.icon_color != "#fff")) {
                         customExtraCSS += ".chaty-agent-" + widgetId + "-" + channel.channel + " .color-element {fill: " + channel.icon_color + "; color: " + channel.icon_color + ";}";
                     }
                     customExtraCSS += ".chaty-agent-" + widgetId + "-" + channel.channel + " .chaty-custom-icon { background-color: " + channel.icon_color + ";}";
@@ -1884,7 +1884,7 @@
                 formHtml += "<div class='chaty-agent agent-info-" + widgetId + "-" + channel.channel + " agent-info-" + key + "'>" + agentLink + "</div>";
             }
             customExtraCSS += ".agent-info-" + widgetId + "-" + channel.channel + ".agent-info-" + key + " .chaty-agent-icon img { background-color: " + agent.agent_bg_color + "; } ";
-            if (channel.channel != "Instagram" || (agent.agent_bg_color != "#ffffff" && agent.agent_bg_color != "#fff")) {
+            if ((channel.channel_type != "Instagram" && channel.channel_type != "Instagram_DM") || (agent.agent_bg_color != "#ffffff" && agent.agent_bg_color != "#fff")) {
                 customExtraCSS += ".agent-info-" + widgetId + "-" + channel.channel + ".agent-info-" + key + " .chaty-agent-icon .color-element { fill: " + agent.agent_bg_color + "; } ";
             }
             customExtraCSS += ".agent-info-" + widgetId + "-" + channel.channel + ".agent-info-" + key + " .chaty-custom-icon { background-color: " + agent.agent_bg_color + "; } ";
@@ -2021,6 +2021,8 @@
             agentURL = "https://twitter.com/" + $.trim(agent.value);
         } else if (channel.channel_type == "Instagram") {
             agentURL = "https://www.instagram.com/" + trimChar(agent.value, "@");
+        } else if (channel.channel_type == "Instagram_DM") {
+            agentURL = "https://ig.me/m/" + trimChar(agent.value, "@");
         } else if (channel.channel_type == "Phone") {
             agentTarget = "";
             agentURL = "tel:" + $.trim(agent.value);

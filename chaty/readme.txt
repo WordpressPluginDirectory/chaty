@@ -2,8 +2,8 @@
 Contributors: galdub, tomeraharon, premio
 Tags: whatsapp, whatsapp chat, facebook messenger, chat, chat button
 Requires at least: 3.1
-Tested up to: 6.7
-Stable tag: 3.3.4
+Tested up to: 6.8
+Stable tag: 3.3.8
 Plugin URI: https://premio.io/downloads/chaty/
 License: GPLv3
 
@@ -110,7 +110,7 @@ Get all the features of the free plan, plus:
 5. Change the position of the chat button
 6. Custom design
 7. Show or hide the chat widget using targeting rules
-8. Create more than one chat widget and show it on specific pages and categories of your website based on page targeting rules. For example, display Skype, Whatsapp chat, and a click to call icon for one category, and Facebook Messenger, Telegram, and Line button for another category. 
+8. Create more than one chat widget and show it on specific pages and categories of your website based on page targeting rules. For example, display Skype, WhatsApp chat, and a click to call icon for one category, and Facebook Messenger, Telegram, and Line button for another category. 
 <strong>The main use cases for the multi chat widget are:</strong>
 Separate widget design for mobile and desktop
 Change widget language for WPML and multi-language websites
@@ -180,7 +180,7 @@ In the Pro version, Chaty has many WooCommerce integrations, including dynamic c
 
 * Skype - add your Skype username and let your visitors call and message you easily via Skype.
 
-* Vkontakte (ВКонтакте) - add your Vkontakte username and let your visitors contact you directly through the app.
+* Vkontakte (ВКонтакте) - add your Vkontakte (ВКонтакте) username and let your visitors contact you directly through the app.
 
 * LinkedIn icon - link to your LinkedIn profile so your visitors can connect with you and send you direct messages.
 
@@ -294,6 +294,23 @@ Yes! You can even decide what chat buttons will show up on each device (desktop/
 
 
 == Changelog ==
+
+= 3.3.8 =
+Slack channel bug fixed
+
+= 3.3.7 =
+JavaScript bug fixed
+
+= 3.3.6 =
+WordPress 6.7 bug fixes
+DOM issue fixed
+
+= 3.3.5 =
+File upload bug fixed
+Custom field for email sent for leads bug fixed
+Custom channels bug fixed
+Contact form bug fixed
+WhatsApp iOS bug fixed
 
 = 3.3.4 =
 Added a chat button for Instagram Direct Messenger

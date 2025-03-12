@@ -716,6 +716,8 @@ class CHT_Frontend extends CHT_Admin_Base
                     $chaty_updated_on = time();
                 }
 
+                $minified = CHT_DEV_MODE ? '' : '.min';
+
                 // add js for front end widget
                 if (!empty($fontFamily)) {
                     if (!in_array($fontFamily, ["Arial", "Tahoma", "Verdana", "Helvetica", "Times New Roman", "Trebuchet MS", "Georgia", "System Stack", "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"])) {
@@ -726,8 +728,8 @@ class CHT_Frontend extends CHT_Admin_Base
                 $in_footer = apply_filters('show_chaty_script_in_footer', true);
 
                 // WP change this
-                wp_enqueue_style('chaty-front-css', CHT_PLUGIN_URL."css/chaty-front.min.css", [], CHT_VERSION.$chaty_updated_on);
-                wp_enqueue_script("chaty-front-end", CHT_PLUGIN_URL."js/cht-front-script.js", [ 'jquery' ], CHT_VERSION.$chaty_updated_on, $in_footer);
+                wp_enqueue_style('chaty-front-css', CHT_PLUGIN_URL."css/chaty-front".esc_attr($minified).".css", [], CHT_VERSION.$chaty_updated_on);
+                wp_enqueue_script("chaty-front-end", CHT_PLUGIN_URL."js/cht-front-script".esc_attr($minified).".js", [ 'jquery' ], CHT_VERSION.$chaty_updated_on, $in_footer);
 
                 if($this->hasEmail) {
                     wp_enqueue_script("chaty-mail-check", CHT_PLUGIN_URL . "admin/assets/js/mailcheck.js", ['jquery'], CHT_VERSION, $in_footer);
@@ -1153,7 +1155,7 @@ class CHT_Frontend extends CHT_Admin_Base
                             $mobileTarget  = "_blank";
                         } else if ($channelType == "slack") {
                             // setting for Twitter
-                            $url           = esc_url($url);
+                            $url           = esc_url($value['value']);
                             $desktopTarget = "_blank";
                             $mobileTarget  = "_blank";
                         } else if ($channelType == "tiktok") {

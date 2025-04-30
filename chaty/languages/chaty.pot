@@ -2,10 +2,10 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Chaty 3.3.8\n"
+"Project-Id-Version: Chaty 3.3.9\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/chaty-free-uncompressed\n"
-"POT-Creation-Date: 2025-03-12 06:53:03+00:00\n"
+"POT-Creation-Date: 2025-04-30 08:00:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -234,33 +234,33 @@ msgstr ""
 msgid "@TikTok_username"
 msgstr ""
 
-#: admin/class-social-icons.php:348
+#: admin/class-social-icons.php:339
 msgid "Enter a waze link"
 msgstr ""
 
-#: admin/class-social-icons.php:358
+#: admin/class-social-icons.php:349
 msgid "My-Name-512b1413b"
 msgstr ""
 
-#: admin/class-social-icons.php:368
+#: admin/class-social-icons.php:359
 msgid "Link Vkontakte"
 msgstr ""
 
-#: admin/class-social-icons.php:377
+#: admin/class-social-icons.php:368
 msgid "Slack"
 msgstr ""
 
-#: admin/class-social-icons.php:395
+#: admin/class-social-icons.php:386
 msgid "Discord"
 msgstr ""
 
-#: admin/class-social-icons.php:403
+#: admin/class-social-icons.php:394
 msgid "Microsoft Teams"
 msgstr ""
 
-#: admin/class-social-icons.php:411 admin/class-social-icons.php:433
-#: admin/class-social-icons.php:455 admin/class-social-icons.php:477
-#: admin/class-social-icons.php:499
+#: admin/class-social-icons.php:402 admin/class-social-icons.php:424
+#: admin/class-social-icons.php:446 admin/class-social-icons.php:468
+#: admin/class-social-icons.php:490
 msgid "Link"
 msgstr ""
 
@@ -457,7 +457,7 @@ msgstr ""
 msgid "4. Add live chat"
 msgstr ""
 
-#: views/admin/admin.php:104 views/admin/upgrade.php:219
+#: views/admin/admin.php:104
 msgid "Back"
 msgstr ""
 
@@ -2465,40 +2465,149 @@ msgstr ""
 msgid "You can remove yourself from the list whenever you want, no strings attached"
 msgstr ""
 
-#: views/admin/upgrade.php:42 views/admin/upgrade.php:65
-#: views/admin/upgrade.php:88 views/admin/upgrade.php:111
-#: views/admin/upgrade.php:134 views/admin/upgrade.php:231
-msgid "1 year"
+#: views/admin/upgrade.php:38
+msgid "1 Year"
 msgstr ""
 
-#: views/admin/upgrade.php:43 views/admin/upgrade.php:66
-#: views/admin/upgrade.php:89 views/admin/upgrade.php:112
+#: views/admin/upgrade.php:39
+msgid "Billed Yearly"
+msgstr ""
+
+#: views/admin/upgrade.php:40
+msgid "/year"
+msgstr ""
+
+#: views/admin/upgrade.php:45
+msgid "Less than $4.9/mo"
+msgstr ""
+
+#: views/admin/upgrade.php:47 views/admin/upgrade.php:85
+#: views/admin/upgrade.php:123
+msgid "1 Website"
+msgstr ""
+
+#: views/admin/upgrade.php:50
+msgid "Save $166"
+msgstr ""
+
+#: views/admin/upgrade.php:51
+msgid "Less than $10.8/mo"
+msgstr ""
+
+#: views/admin/upgrade.php:53 views/admin/upgrade.php:91
+#: views/admin/upgrade.php:129
+msgid "5 Websites"
+msgstr ""
+
+#: views/admin/upgrade.php:56
+msgid "Save $2,740"
+msgstr ""
+
+#: views/admin/upgrade.php:57
+msgid "Less than $17.4/mo"
+msgstr ""
+
+#: views/admin/upgrade.php:59 views/admin/upgrade.php:97
 #: views/admin/upgrade.php:135
-msgid "Updated and support for 1 year"
+msgid "50 Websites"
 msgstr ""
 
-#: views/admin/upgrade.php:49 views/admin/upgrade.php:72
-#: views/admin/upgrade.php:95 views/admin/upgrade.php:118
+#: views/admin/upgrade.php:62 views/admin/upgrade.php:68
+#: views/admin/upgrade.php:100 views/admin/upgrade.php:106
+#: views/admin/upgrade.php:138 views/admin/upgrade.php:144
+msgid "Save >95%"
+msgstr ""
+
+#: views/admin/upgrade.php:63
+msgid "Less than $34.9/mo"
+msgstr ""
+
+#: views/admin/upgrade.php:65 views/admin/upgrade.php:103
 #: views/admin/upgrade.php:141
-msgid "2 years"
+msgid "500 Websites"
 msgstr ""
 
-#: views/admin/upgrade.php:50 views/admin/upgrade.php:73
-#: views/admin/upgrade.php:96 views/admin/upgrade.php:119
-#: views/admin/upgrade.php:142
-msgid "Updated and support for 2 years"
+#: views/admin/upgrade.php:69
+msgid "Less than $47.4/mo"
 msgstr ""
 
-#: views/admin/upgrade.php:56 views/admin/upgrade.php:79
-#: views/admin/upgrade.php:102 views/admin/upgrade.php:125
-#: views/admin/upgrade.php:148
+#: views/admin/upgrade.php:71 views/admin/upgrade.php:109
+#: views/admin/upgrade.php:147
+msgid "1000 Websites"
+msgstr ""
+
+#: views/admin/upgrade.php:76
+msgid "2 Year"
+msgstr ""
+
+#: views/admin/upgrade.php:77
+msgid "Billed Yearly after 2 Years"
+msgstr ""
+
+#: views/admin/upgrade.php:78
+msgid "/2 year"
+msgstr ""
+
+#: views/admin/upgrade.php:82
+msgid "Save $29"
+msgstr ""
+
+#: views/admin/upgrade.php:83
+msgid "Less than $3.7/mo"
+msgstr ""
+
+#: views/admin/upgrade.php:88
+msgid "Save $391"
+msgstr ""
+
+#: views/admin/upgrade.php:89
+msgid "Less than $8.3/mo"
+msgstr ""
+
+#: views/admin/upgrade.php:94
+msgid "Save $5,000+"
+msgstr ""
+
+#: views/admin/upgrade.php:95
+msgid "Less than $13.7/mo"
+msgstr ""
+
+#: views/admin/upgrade.php:101
+msgid "Less than $25.8/mo"
+msgstr ""
+
+#: views/admin/upgrade.php:107
+msgid "Less than $36.2/mo"
+msgstr ""
+
+#: views/admin/upgrade.php:114
 msgid "Lifetime"
 msgstr ""
 
-#: views/admin/upgrade.php:57 views/admin/upgrade.php:80
-#: views/admin/upgrade.php:103 views/admin/upgrade.php:126
-#: views/admin/upgrade.php:149
-msgid "Updated and support for lifetime"
+#: views/admin/upgrade.php:115
+msgid "For Lifetime"
+msgstr ""
+
+#: views/admin/upgrade.php:116
+msgid "/lifetime"
+msgstr ""
+
+#: views/admin/upgrade.php:120
+msgid "Save $126"
+msgstr ""
+
+#: views/admin/upgrade.php:121 views/admin/upgrade.php:127
+#: views/admin/upgrade.php:133 views/admin/upgrade.php:139
+#: views/admin/upgrade.php:145
+msgid "Lifetime License 🚀"
+msgstr ""
+
+#: views/admin/upgrade.php:126
+msgid "Save $1,146"
+msgstr ""
+
+#: views/admin/upgrade.php:132
+msgid "Save $10,000+"
 msgstr ""
 
 #: views/admin/upgrade.php:155
@@ -2635,194 +2744,77 @@ msgid ""
 "subject."
 msgstr ""
 
-#: views/admin/upgrade.php:225
-msgid "Unlock all features"
-msgstr ""
-
-#: views/admin/upgrade.php:226
-msgid "(enjoy 30-day money back guarantee on all plans)"
-msgstr ""
-
-#: views/admin/upgrade.php:232 views/admin/upgrade.php:247
-#: views/admin/upgrade.php:262
-msgid "Updates & Support"
-msgstr ""
-
-#: views/admin/upgrade.php:235
-msgid "2 years "
-msgstr ""
-
-#: views/admin/upgrade.php:250
-msgid "Lifetime "
-msgstr ""
-
-#: views/admin/upgrade.php:289 views/admin/upgrade.php:397
-msgid "Basic"
-msgstr ""
-
-#: views/admin/upgrade.php:290 views/admin/upgrade.php:306
-#: views/admin/upgrade.php:323 views/admin/upgrade.php:398
-#: views/admin/upgrade.php:454 views/admin/upgrade.php:509
-#: views/admin/upgrade.php:783
-msgid "/year"
-msgstr ""
-
-#: views/admin/upgrade.php:291 views/admin/upgrade.php:307
-#: views/admin/upgrade.php:324 views/admin/upgrade.php:399
-#: views/admin/upgrade.php:455 views/admin/upgrade.php:510
-#: views/admin/upgrade.php:782
-msgid "Billed Yearly"
-msgstr ""
-
-#: views/admin/upgrade.php:292 views/admin/upgrade.php:308
-#: views/admin/upgrade.php:325 views/admin/upgrade.php:400
-#: views/admin/upgrade.php:456 views/admin/upgrade.php:511
-#: views/admin/upgrade.php:777 views/admin/upgrade.php:781
-msgid "Less than $"
-msgstr ""
-
-#: views/admin/upgrade.php:292 views/admin/upgrade.php:308
-#: views/admin/upgrade.php:325 views/admin/upgrade.php:400
-#: views/admin/upgrade.php:456 views/admin/upgrade.php:511
-#: views/admin/upgrade.php:777 views/admin/upgrade.php:781
-msgid "/mo"
-msgstr ""
-
-#: views/admin/upgrade.php:293 views/admin/upgrade.php:309
-#: views/admin/upgrade.php:326 views/admin/upgrade.php:401
-#: views/admin/upgrade.php:457 views/admin/upgrade.php:512
-msgid "Updates & Support for"
-msgstr ""
-
-#: views/admin/upgrade.php:302 views/admin/upgrade.php:318
-#: views/admin/upgrade.php:335 views/admin/upgrade.php:410
-#: views/admin/upgrade.php:466 views/admin/upgrade.php:521
+#: views/admin/upgrade.php:276 views/admin/upgrade.php:359
 msgid "Buy now"
 msgstr ""
 
-#: views/admin/upgrade.php:305 views/admin/upgrade.php:453
-msgid "Plus"
-msgstr ""
-
-#: views/admin/upgrade.php:321 views/admin/upgrade.php:452
-msgid "🎉 Best Value"
-msgstr ""
-
-#: views/admin/upgrade.php:322 views/admin/upgrade.php:508
-msgid "Agency"
-msgstr ""
-
-#: views/admin/upgrade.php:344 views/admin/upgrade.php:527
-msgid "50 Websites"
-msgstr ""
-
-#: views/admin/upgrade.php:345 views/admin/upgrade.php:528
-msgid "500 Websites"
-msgstr ""
-
-#: views/admin/upgrade.php:346 views/admin/upgrade.php:529
-msgid "1000 Websites"
-msgstr ""
-
-#: views/admin/upgrade.php:416
-msgid "1 website"
-msgstr ""
-
-#: views/admin/upgrade.php:472
-msgid "5 websites"
-msgstr ""
-
-#: views/admin/upgrade.php:562
+#: views/admin/upgrade.php:390
 msgid "30 days money back guaranteed"
 msgstr ""
 
-#: views/admin/upgrade.php:566
+#: views/admin/upgrade.php:394
 msgid "The plugin will always keep working even if you don't renew your license"
 msgstr ""
 
-#: views/admin/upgrade.php:658
+#: views/admin/upgrade.php:486
 msgid "TRUSTED BY LEADING COMPANIES WORLDWIDE"
 msgstr ""
 
-#: views/admin/upgrade.php:664
+#: views/admin/upgrade.php:492
 msgid "Frequently Asked Questions"
 msgstr ""
 
-#: views/admin/upgrade.php:669
+#: views/admin/upgrade.php:497
 msgid "How long is my paid Chaty plugin license valid for?"
 msgstr ""
 
-#: views/admin/upgrade.php:670
+#: views/admin/upgrade.php:498
 msgid ""
 "Once you purchase any paid plan of Chaty, you can use it forever. Support "
 "and updates are available for 1 year. You can renew your license yearly to "
 "get another year of support and updates."
 msgstr ""
 
-#: views/admin/upgrade.php:673
+#: views/admin/upgrade.php:501
 msgid "Can I use Chaty plugin on more than 1 domain?"
 msgstr ""
 
-#: views/admin/upgrade.php:674
+#: views/admin/upgrade.php:502
 msgid "There 2 ways to do it:"
 msgstr ""
 
-#: views/admin/upgrade.php:676
+#: views/admin/upgrade.php:504
 msgid "You can install the free Chaty plugin on any website you want"
 msgstr ""
 
-#: views/admin/upgrade.php:677
+#: views/admin/upgrade.php:505
 msgid ""
 "You can buy the Pro plan that includes licenses for 5 domains, or the "
 "Agency plan that includes licenses for 50 domains (bigger plans are also "
 "available)."
 msgstr ""
 
-#: views/admin/upgrade.php:681
+#: views/admin/upgrade.php:509
 msgid "Is there a time limit for the free plan?"
 msgstr ""
 
-#: views/admin/upgrade.php:682
+#: views/admin/upgrade.php:510
 msgid "No. you can use the free plan as long as you want."
 msgstr ""
 
-#: views/admin/upgrade.php:685
+#: views/admin/upgrade.php:513
 msgid "Will Chaty stop working if I don’t renew my license?"
 msgstr ""
 
-#: views/admin/upgrade.php:686
+#: views/admin/upgrade.php:514
 msgid "Of course NOT!"
 msgstr ""
 
-#: views/admin/upgrade.php:686
+#: views/admin/upgrade.php:514
 msgid ""
 "Chaty plugin and all your settings will continue to work as before; "
 "however, you will no longer receive plugin updates, including feature "
 "additions, improvements, and support."
-msgstr ""
-
-#: views/admin/upgrade.php:773
-msgid "Lifetime License 🚀"
-msgstr ""
-
-#: views/admin/upgrade.php:774
-msgid "For lifetime"
-msgstr ""
-
-#: views/admin/upgrade.php:775
-msgid "/lifetime"
-msgstr ""
-
-#: views/admin/upgrade.php:778
-msgid "Billed Yearly after 2 Years"
-msgstr ""
-
-#: views/admin/upgrade.php:779
-msgid "/2 years"
-msgstr ""
-
-#: views/admin/upgrade.php:795
-msgid "Websites"
 msgstr ""
 
 #. Description of the plugin/theme

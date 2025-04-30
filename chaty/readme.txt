@@ -3,7 +3,7 @@ Contributors: galdub, tomeraharon, premio
 Tags: whatsapp, whatsapp chat, facebook messenger, chat, chat button
 Requires at least: 3.1
 Tested up to: 6.8
-Stable tag: 3.3.8
+Stable tag: 3.3.9
 Plugin URI: https://premio.io/downloads/chaty/
 License: GPLv3
 
@@ -30,7 +30,7 @@ Chaty is the perfect chat plugin to display a call widget, WhatsApp button, emai
 
 = 💪 What can you do with Chaty =
 
-* Chaty VS live chat - using live chat alternatives, your visitors must stay on your website & wait for your response. When you let your visitors chat with you using chat apps like Facebook Messenger, WhatsApp, Viber, Telegram, etc, you give them the freedom to chat with you wherever they go.
+* Chaty VS live chat - using live chat alternatives, your visitors must stay on your website & wait for your response. When you let your visitors chat with you using chat apps like Facebook Messenger, WhatsApp, Viber, Telegram, etc, you give them the freedom to chat with you wherever they go. If you still interested in using live chat plugin, you can integrate Chatway live chat with your Chaty chat widget.
 * Show your visitors the chat channels you're available on & let them choose the chat app they prefer.
 * WhatsApp Business - chat with your visitors on WhatsApp Business.
 * Help your visitors navigate to your address.
@@ -61,7 +61,6 @@ Snapchat
 Launch a <a href="https://www.poptin.com/?utm_source=chatylisting" target="_blank">Poptin pop up</a>
 Twitter
 LinkedIn
-Skype
 Slack
 Vkontakte (ВКонтакте)
 Phone (click to call)
@@ -110,7 +109,7 @@ Get all the features of the free plan, plus:
 5. Change the position of the chat button
 6. Custom design
 7. Show or hide the chat widget using targeting rules
-8. Create more than one chat widget and show it on specific pages and categories of your website based on page targeting rules. For example, display Skype, WhatsApp chat, and a click to call icon for one category, and Facebook Messenger, Telegram, and Line button for another category. 
+8. Create more than one chat widget and show it on specific pages and categories of your website based on page targeting rules. For example, WhatsApp chat, and a click to call icon for one category, and Facebook Messenger, Telegram, and Line button for another category. 
 <strong>The main use cases for the multi chat widget are:</strong>
 Separate widget design for mobile and desktop
 Change widget language for WPML and multi-language websites
@@ -177,8 +176,6 @@ In the Pro version, Chaty has many WooCommerce integrations, including dynamic c
 * Twitter (X.com) button - add your Twitter handle and let your visitors chat with your using Twitter X.com messages
 
 * Snapchat - add your Snapchat username and let your visitors find you easily on Snapchat.
-
-* Skype - add your Skype username and let your visitors call and message you easily via Skype.
 
 * Vkontakte (ВКонтакте) - add your Vkontakte (ВКонтакте) username and let your visitors contact you directly through the app.
 
@@ -247,7 +244,7 @@ Yes! You can add a WhatsApp chat button to your website (also known as Whats App
 Yes! Just choose the Phone icon and add your phone number.
 
 = Which buttons are available with the Chaty plugin? =
-WhatsApp chat, Facebook Messenger, Instagram, Email, SMS, Snapchat, Twitter, LinkedIn, Skype, Vkontakte, Phone (click to call), Telegram, Line, WeChat, Viber, Waze, Google maps, 2 Links to an external channel/contact page, Launch a Poptin popup
+WhatsApp chat, Facebook Messenger, Instagram, Email, SMS, Snapchat, Twitter, LinkedIn, Vkontakte, Phone (click to call), Telegram, Line, WeChat, Viber, Waze, Google maps, 2 Links to an external channel/contact page, Launch a Poptin popup
 
 = I don’t see the widget on my site, what should I do? =
 Please make sure you’ve chosen at least one channel and clicked on the “SAVE CHANGES” button.
@@ -277,7 +274,7 @@ Yes! You can even decide what chat buttons will show up on each device (desktop/
 
 == Screenshots ==
 
-1. All the popular click to chat channels included in the free plan. Add Facebook Messenger, WhatsApp, Skype, Instagram, and many other channels
+1. All the popular click to chat channels included in the free plan. Add Facebook Messenger, WhatsApp, Instagram, and many other channels
 2. You can use the WhatsApp chat pop up
 3. Add a contact us form to your Chaty widget
 4. Chat with your visitors on their favorite chat channels like WhatsApp, Facebook Messenger, Line, Viber, Telegram, and more
@@ -294,6 +291,10 @@ Yes! You can even decide what chat buttons will show up on each device (desktop/
 
 
 == Changelog ==
+
+= 3.3.9 =
+Removed Skype from the chat buttons list (Skype EOL)
+PHP bug fixed
 
 = 3.3.8 =
 Slack channel bug fixed

@@ -2,10 +2,9 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Chaty 3.3.9\n"
-"Report-Msgid-Bugs-To: "
-"https://wordpress.org/support/plugin/chaty-free-uncompressed\n"
-"POT-Creation-Date: 2025-04-30 08:00:16+00:00\n"
+"Project-Id-Version: Chaty 3.4.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/chaty\n"
+"POT-Creation-Date: 2025-05-08 06:14:53+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,18 +24,18 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: admin/class-admin-base.php:275 admin/class-admin-base.php:280
-#: admin/class-admin-base.php:331 admin/class-admin-base.php:335
-#: admin/class-admin-base.php:340
+#: admin/class-admin-base.php:274 admin/class-admin-base.php:279
+#: admin/class-admin-base.php:330 admin/class-admin-base.php:334
+#: admin/class-admin-base.php:339
 msgid "Your request is not valid"
 msgstr ""
 
-#: admin/class-admin-base.php:304 views/admin/help.php:37
+#: admin/class-admin-base.php:303 views/admin/help.php:37
 #: views/admin/help.php:41
 msgid "Need help?"
 msgstr ""
 
-#: admin/class-admin-base.php:305
+#: admin/class-admin-base.php:304
 msgid "Upgrade"
 msgstr ""
 
@@ -89,7 +88,7 @@ msgid "Recommended Plugins"
 msgstr ""
 
 #: admin/class-admin-base.php:802 admin/class-admin-base.php:803
-#: admin/class-admin-base.php:1086 views/admin/channel.php:547
+#: admin/class-admin-base.php:1098 views/admin/channel.php:547
 #: views/admin/channel.php:616 views/admin/channel.php:642
 #: views/admin/channel.php:692 views/admin/channel.php:701
 #: views/admin/channel.php:916 views/admin/channel.php:970
@@ -112,54 +111,54 @@ msgstr ""
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: admin/class-admin-base.php:1156
+#: admin/class-admin-base.php:1168
 msgid "id"
 msgstr ""
 
-#: admin/class-admin-base.php:1157
+#: admin/class-admin-base.php:1169
 msgid "Widget"
 msgstr ""
 
-#: admin/class-admin-base.php:1158 includes/class-frontend.php:1213
+#: admin/class-admin-base.php:1170 includes/class-frontend.php:1213
 #: views/admin/channel.php:452 views/admin/channels-section.php:43
 #: views/admin/contact-form-feed.php:196 views/admin/contact-form-feed.php:234
 msgid "Name"
 msgstr ""
 
-#: admin/class-admin-base.php:1159 admin/class-admin-base.php:2501
+#: admin/class-admin-base.php:1171 admin/class-admin-base.php:2480
 #: includes/class-frontend.php:1225 views/admin/channel.php:459
 #: views/admin/contact-form-feed.php:197 views/admin/contact-form-feed.php:237
 #: views/admin/help.php:17
 msgid "Email"
 msgstr ""
 
-#: admin/class-admin-base.php:1160 admin/class-social-icons.php:142
+#: admin/class-admin-base.php:1172 admin/class-social-icons.php:142
 #: admin/class-social-icons.php:165 admin/class-social-icons.php:223
 #: admin/class-social-icons.php:290 views/admin/contact-form-feed.php:198
 #: views/admin/contact-form-feed.php:240 views/admin/popup.php:290
 msgid "Phone number"
 msgstr ""
 
-#: admin/class-admin-base.php:1161 includes/class-frontend.php:1247
+#: admin/class-admin-base.php:1173 includes/class-frontend.php:1247
 #: views/admin/channel.php:473 views/admin/contact-form-feed.php:199
 #: views/admin/contact-form-feed.php:243
 msgid "Message"
 msgstr ""
 
-#: admin/class-admin-base.php:1162 views/admin/contact-form-feed.php:201
+#: admin/class-admin-base.php:1174 views/admin/contact-form-feed.php:201
 #: views/admin/contact-form-feed.php:257
 msgid "Date"
 msgstr ""
 
-#: admin/class-admin-base.php:1163
+#: admin/class-admin-base.php:1175
 msgid "Reference Page"
 msgstr ""
 
-#: admin/class-admin-base.php:2484
+#: admin/class-admin-base.php:2463
 msgid "%1$s is required"
 msgstr ""
 
-#: admin/class-admin-base.php:2493
+#: admin/class-admin-base.php:2472
 msgid "Please enter your message"
 msgstr ""
 
@@ -292,6 +291,22 @@ msgstr ""
 
 #: includes/class-affiliate.php:219
 msgid "Don't remind me about this"
+msgstr ""
+
+#: includes/class-email-signup.php:61
+msgid "Join the list 300,000+ users trust"
+msgstr ""
+
+#: includes/class-email-signup.php:62
+msgid "300,000+"
+msgstr ""
+
+#: includes/class-email-signup.php:63
+msgid "5/5 Rating"
+msgstr ""
+
+#: includes/class-email-signup.php:64
+msgid "Based on 1,000+ Reviews"
 msgstr ""
 
 #: includes/class-frontend.php:314 includes/class-frontend.php:323
@@ -1682,6 +1697,46 @@ msgstr ""
 msgid "Widget name is required"
 msgstr ""
 
+#: views/admin/email-signup.php:365
+msgid "We Only Email When It's Worth It"
+msgstr ""
+
+#: views/admin/email-signup.php:370
+msgid "Plugin updates and features for improved performance"
+msgstr ""
+
+#: views/admin/email-signup.php:374
+msgid "Important security updates for site safety"
+msgstr ""
+
+#: views/admin/email-signup.php:379
+msgid "Limited-time offers for WordPress users seeking growth"
+msgstr ""
+
+#: views/admin/email-signup.php:387
+msgid "Your Email Address"
+msgstr ""
+
+#: views/admin/email-signup.php:392
+msgid "Count Me In"
+msgstr ""
+
+#: views/admin/email-signup.php:400
+msgid "Maybe Later"
+msgstr ""
+
+#: views/admin/email-signup.php:414
+msgid "Website Owners"
+msgstr ""
+
+#: views/admin/email-signup.php:426
+msgid "No Spam Ever"
+msgstr ""
+
+#: views/admin/email-signup.php:427
+msgid "Unsubscribe Anytime"
+msgstr ""
+
 #: views/admin/first-popup.php:24
 msgid "Congratulations! 🎉"
 msgstr ""
@@ -2439,32 +2494,6 @@ msgid ""
 "is optional."
 msgstr ""
 
-#: views/admin/update.php:22
-msgid "Grow your WordPress or Shopify websites with our plugins"
-msgstr ""
-
-#: views/admin/update.php:25
-msgid "Be the first to know product updates, tips & discounts"
-msgstr ""
-
-#: views/admin/update.php:26
-msgid ""
-"Be among the first to know about our latest features & what we’re working "
-"on. Plus insider offer & flash sales"
-msgstr ""
-
-#: views/admin/update.php:40
-msgid "Sign Up"
-msgstr ""
-
-#: views/admin/update.php:48
-msgid "No, I will do it later"
-msgstr ""
-
-#: views/admin/update.php:51
-msgid "You can remove yourself from the list whenever you want, no strings attached"
-msgstr ""
-
 #: views/admin/upgrade.php:38
 msgid "1 Year"
 msgstr ""
@@ -2474,7 +2503,7 @@ msgid "Billed Yearly"
 msgstr ""
 
 #: views/admin/upgrade.php:40
-msgid "/year"
+msgid "/Year"
 msgstr ""
 
 #: views/admin/upgrade.php:45
@@ -2545,7 +2574,7 @@ msgid "Billed Yearly after 2 Years"
 msgstr ""
 
 #: views/admin/upgrade.php:78
-msgid "/2 year"
+msgid "/2 Years"
 msgstr ""
 
 #: views/admin/upgrade.php:82
@@ -2589,7 +2618,7 @@ msgid "For Lifetime"
 msgstr ""
 
 #: views/admin/upgrade.php:116
-msgid "/lifetime"
+msgid "/Lifetime"
 msgstr ""
 
 #: views/admin/upgrade.php:120

@@ -37,7 +37,7 @@ $options = [
     '1_year' => [
         'title' => esc_html__('1 Year', 'chaty'),
         'plan_type' => esc_html__('Billed Yearly', 'chaty'),
-        'postfix'   => esc_html__('/year', 'chaty'),
+        'postfix'   => esc_html__('/Year', 'chaty'),
         'plans' => [
             [
                 'price'     => 59,
@@ -75,7 +75,7 @@ $options = [
     '2_years' => [
         'title' => esc_html__('2 Year', 'chaty'),
         'plan_type' => esc_html__('Billed Yearly after 2 Years', 'chaty'),
-        'postfix'   => esc_html__('/2 year', 'chaty'),
+        'postfix'   => esc_html__('/2 Years', 'chaty'),
         'plans' => [
             [
                 'price'     => 89,
@@ -113,7 +113,7 @@ $options = [
     'lifetime' => [
         'title' => esc_html__('Lifetime', 'chaty'),
         'plan_type' => esc_html__('For Lifetime', 'chaty'),
-        'postfix'   => esc_html__('/lifetime', 'chaty'),
+        'postfix'   => esc_html__('/Lifetime', 'chaty'),
         'plans' => [
             [
                 'price'     => 169,

@@ -81,11 +81,9 @@ class CHT_Admin_Base
 
         add_action('admin_enqueue_scripts', [$this, 'enqueue_styles'], 99);
 
-        add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts'], 99);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts'], 99); 
 
-        add_action("wp_ajax_chaty_update_status", [$this, 'chaty_update_status']);
-
-        add_action("wp_ajax_update_popup_status", [$this, 'update_popup_status']);
+        add_action("wp_ajax_chaty_update_popup_status", [$this, 'update_popup_status']);
         add_action("wp_ajax_update_channel_setting", [$this, 'update_channel_setting']);
 
         /*
@@ -184,8 +182,9 @@ class CHT_Admin_Base
             $page = isset($_GET['page']) ? $_GET['page'] : "";
             if (!empty($page)) {
                 if (in_array($page, ["widget-analytics", "chaty-contact-form-feed", "recommended-chaty-plugins", "chaty-app-upgrade"])) {
-                    $isShown = get_option("chaty_update_message");
-                    if ($isShown === false) {
+               
+                    $is_shown = \CHT_SIGNUP_CLASS::check_modal_status();  
+                    if ($is_shown) { 
                         wp_redirect(admin_url("admin.php?page=chaty-app"));
                         exit;
                     }
@@ -602,8 +601,9 @@ class CHT_Admin_Base
         }
 
         // delete_option("chaty_update_message");
-        $isShown = get_option("chaty_update_message");
-        if ($isShown === false) {
+        // $isShown = get_option("chaty_update_message");
+        $is_shown = \CHT_SIGNUP_CLASS::check_modal_status();  
+        if ($is_shown) { 
             wp_enqueue_script($this->pluginSlug.'mailcheck', plugins_url('../admin/assets/js/mailcheck.js', __FILE__), ['jquery'], CHT_VERSION, true);
             return;
         }
@@ -865,6 +865,11 @@ class CHT_Admin_Base
      * @access public
      */
     public function chaty_integration_page() {
+        $is_shown = \CHT_SIGNUP_CLASS::check_modal_status();  
+        if ($is_shown) {  
+            include_once CHT_DIR.'/views/admin/email-signup.php';
+            return;
+        }
         include_once CHT_DIR.'/views/admin/chaty-admin-integration.php';
         include_once CHT_DIR.'/views/admin/help.php';
     }// end chaty_integration_page()
@@ -879,6 +884,7 @@ class CHT_Admin_Base
      */
     public function display_cht_admin_widget_analytics()
     {
+ 
         include_once CHT_DIR.'/views/admin/pro_analytics.php';
         include_once CHT_DIR.'/views/admin/first-popup.php';
         include_once CHT_DIR.'/views/admin/help.php';
@@ -914,6 +920,11 @@ class CHT_Admin_Base
      */
     public function chaty_widget_page()
     {
+        $is_shown = \CHT_SIGNUP_CLASS::check_modal_status();  
+        if ($is_shown) {  
+            include_once CHT_DIR.'/views/admin/email-signup.php';
+            return;
+        }
         include_once CHT_DIR.'/views/admin/chaty_widget.php';
         include_once CHT_DIR.'/views/admin/first-popup.php';
         include_once CHT_DIR.'/views/admin/help.php';
@@ -930,9 +941,10 @@ class CHT_Admin_Base
      */
     public function display_cht_admin_page()
     {
-        $isShown = get_option("chaty_update_message");
-        if ($isShown === false) {
-            include_once CHT_DIR.'/views/admin/update.php';
+         
+        $is_shown = \CHT_SIGNUP_CLASS::check_modal_status();  
+        if ($is_shown) {  
+            include_once CHT_DIR.'/views/admin/email-signup.php';
         } else {
             $status = get_option("cht_active");
             // delete_option("cht_is_default_deleted");
@@ -2396,40 +2408,7 @@ class CHT_Admin_Base
     }//end chaty_text()
 
 
-    /**
-     * Update Chaty Status
-     *
-     * @since  1.0.0
-     * @access public
-     * @return $status
-     */
-    public function chaty_update_status()
-    {
-        $nonce = filter_input(INPUT_POST, 'nonce');
-        if (!empty($nonce) && wp_verify_nonce($nonce, 'chaty_update_status')) {
-            $status = filter_input(INPUT_POST, 'status');
-            $email  = filter_input(INPUT_POST, 'email');
-            update_option("chaty_update_message", 2);
-            if ($status == 1) {
-                $url = 'https://premioapps.com/premio/signup/email.php';
-                $apiParams = [
-                    'plugin' => 'chaty',
-                    'email'  => $email,
-                ];
-
-                // Signup Email for Chaty
-                $apiResponse = wp_safe_remote_post($url, ['body' => $apiParams, 'timeout' => 15, 'sslverify' => true]);
-
-                if (is_wp_error($apiResponse)) {
-                    wp_safe_remote_post($url, ['body' => $apiParams, 'timeout' => 15, 'sslverify' => false]);
-                }
-
-                $response['status'] = 1;
-            }
-        }//end if
-
-    }//end chaty_update_status()
-
+ 
     /**
      * Update Chaty Popup Status
      *

@@ -3,7 +3,7 @@ Contributors: galdub, tomeraharon, premio
 Tags: whatsapp, whatsapp chat, facebook messenger, chat, chat button
 Requires at least: 3.1
 Tested up to: 6.8
-Stable tag: 3.3.9
+Stable tag: 3.4.0
 Plugin URI: https://premio.io/downloads/chaty/
 License: GPLv3
 
@@ -99,7 +99,7 @@ Link to an external channel/contact page (New feature: add custom chat buttons a
 21. Select between the WhatsApp WAME (wa.me) link or WhatsApp desktop link in the WhatsApp settings
 
 = 🔥 What do you get in the Pro plan? =
-Unlock the <a href="https://premio.io/downloads/chaty/?utm_source=wordpressorg" target="_blank" title="Chaty pro plans"><strong>Pro features</strong></a> for only $49 per year
+Unlock the <a href="https://premio.io/downloads/chaty/?utm_source=wordpressorg" target="_blank" title="Chaty pro plans"><strong>Pro features</strong></a> for only $59 per year
 Get all the features of the free plan, plus:
 
 1. Unlimited chat icons (25 different click to chat buttons and other icons)
@@ -291,6 +291,9 @@ Yes! You can even decide what chat buttons will show up on each device (desktop/
 
 
 == Changelog ==
+
+= 3.4.0 =
+Improved UI flow
 
 = 3.3.9 =
 Removed Skype from the chat buttons list (Skype EOL)

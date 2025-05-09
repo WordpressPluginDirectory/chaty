@@ -2,9 +2,10 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Chaty 3.4.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/chaty\n"
-"POT-Creation-Date: 2025-05-08 06:14:53+00:00\n"
+"Project-Id-Version: Chaty 3.4.1\n"
+"Report-Msgid-Bugs-To: "
+"https://wordpress.org/support/plugin/chaty-free-uncompressed\n"
+"POT-Creation-Date: 2025-05-09 09:36:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -39,13 +40,13 @@ msgstr ""
 msgid "Upgrade"
 msgstr ""
 
-#: admin/class-admin-base.php:637
+#: admin/class-admin-base.php:635
 msgid ""
 "Please remove the JavaScript from the channels or ask the website's "
 "administrator to give you access to add JavaScript."
 msgstr ""
 
-#: admin/class-admin-base.php:638 views/admin/channel.php:398
+#: admin/class-admin-base.php:636 views/admin/channel.php:398
 msgid "Remove"
 msgstr ""
 
@@ -53,42 +54,42 @@ msgstr ""
 msgid "Chaty"
 msgstr ""
 
-#: admin/class-admin-base.php:703 admin/class-admin-base.php:704
+#: admin/class-admin-base.php:701 admin/class-admin-base.php:702
 msgid "Dashboard"
 msgstr ""
 
-#: admin/class-admin-base.php:715 admin/class-admin-base.php:737
+#: admin/class-admin-base.php:713 admin/class-admin-base.php:735
 msgid "Settings Admin"
 msgstr ""
 
-#: admin/class-admin-base.php:716
+#: admin/class-admin-base.php:714
 msgid "+ Create New Widget"
 msgstr ""
 
-#: admin/class-admin-base.php:728 admin/class-admin-base.php:729
+#: admin/class-admin-base.php:726 admin/class-admin-base.php:727
 #: views/admin/chatway-setting.php:170
 msgid "Chatway Live Chat"
 msgstr ""
 
-#: admin/class-admin-base.php:738
+#: admin/class-admin-base.php:736
 msgid "Integrations"
 msgstr ""
 
-#: admin/class-admin-base.php:750 admin/class-admin-base.php:751
+#: admin/class-admin-base.php:748 admin/class-admin-base.php:749
 #: views/admin/upgrade.php:167
 msgid "Widget Analytics"
 msgstr ""
 
-#: admin/class-admin-base.php:764 admin/class-admin-base.php:765
+#: admin/class-admin-base.php:762 admin/class-admin-base.php:763
 msgid "Contact form leads"
 msgstr ""
 
-#: admin/class-admin-base.php:789 admin/class-admin-base.php:790
+#: admin/class-admin-base.php:787 admin/class-admin-base.php:788
 msgid "Recommended Plugins"
 msgstr ""
 
-#: admin/class-admin-base.php:802 admin/class-admin-base.php:803
-#: admin/class-admin-base.php:1098 views/admin/channel.php:547
+#: admin/class-admin-base.php:800 admin/class-admin-base.php:801
+#: admin/class-admin-base.php:1096 views/admin/channel.php:547
 #: views/admin/channel.php:616 views/admin/channel.php:642
 #: views/admin/channel.php:692 views/admin/channel.php:701
 #: views/admin/channel.php:916 views/admin/channel.php:970
@@ -111,54 +112,54 @@ msgstr ""
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: admin/class-admin-base.php:1168
+#: admin/class-admin-base.php:1166
 msgid "id"
 msgstr ""
 
-#: admin/class-admin-base.php:1169
+#: admin/class-admin-base.php:1167
 msgid "Widget"
 msgstr ""
 
-#: admin/class-admin-base.php:1170 includes/class-frontend.php:1213
+#: admin/class-admin-base.php:1168 includes/class-frontend.php:1213
 #: views/admin/channel.php:452 views/admin/channels-section.php:43
 #: views/admin/contact-form-feed.php:196 views/admin/contact-form-feed.php:234
 msgid "Name"
 msgstr ""
 
-#: admin/class-admin-base.php:1171 admin/class-admin-base.php:2480
+#: admin/class-admin-base.php:1169 admin/class-admin-base.php:2478
 #: includes/class-frontend.php:1225 views/admin/channel.php:459
 #: views/admin/contact-form-feed.php:197 views/admin/contact-form-feed.php:237
 #: views/admin/help.php:17
 msgid "Email"
 msgstr ""
 
-#: admin/class-admin-base.php:1172 admin/class-social-icons.php:142
+#: admin/class-admin-base.php:1170 admin/class-social-icons.php:142
 #: admin/class-social-icons.php:165 admin/class-social-icons.php:223
 #: admin/class-social-icons.php:290 views/admin/contact-form-feed.php:198
 #: views/admin/contact-form-feed.php:240 views/admin/popup.php:290
 msgid "Phone number"
 msgstr ""
 
-#: admin/class-admin-base.php:1173 includes/class-frontend.php:1247
+#: admin/class-admin-base.php:1171 includes/class-frontend.php:1247
 #: views/admin/channel.php:473 views/admin/contact-form-feed.php:199
 #: views/admin/contact-form-feed.php:243
 msgid "Message"
 msgstr ""
 
-#: admin/class-admin-base.php:1174 views/admin/contact-form-feed.php:201
+#: admin/class-admin-base.php:1172 views/admin/contact-form-feed.php:201
 #: views/admin/contact-form-feed.php:257
 msgid "Date"
 msgstr ""
 
-#: admin/class-admin-base.php:1175
+#: admin/class-admin-base.php:1173
 msgid "Reference Page"
 msgstr ""
 
-#: admin/class-admin-base.php:2463
+#: admin/class-admin-base.php:2461
 msgid "%1$s is required"
 msgstr ""
 
-#: admin/class-admin-base.php:2472
+#: admin/class-admin-base.php:2470
 msgid "Please enter your message"
 msgstr ""
 

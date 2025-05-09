@@ -89,7 +89,7 @@ class CHT_SIGNUP_CLASS {
      * @return bool Returns true if the modal should be displayed; otherwise, false.
      */
     public static function check_modal_status() {
-        if(get_option(self::$update_message_option) == -1) {
+        if(get_option(self::$update_message_option) == -1 || get_option(self::$update_message_option) == 2) {
             return false;
         } 
         $referer = isset($_SERVER['HTTP_REFERER']) ? sanitize_text_field($_SERVER['HTTP_REFERER']) : '';
@@ -128,8 +128,7 @@ class CHT_SIGNUP_CLASS {
      *
      * @return void
      */
-    public function update_status() {
-        echo "hello";
+    public function update_status() { 
         if(!empty($_REQUEST['nonce']) && wp_verify_nonce($_REQUEST['nonce'], 'chaty_update_nonce')) {
             $status = sanitize_text_field($_REQUEST['status']);
             $email = sanitize_text_field($_REQUEST['email']);

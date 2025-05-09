@@ -599,9 +599,7 @@ class CHT_Admin_Base
         if($page == "chaty_page_chaty-app-upgrade") {
             wp_enqueue_script($this->pluginSlug.'slick-script', plugins_url('../admin/assets/js/slick.min.js', __FILE__), ['jquery'], CHT_VERSION, true);
         }
-
-        // delete_option("chaty_update_message");
-        // $isShown = get_option("chaty_update_message");
+ 
         $is_shown = \CHT_SIGNUP_CLASS::check_modal_status();  
         if ($is_shown) { 
             wp_enqueue_script($this->pluginSlug.'mailcheck', plugins_url('../admin/assets/js/mailcheck.js', __FILE__), ['jquery'], CHT_VERSION, true);

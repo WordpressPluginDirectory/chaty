@@ -498,7 +498,7 @@ if ( $data && ! is_wp_error( $data ) ) {
                     buttons: {
                         "Hide it": {
                             click: function () {
-                                window.location = "<?php echo esc_url(admin_url('admin.php?page=chaty-app&hide_chaty_recommended_plugin=1&nonce='.wp_create_nonce("chaty_recommended_plugin")));?>";
+                                window.location = "<?php echo admin_url('admin.php?page=chaty-app&hide_chaty_recommended_plugin=1&nonce='.wp_create_nonce("chaty_recommended_plugin"));?>";
                             },
                             text: 'Hide it',
                             class: 'btn red-btn'

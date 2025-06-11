@@ -609,17 +609,7 @@ class CHT_Frontend extends CHT_Admin_Base
             $cta_head_bg_color = "";
             $cta_header_text_color = "";
 
-            $allowed_html    = [
-                'a'      => [
-                    'href'  => [],
-                    'title' => [],
-                ],
-                'p'      => [],
-                'br'     => [],
-                'em'     => [],
-                'strong' => [],
-            ];
-            $cta = wp_kses($cta, $allowed_html);
+             
 
 
             // Widget setting array.
@@ -636,7 +626,7 @@ class CHT_Frontend extends CHT_Admin_Base
             $setting['side_spacing']      = $chtSideSpacing;
             $setting['icon_view']         = $mode;
             $setting['default_state']     = $state;
-            $setting['cta_text']          = html_entity_decode($cta);
+            $setting['cta_text']          = wp_kses_post($cta);
             $setting['cta_text_color']    = $chtCtaTextColor;
             $setting['cta_bg_color']      = $chtCtaBgColor;
             $setting['show_cta']          = ($clickSetting == "click") ? "first_click" : "all_time";
@@ -741,11 +731,28 @@ class CHT_Frontend extends CHT_Admin_Base
                 }
 
                 $data['has_chatway'] = $this->hasChatway;
+
+                // Checked if the Cookie plugin is active or not.
+                if (!function_exists( 'is_plugin_active' ) ) {
+                    require_once ABSPATH . 'wp-admin/includes/plugin.php';
+                }
+                // Checked if the CookieYes plugin is active
+                $data['has_CookieYes'] = is_plugin_active( 'cookie-law-info/cookie-law-info.php' ) ? true : false;
+                // Checked if the iubenda-cookie plugin is active
+                $data['has_iubenda_cookie'] = is_plugin_active( 'iubenda-cookie-law-solution/iubenda_cookie_solution.php' ) ? true : false;
+                 
                 wp_localize_script('chaty-front-end', 'chaty_settings',  $data);
 
-                if ( version_compare( get_bloginfo( 'version' ), '6.2.3', '>=' ) ) {
-                    wp_script_add_data( 'chaty-front-end', 'strategy', 'defer' );
-                    wp_script_add_data( 'chaty-mail-check', 'strategy', 'defer' );
+                if (  !is_plugin_active( 'litespeed-cache/litespeed-cache.php' ) || !get_option( 'litespeed.conf.optm-js_defer', false )) { // Check if LSCache is active and defer is enabled
+                    // Only run this if WP version >= 6.3
+                    if ( version_compare( get_bloginfo( 'version' ), '6.3', '>=' ) ) {
+                        add_filter( 'script_loader_tag', function ( $tag, $handle ) {
+                            if ( in_array( $handle, [ 'chaty-front-end', 'chaty-mail-check' ] ) ) {
+                                return str_replace( '<script ', '<script defer ', $tag );
+                            }
+                            return $tag;
+                        }, 10, 2 );
+                    }
                 }
             }//end if
         endif;

@@ -3,7 +3,7 @@ Contributors: galdub, tomeraharon, premio
 Tags: whatsapp, whatsapp chat, facebook messenger, chat, chat button
 Requires at least: 3.1
 Tested up to: 6.8
-Stable tag: 3.4.1
+Stable tag: 3.4.4
 Plugin URI: https://premio.io/downloads/chaty/
 License: GPLv3
 
@@ -130,6 +130,7 @@ Different chats buttons based on purpose (support, sales, etc)
 21. Date scheduling
 22. Contact form integration with Mailchimp & Klaviyo
 23. Blur the screen when Chaty chat icons are in open state
+24. Change the page's title to grab attention to the chat buttons
 
 <br><a href="https://premio.io/downloads/chaty/?utm_source=wordpressorg" target="_blank" title="Chaty pro plans"><strong>Upgrade to Chaty Pro</strong></a> to get all Pro features :)
 
@@ -291,6 +292,19 @@ Yes! You can even decide what chat buttons will show up on each device (desktop/
 
 
 == Changelog ==
+
+= 3.4.4 =
+CookieYes plugin further flow improvement
+
+= 3.4.3 =
+Cookie plugins flow fixed
+
+= 3.4.2 =
+Change the page's title to grab attention to the chat buttons (Pro)
+Rich editor for the WhatsApp pop up text
+CookieYes, iubenda, Complianz, and Borlabs compliance
+LiteSpeed bug fixed
+JavaScript functions to launch and close the WhatsApp pop up
 
 = 3.4.1 =
 Settings page bug fixed

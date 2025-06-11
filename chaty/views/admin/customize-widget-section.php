@@ -379,13 +379,14 @@ $cta_type = "simple-view";
             <input id="custom-widget-size-input" name="cht_widget_size" type="hidden" value="<?php echo esc_attr($size) ?>"/>
         </div>
 
-        <div class="form-horizontal__item cht-option-settings" >
+        <div class="form-horizontal__item cht-option-settings max-w-[410px]" >
             <label class="align-top form-horizontal__item-label font-primary text-cht-gray-150 text-base block mb-3"><?php esc_html_e('Call to action', 'chaty'); ?>:</label>
             <div class="disable-message" data-label='<?php esc_html_e('When the default state is set to "Opened by default", the "Call to action" feature doesn\'t apply because the Chaty widget is already open.', 'chaty') ?>'>
                 <?php
                 $cta = get_option('cht_cta');
+                $cta = empty($cta) ? 'Contact Us' : $cta;
                 ?>
-                <textarea data-value="<?php echo esc_attr($cta) ?>" class="test_textarea titleColor rounded-lg text-cht-gray-150 text-base font-primary" cols="40" rows="2" name="cht_cta" placeholder="<?php esc_html_e('Message us!', 'chaty'); ?>" ><?php echo esc_attr((wp_unslash($cta))) ?></textarea>
+                 <textarea class="test_textarea chaty-setting-textarea chaty-cta-setting-textarea" id="cht_cta_textarea" type="text"  data-value="<?php echo esc_attr(wp_unslash($cta)) ?>" name="cht_cta" ><?php echo esc_attr(wp_unslash($cta)) ?></textarea>
             </div>
         </div>
 
@@ -452,6 +453,43 @@ $cta_type = "simple-view";
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="form-horizontal__item flex-center">
+            <input type="hidden" class="cht-page-title-for-change" name="cht_page_title_for_change" value="0" >
+            <label class="form-horizontal__item-label  font-primary text-cht-gray-150 text-base mb-2 inline-block"><?php esc_html_e('Change the title of page', 'chaty');?>
+            <span class="header-tooltip">
+                <span class="header-tooltip-text text-center">
+                     <img src="<?php echo esc_url(CHT_PLUGIN_URL . 'admin/assets/images/chaty-changing-title.gif') ?>" alt="chaty-changing-title" class="inline-block"> 
+                    </br>
+                    </br>
+                    <?php printf(esc_html__("Grab the attention of visitors with the changing titles. It applies to the text within the <title> tag. The title will change between the selected and original titles every second until the visitor opens the widget.", "chaty")) ?>
+
+                </span>
+
+                <span class="ml-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M8.00004 14.6654C11.6819 14.6654 14.6667 11.6806 14.6667 7.9987C14.6667 4.3168 11.6819 1.33203 8.00004 1.33203C4.31814 1.33203 1.33337 4.3168 1.33337 7.9987C1.33337 11.6806 4.31814 14.6654 8.00004 14.6654Z" stroke="#72777c" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M8 10.6667V8" stroke="#72777c" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M8 5.33203H8.00667" stroke="#72777c" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </span>
+            </span>
+            </label>
+            <div>
+                <label class="switch group inline-flex">
+                    <?php
+                    $checked = get_option('cht_page_title_for_change');
+                    $checked = ($checked === false) ? "off" : $checked;
+                    ?>
+                    <input type="hidden" name="cht_page_title_for_change" value="off">
+                    <input data-gramm_editor="false" type="checkbox" name="cht_page_title_for_change" value="1" <?php checked($checked, 1) ?> <?php echo esc_attr($disabled) ?> >
+                    <span class="chaty-slider round"></span>
+                    <a target="_blank" class="opacity-0 px-5 py-1.5 group-hover:opacity-100 ml-4 pro-btn bg-cht-primary rounded-[6px] text-white hover:text-white" href="<?php echo esc_url($this->getUpgradeMenuItemUrl()); ?>">
+                        <?php esc_html_e('Upgrade to Pro', 'chaty'); ?>
+                    </a>
+                </label>
+            </div> 
         </div>
 
         <div class="form-horizontal__item flex-center">

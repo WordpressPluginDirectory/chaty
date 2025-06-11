@@ -98,6 +98,9 @@ class CHT_Admin_Base
         add_action('wp_ajax_get_chatway_status', [$this, 'get_chatway_status']);
         add_filter('check_for_chatway', [$this, 'check_for_chatway']);
         add_filter('check_for_chatway_status', [$this, 'check_for_chatway_status']);
+
+        // add need help in footer
+        add_action('admin_footer', array($this, 'chaty_admin_footer_need_help_content'));
     }//end __construct()
 
 
@@ -300,7 +303,7 @@ class CHT_Admin_Base
      */
     public function plugin_action_links($links)
     {
-        $links['need_help'] = '<a target="_blank" href="https://premio.io/help/chaty/?utm_source=pluginspage" >'.__('Need help?', 'chaty').'</a>';
+        $links['need_help'] = '<a target="_blank" href="https://wordpress.org/support/plugin/chaty/" >'.__('Need help?', 'chaty').'</a>';
         $links['go_pro']    = '<a style="color: #FF5983; font-weight: bold; display: inline-block; border: solid 1px #FF5983; border-radius: 4px; padding: 0 5px;" href="'.CHT_PRO_URL.'" class="chaty-plugins-gopro">'.esc_attr__('Upgrade', 'chaty').'</a>';
         return $links;
 
@@ -838,8 +841,7 @@ class CHT_Admin_Base
     public function chaty_contact_form_feed()
     {
         include_once CHT_DIR.'/views/admin/contact-form-feed.php';
-        include_once CHT_DIR.'/views/admin/first-popup.php';
-        include_once CHT_DIR.'/views/admin/help.php';
+        include_once CHT_DIR.'/views/admin/first-popup.php'; 
 
     }//end chaty_contact_form_feed()
 
@@ -868,8 +870,7 @@ class CHT_Admin_Base
             include_once CHT_DIR.'/views/admin/email-signup.php';
             return;
         }
-        include_once CHT_DIR.'/views/admin/chaty-admin-integration.php';
-        include_once CHT_DIR.'/views/admin/help.php';
+        include_once CHT_DIR.'/views/admin/chaty-admin-integration.php'; 
     }// end chaty_integration_page()
 
 
@@ -884,8 +885,7 @@ class CHT_Admin_Base
     {
  
         include_once CHT_DIR.'/views/admin/pro_analytics.php';
-        include_once CHT_DIR.'/views/admin/first-popup.php';
-        include_once CHT_DIR.'/views/admin/help.php';
+        include_once CHT_DIR.'/views/admin/first-popup.php'; 
 
     }//end display_cht_admin_widget_analytics()
 
@@ -924,8 +924,7 @@ class CHT_Admin_Base
             return;
         }
         include_once CHT_DIR.'/views/admin/chaty_widget.php';
-        include_once CHT_DIR.'/views/admin/first-popup.php';
-        include_once CHT_DIR.'/views/admin/help.php';
+        include_once CHT_DIR.'/views/admin/first-popup.php'; 
 
     }//end chaty_widget_page()
 
@@ -986,8 +985,7 @@ class CHT_Admin_Base
                 </div>
             <?php }
         }
-
-        require_once CHT_DIR.'/views/admin/help.php';
+  
 
     }//end display_cht_admin_page()
 
@@ -1001,8 +999,7 @@ class CHT_Admin_Base
     public function display_cht_admin_upgrade_page()
     {
         wp_enqueue_script($this->pluginSlug.'select2-js', plugins_url('../admin/assets/js/select2.min.js', __FILE__), ['jquery'], CHT_VERSION, true);
-        include_once CHT_DIR.'/views/admin/upgrade.php';
-        include_once CHT_DIR.'/views/admin/help.php';
+        include_once CHT_DIR.'/views/admin/upgrade.php'; 
 
     }//end display_cht_admin_upgrade_page()
 
@@ -1307,7 +1304,7 @@ class CHT_Admin_Base
                 register_setting($this->pluginSlug, 'positionSide', 'chaty_sanitize_options');
                 register_setting($this->pluginSlug, 'cht_bottom_spacing', 'chaty_sanitize_options');
                 register_setting($this->pluginSlug, 'cht_side_spacing', 'chaty_sanitize_options');
-                register_setting($this->pluginSlug, 'cht_cta', 'chaty_sanitize_options');
+                register_setting($this->pluginSlug, 'cht_cta', array($this, 'chaty_sanitize_options'));
                 register_setting($this->pluginSlug, 'cht_cta_switcher', 'chaty_sanitize_options');
                 register_setting($this->pluginSlug, 'cht_widget_size', 'chaty_sanitize_options');
                 register_setting($this->pluginSlug, 'cht_widget_img', 'chaty_sanitize_options');
@@ -2606,6 +2603,18 @@ class CHT_Admin_Base
             }
         }
         return $default_color;
+    }
+
+    // Need Help Footer Content
+    public function chaty_admin_footer_need_help_content(){
+        //  Check currecnt page
+         $allowed_pages = ['chaty-contact-form-feed', 'chaty-integration', 'widget-analytics', 'chaty-upgrade', $this->pluginSlug, $this->upgradeSlug];
+
+        // Check if we're on one of those pages
+        if (!isset($_GET['page']) || !in_array($_GET['page'], $allowed_pages, true)) {
+            return;
+        } 
+        include_once CHT_DIR.'/views/admin/help.php';
     }
 
 

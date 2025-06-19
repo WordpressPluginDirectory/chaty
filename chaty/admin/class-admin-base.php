@@ -33,6 +33,8 @@ class CHT_Admin_Base
 
     public $colors;
 
+    public $chatwayIcons;
+
     public $pluginSlug;
 
     protected $token;
@@ -54,6 +56,7 @@ class CHT_Admin_Base
         $this->pluginSlug = $plugin->get_plugin_slug();
         $this->socials      = CHT_Social_Icons::get_instance()->get_icons_list();
         $this->colors       = CHT_Social_Icons::get_instance()->get_colors();
+        $this->chatwayIcons = CHT_Social_Icons::get_instance()->get_chatway_icons();
         $this->token        = $this->get_token();
         $this->upgradeSlug  = $this->pluginSlug.'-upgrade';
 

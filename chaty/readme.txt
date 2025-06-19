@@ -3,7 +3,7 @@ Contributors: galdub, tomeraharon, premio
 Tags: whatsapp, whatsapp chat, facebook messenger, chat, chat button
 Requires at least: 3.1
 Tested up to: 6.8
-Stable tag: 3.4.4
+Stable tag: 3.4.5
 Plugin URI: https://premio.io/downloads/chaty/
 License: GPLv3
 
@@ -292,6 +292,11 @@ Yes! You can even decide what chat buttons will show up on each device (desktop/
 
 
 == Changelog ==
+
+= 3.4.5 =
+Live chat icon design improvement
+WhatsApp RTL bug fixed
+LinkedIn channel bug fixed
 
 = 3.4.4 =
 CookieYes plugin further flow improvement

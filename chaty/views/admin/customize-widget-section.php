@@ -382,10 +382,7 @@ $cta_type = "simple-view";
         <div class="form-horizontal__item cht-option-settings max-w-[410px]" >
             <label class="align-top form-horizontal__item-label font-primary text-cht-gray-150 text-base block mb-3"><?php esc_html_e('Call to action', 'chaty'); ?>:</label>
             <div class="disable-message" data-label='<?php esc_html_e('When the default state is set to "Opened by default", the "Call to action" feature doesn\'t apply because the Chaty widget is already open.', 'chaty') ?>'>
-                <?php
-                $cta = get_option('cht_cta');
-                $cta = empty($cta) ? 'Contact Us' : $cta;
-                ?>
+                <?php $cta = get_option('cht_cta');?>
                  <textarea class="test_textarea chaty-setting-textarea chaty-cta-setting-textarea" id="cht_cta_textarea" type="text"  data-value="<?php echo esc_attr(wp_unslash($cta)) ?>" name="cht_cta" ><?php echo esc_attr(wp_unslash($cta)) ?></textarea>
             </div>
         </div>

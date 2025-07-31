@@ -2,10 +2,10 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Chaty 3.4.5\n"
+"Project-Id-Version: Chaty 3.4.6\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/chaty-free-uncompressed\n"
-"POT-Creation-Date: 2025-06-19 07:00:46+00:00\n"
+"POT-Creation-Date: 2025-07-31 05:58:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -121,14 +121,14 @@ msgstr ""
 msgid "Widget"
 msgstr ""
 
-#: admin/class-admin-base.php:1168 includes/class-frontend.php:1220
+#: admin/class-admin-base.php:1168 includes/class-frontend.php:1217
 #: views/admin/channel.php:452 views/admin/channels-section.php:43
 #: views/admin/contact-form-feed.php:196 views/admin/contact-form-feed.php:234
 msgid "Name"
 msgstr ""
 
 #: admin/class-admin-base.php:1169 admin/class-admin-base.php:2478
-#: includes/class-frontend.php:1232 views/admin/channel.php:459
+#: includes/class-frontend.php:1229 views/admin/channel.php:459
 #: views/admin/contact-form-feed.php:197 views/admin/contact-form-feed.php:237
 #: views/admin/help.php:422
 msgid "Email"
@@ -141,7 +141,7 @@ msgstr ""
 msgid "Phone number"
 msgstr ""
 
-#: admin/class-admin-base.php:1171 includes/class-frontend.php:1254
+#: admin/class-admin-base.php:1171 includes/class-frontend.php:1251
 #: views/admin/channel.php:473 views/admin/contact-form-feed.php:199
 #: views/admin/contact-form-feed.php:243
 msgid "Message"
@@ -320,39 +320,39 @@ msgstr ""
 msgid "email address is not valid"
 msgstr ""
 
-#: includes/class-frontend.php:769 includes/class-frontend.php:770
+#: includes/class-frontend.php:766 includes/class-frontend.php:767
 msgid "WhatsApp Message"
 msgstr ""
 
-#: includes/class-frontend.php:771
+#: includes/class-frontend.php:768
 msgid "Hide WhatsApp Form"
 msgstr ""
 
-#: includes/class-frontend.php:772
+#: includes/class-frontend.php:769
 msgid "Show Emojis"
 msgstr ""
 
-#: includes/class-frontend.php:1222 views/admin/channel.php:453
+#: includes/class-frontend.php:1219 views/admin/channel.php:453
 msgid "Enter your name"
 msgstr ""
 
-#: includes/class-frontend.php:1234
+#: includes/class-frontend.php:1231
 msgid "Enter your email"
 msgstr ""
 
-#: includes/class-frontend.php:1243 views/admin/channel.php:466
+#: includes/class-frontend.php:1240 views/admin/channel.php:466
 msgid "Phone"
 msgstr ""
 
-#: includes/class-frontend.php:1245 views/admin/channel.php:467
+#: includes/class-frontend.php:1242 views/admin/channel.php:467
 msgid "Enter your phone number"
 msgstr ""
 
-#: includes/class-frontend.php:1256 views/admin/channel.php:474
+#: includes/class-frontend.php:1253 views/admin/channel.php:474
 msgid "Enter your message"
 msgstr ""
 
-#: includes/class-frontend.php:1282 views/admin/channel.php:404
+#: includes/class-frontend.php:1279 views/admin/channel.php:404
 msgid "Write your message..."
 msgstr ""
 

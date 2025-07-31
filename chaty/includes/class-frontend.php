@@ -736,10 +736,7 @@ class CHT_Frontend extends CHT_Admin_Base
                 if (!function_exists( 'is_plugin_active' ) ) {
                     require_once ABSPATH . 'wp-admin/includes/plugin.php';
                 }
-                // Checked if the CookieYes plugin is active
-                $data['has_CookieYes'] = is_plugin_active( 'cookie-law-info/cookie-law-info.php' ) ? true : false;
-                // Checked if the iubenda-cookie plugin is active
-                $data['has_iubenda_cookie'] = is_plugin_active( 'iubenda-cookie-law-solution/iubenda_cookie_solution.php' ) ? true : false;
+ 
                  
                 wp_localize_script('chaty-front-end', 'chaty_settings',  $data);
 

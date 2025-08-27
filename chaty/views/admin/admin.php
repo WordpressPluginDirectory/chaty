@@ -50,28 +50,28 @@ $proClass      = "none_pro";
                 <div class="header-items flex-1">
                     <ul class="chaty-app-tabs flex items-start justify-between">
                         <li class="m-0">
-                            <a href="javascript:;" class="chaty-tab <?php echo ($step == 0) ? "active" : "completed" ?>" data-tab-id="chaty-tab-social-channel" id="chaty-social-channel" data-tab="first" data-tab-index="">
+                            <a href="#" class="chaty-tab <?php echo ($step == 0) ? "active" : "completed" ?>" data-tab-id="chaty-tab-social-channel" id="chaty-social-channel" data-tab="first" data-tab-index="">
                                 <span class="chaty-tabs-heading"></span>
                                 <span class="lg:inline hidden chaty-tabs-subheading"><?php esc_html_e("1. Select channels", "chaty") ?></span>
                                 <span class="inline lg:hidden chaty-tabs-subheading"><?php esc_html_e("1. Channels", "chaty") ?></span>
                             </a>
                         </li>
                         <li class="my-0">
-                            <a href="javascript:;" class="chaty-tab <?php echo ($step == 1) ? "active" : (($step == 2) ? "completed" : "") ?>" data-tab-id="chaty-tab-customize-widget" id="chaty-app-customize-widget" data-tab-index="" data-tab="middle" data-forced-save="yes">
+                            <a href="#" class="chaty-tab <?php echo ($step == 1) ? "active" : (($step == 2) ? "completed" : "") ?>" data-tab-id="chaty-tab-customize-widget" id="chaty-app-customize-widget" data-tab-index="" data-tab="middle" data-forced-save="yes">
                                 <span class="chaty-tabs-heading"></span>
                                 <span class="lg:inline hidden chaty-tabs-subheading"><?php esc_html_e("2. Widget customization ", "chaty") ?></span>
                                 <span class="inline lg:hidden chaty-tabs-subheading"><?php esc_html_e("2. Customization", "chaty") ?></span>
                             </a>
                         </li>
                         <li class="m-0">
-                            <a href="javascript:;" class="chaty-tab <?php echo ($step == 2) ? "active" : "" ?>" data-tab-id="chaty-tab-triger-targeting" id="chaty-triger-targeting" data-tab-index="middle" data-forced-save="yes">
+                            <a href="#" class="chaty-tab <?php echo ($step == 2) ? "active" : "" ?>" data-tab-id="chaty-tab-triger-targeting" id="chaty-triger-targeting" data-tab-index="middle" data-forced-save="yes">
                                 <span class="chaty-tabs-heading"></span>
                                 <span class="lg:inline hidden chaty-tabs-subheading"><?php esc_html_e("3. Triggers and targeting", "chaty") ?></span>
                                 <span class="inline lg:hidden chaty-tabs-subheading"><?php esc_html_e("2. Triggers & targeting", "chaty") ?></span>
                             </a>
                         </li>
                         <li class="m-0">
-                            <a href="javascript:;" class="chaty-tab <?php echo ($step == 3) ? "active" : "" ?>" data-tab-id="chaty-tab-chatway" id="chaty-chatway" data-tab="last" data-tab-index="" data-forced-save="yes">
+                            <a href="#" class="chaty-tab <?php echo ($step == 3) ? "active" : "" ?>" data-tab-id="chaty-tab-chatway" id="chaty-chatway" data-tab="last" data-tab-index="" data-forced-save="yes">
                                 <span class="chaty-tabs-heading"></span>
                                 <span class="lg:inline chaty-tabs-subheading"><?php esc_html_e("4. Add live chat", "chaty") ?></span>
                             </a>
@@ -264,7 +264,7 @@ $proClass      = "none_pro";
     <a class="btn-help"><?php esc_html_e('help', 'chaty'); ?><span>?</span></a>
 
     <!-- chaty preview button -->
-    <a href="javascript:;" class="preview-help-btn"><?php esc_html_e('Preview', 'chaty'); ?></a>
+    <a href="#" class="preview-help-btn"><?php esc_html_e('Preview', 'chaty'); ?></a>
 </div>
 <?php require_once 'popup.php';
 include_once "review-popup.php";

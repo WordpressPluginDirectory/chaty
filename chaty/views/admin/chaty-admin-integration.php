@@ -34,7 +34,7 @@ $plugins_allowedtags = array(
                         <div class="feature-title">Connect your forms to Mailchimp</div>
                         <div id="elements-int-container-content feature-description">
                             <p>
-                                <a href="javascript:;" class="integrate-element-form button-primary" disabled="disabled">
+                                <a href="#" class="integrate-element-form button-primary" disabled="disabled">
                                     <?php echo 'Connect';?>
                                 </a>
                             </p>
@@ -52,7 +52,7 @@ $plugins_allowedtags = array(
                         <div class="feature-title">Connect your forms to Klaviyo</div>
                         <div id="elements-int-container-content feature-description">
                             <p>
-                                <a href="javascript:;" class="integrate-element-form button-primary" disabled="disabled">
+                                <a href="#" class="integrate-element-form button-primary" disabled="disabled">
                                     <?php echo 'Connect';?>
                                 </a>
                             </p>

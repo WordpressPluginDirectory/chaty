@@ -271,7 +271,7 @@ class Chaty_upgrade_box
                     <span class="<?php echo esc_attr($this->pluginSlug) ?>-tab-integration-action">
                         <a class="upgradenow-box-btn" data-days="-1" href="<?php echo esc_url(admin_url("admin.php?page=chaty-app-upgrade&hide_chaty_notice=1")); ?>" target="_blank" ><?php esc_html_e("Upgrade now", 'chaty'); ?></a>
                     </span>                    
-                    <a href="javascript:;" class="dismiss-btn <?php echo esc_attr($this->pluginSlug) ?>-premio-upgrade-dismiss-btn"><span class="dashicons dashicons-no-alt"></span></a>
+                    <a href="#" class="dismiss-btn <?php echo esc_attr($this->pluginSlug) ?>-premio-upgrade-dismiss-btn"><span class="dashicons dashicons-no-alt"></span></a>
                 </p>
                 <div class="clear clearfix"></div>
             </div>            
@@ -281,9 +281,9 @@ class Chaty_upgrade_box
                 <button class="<?php echo esc_attr($this->pluginSlug) ?>-close-upgrade-box-popup"><span class="dashicons dashicons-no-alt"></span></button>
                 <div class="<?php echo esc_attr($this->pluginSlug) ?>-upgrade-box-title"> <?php esc_html_e("Would you like us to remind you about this later? ", 'chaty')?></div>
                 <div class="<?php echo esc_attr($this->pluginSlug) ?>-upgrade-box-options">
-                    <a href="javascript:;" data-days="7"> <?php esc_html_e("Remind me in 7 days ", 'chaty')?></a>
-                    <a href="javascript:;" data-days="30"> <?php esc_html_e("Remind me in 30 days", 'chaty')?></a>
-                    <a href="javascript:;" data-days="-1" class="dismiss"> <?php esc_html_e("Don't remind me about this ", 'chaty')?></a>
+                    <a href="#" data-days="7"> <?php esc_html_e("Remind me in 7 days ", 'chaty')?></a>
+                    <a href="#" data-days="30"> <?php esc_html_e("Remind me in 30 days", 'chaty')?></a>
+                    <a href="#" data-days="-1" class="dismiss"> <?php esc_html_e("Don't remind me about this ", 'chaty')?></a>
                 </div>
             </div>
         </div>

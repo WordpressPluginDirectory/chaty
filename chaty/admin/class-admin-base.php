@@ -977,12 +977,12 @@ class CHT_Admin_Base
         if ($showMessage == 1) {
             if (isset($_GET['widget'])) { ?>
                 <div class="toast-message bottom-pos">
-                    <div class="toast-close-btn"><a href="javascript:;"></a></div>
+                    <div class="toast-close-btn"><a href="#"></a></div>
                     <div class="toast-message-body">Your settings has been saved. <a href="<?php echo esc_url(admin_url("admin.php?page=chaty-app")) ?>">View Dashboard</a></div>
                 </div>
             <?php } else { ?>
                 <div class="toast-message">
-                    <div class="toast-close-btn"><a href="javascript:;"></a></div>
+                    <div class="toast-close-btn"><a href="#"></a></div>
                     <div class="toast-message-title">Settings Updated</div>
                     <div class="toast-message-body">Your settings has been saved</div>
                 </div>

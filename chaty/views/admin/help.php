@@ -386,8 +386,8 @@ $data = array(
     </div>
     <div class="premio-help-btn-wrap">
     <!-- Free/Pro Only URL Change -->
-        <a class="premio-help-btn" href="javascript:;"><img src="<?php echo esc_url($data['help_icon']) ?>" alt="<?php esc_html_e("Need help?", 'chaty'); ?>"  /></a>
-        <a class="premio-help-close-btn" href="javascript:;"><img src="<?php echo esc_url($data['close_icon']) ?>" alt="<?php esc_html_e("Close", 'chaty'); ?>"  /></a>
+        <a class="premio-help-btn" href="#"><img src="<?php echo esc_url($data['help_icon']) ?>" alt="<?php esc_html_e("Need help?", 'chaty'); ?>"  /></a>
+        <a class="premio-help-close-btn" href="#"><img src="<?php echo esc_url($data['close_icon']) ?>" alt="<?php esc_html_e("Close", 'chaty'); ?>"  /></a>
         
         <?php 
             $option = get_option("hide_chaty_cta");
@@ -403,7 +403,7 @@ $data = array(
                 <span class="text"><?php esc_html_e("Get Support", "chaty") ?></span>
                 <span class="icon-img"><img src="<?php echo esc_url($data['support_icon']) ?>" alt=""></span>
             </a>
-            <a href="javascript:;" class="premio-help-absulate-content-single contact-us-btn">
+            <a href="#" class="premio-help-absulate-content-single contact-us-btn">
                 <span class="text"><?php esc_html_e("Contact Us", "chaty") ?></span>
                 <span class="icon-img"><img src="<?php echo esc_url($data['contact_icon']) ?>" alt=""></span>
             </a>

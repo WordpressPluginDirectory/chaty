@@ -17,7 +17,7 @@ if(get_option("chaty_views")) { ?>
             <div class="chaty-popup-content">
                 <div class="rating-modal">
                     <div class="chaty-popup-close">
-                        <a href="javascript:void(0)" class="close-rating-popup right-2 top-2 relative">
+                        <a href="#" class="close-rating-popup right-2 top-2 relative">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M15.6 15.5c-.53.53-1.38.53-1.91 0L8.05 9.87 2.31 15.6c-.53.53-1.38.53-1.91 0s-.53-1.38 0-1.9l5.65-5.64L.4 2.4C-.13 1.87-.13 1.02.4.49s1.38-.53 1.91 0l5.64 5.63L13.69.39c.53-.53 1.38-.53 1.91 0s.53 1.38 0 1.91L9.94 7.94l5.66 5.65c.52.53.52 1.38 0 1.91z"></path></svg>
                         </a>
                     </div>
@@ -41,7 +41,7 @@ if(get_option("chaty_views")) { ?>
                             <textarea id="upgrade-review-comment" placeholder="<?php esc_html_e("Please write your review here", "chaty"); ?>"></textarea>
                         </div>
                         <div class="upgrade-modal-button">
-                            <a href="javascript:;" id="upgrade-review-button" class="upgrade-review-button"><?php esc_html_e("Submit", "chaty"); ?></a>
+                            <a href="#" id="upgrade-review-button" class="upgrade-review-button"><?php esc_html_e("Submit", "chaty"); ?></a>
                         </div>
                     </div>
                     <div class="rating-modal-steps" id="step-3">

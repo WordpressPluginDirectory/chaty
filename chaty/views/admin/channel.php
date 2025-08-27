@@ -391,10 +391,10 @@ $isAgent = 0;
                                         <img src="<?php echo esc_url($wp_popup_profile) ?>" alt="<?php esc_html_e("Profile image", "chaty"); ?>" />
                                     <?php } ?>
                                 </div>
-                                <a href="javascript:;" class="upload-chaty-icon flex items-center px-2 upload-wp-profile img-upload-btn" data-for="<?php echo esc_attr($social['slug']); ?>">
+                                <a href="#" class="upload-chaty-icon flex items-center px-2 upload-wp-profile img-upload-btn" data-for="<?php echo esc_attr($social['slug']); ?>">
                                     <?php esc_html_e('Upload Image', 'chaty') ?>
                                 </a>
-                                <a href="javascript:;" class="remove-custom-img" data-for="<?php echo esc_attr($social['slug']); ?>">
+                                <a href="#" class="remove-custom-img" data-for="<?php echo esc_attr($social['slug']); ?>">
                                     <?php esc_html_e('Remove', 'chaty') ?>
                                 </a>
                                 <input class="img-value" type="hidden" id="wp_popup_profile" name="cht_social_<?php echo esc_attr($social['slug']); ?>[wp_popup_profile]" value="<?php echo esc_attr($wp_popup_profile) ?>">
@@ -659,7 +659,7 @@ $isAgent = 0;
 
             <!-- settings button -->
             <div class="chaty-settings <?php echo esc_attr($closeClass) ?>" data-nonce="<?php echo esc_attr(wp_create_nonce($social['slug']."-settings")) ?>" id="<?php echo esc_attr($social['slug']); ?>-close-btn" onclick="toggle_chaty_setting('<?php echo esc_attr($social['slug']); ?>')">
-                <a class="flex items-center space-x-1.5" href="javascript:;">
+                <a class="flex items-center space-x-1.5" href="#">
                     <span>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                             <path d="M8 10C9.10457 10 10 9.10457 10 8C10 6.89543 9.10457 6 8 6C6.89543 6 6 6.89543 6 8C6 9.10457 6.89543 10 8 10Z" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1147,7 +1147,7 @@ $isAgent = 0;
                             <div class="chaty-setting-col ">
                                 <label class="font-primary text-base text-cht-gray-150 sm:w-44"><?php esc_html_e("Upload QR Code", "chaty") ?></label>
                                 <div class="relative qr-code-setting <?php echo esc_attr($social['slug']); ?>-qr-code-setting <?php echo esc_attr($status?"active":"") ?>">
-                                    <a class="img-upload-btn" href="javascript:;" >
+                                    <a class="img-upload-btn" href="#" >
                                         <?php esc_html_e("Upload", "chaty") ?>
                                     </a>
                                 </div>
@@ -1263,7 +1263,7 @@ $isAgent = 0;
                 <button type="button" class="edit-number"><?php esc_html_e('Edit Number', 'chaty') ?></button>
                 <button type="button" class="save-btn"><?php esc_html_e('Yes, Correct', 'chaty') ?></button>
             </div>
-            <div class="contact-link"><?php esc_html_e('Having trouble? Contact ', 'chaty') ?><a href="javascript:;"><?php esc_html_e('Support', 'chaty') ?></a></div>
+            <div class="contact-link"><?php esc_html_e('Having trouble? Contact ', 'chaty') ?><a href="#"><?php esc_html_e('Support', 'chaty') ?></a></div>
         </div>
     </div>
 </div>
@@ -1287,7 +1287,7 @@ $isAgent = 0;
                 <button type="button" class="edit-number"><?php esc_html_e('Edit Link', 'chaty') ?></button>
                 <button type="button" class="save-btn"><?php esc_html_e('Yes, Correct', 'chaty') ?></button>
             </div>
-            <div class="contact-link"><?php esc_html_e('Having trouble? Contact ', 'chaty') ?><a href="javascript:;"><?php esc_html_e('Support', 'chaty') ?></a></div>
+            <div class="contact-link"><?php esc_html_e('Having trouble? Contact ', 'chaty') ?><a href="#"><?php esc_html_e('Support', 'chaty') ?></a></div>
         </div>
     </div>
 </div>

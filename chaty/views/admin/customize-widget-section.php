@@ -59,7 +59,7 @@ $cta_type = "simple-view";
                         </label>
                         <label class="chat-label" for="cta-option-chat-view"><span></span> <?php esc_html_e("Chat view (Pro)", "chaty"); ?></label>
                     </div>
-                    <a href="javascript:;" class="upgrade-btn"><?php esc_html_e("Upgrade to Pro", "chaty"); ?></a>
+                    <a href="#" class="upgrade-btn"><?php esc_html_e("Upgrade to Pro", "chaty"); ?></a>
                 </div>
             </div>
         </div>

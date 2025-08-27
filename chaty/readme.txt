@@ -3,7 +3,7 @@ Contributors: galdub, tomeraharon, premio
 Tags: whatsapp, whatsapp chat, facebook messenger, chat, chat button
 Requires at least: 3.1
 Tested up to: 6.8
-Stable tag: 3.4.6
+Stable tag: 3.4.7
 Plugin URI: https://premio.io/downloads/chaty/
 License: GPLv3
 
@@ -128,7 +128,7 @@ Different chats buttons based on purpose (support, sales, etc)
 19. Contact form leads to email
 20. Google reCAPTCHA
 21. Date scheduling
-22. Contact form integration with Mailchimp & Klaviyo
+22. Contact form integration with email marketing platforms like Mailchimp & Klaviyo
 23. Blur the screen when Chaty chat icons are in open state
 24. Change the page's title to grab attention to the chat buttons
 
@@ -292,6 +292,9 @@ Yes! You can even decide what chat buttons will show up on each device (desktop/
 
 
 == Changelog ==
+
+= 3.4.7 =
+Playground bug fixed
 
 = 3.4.6 =
 Removed cookie dependency

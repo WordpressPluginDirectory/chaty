@@ -191,7 +191,7 @@ if($hasWooCommerce) {
                             </div>
 
                             <div class="url-buttons">
-                                <a class="remove-chaty absolute" href="javascript:;">
+                                <a class="remove-chaty absolute" href="#">
                                     <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect width="15.6301" height="2.24494" rx="1.12247" transform="translate(2.26764 0.0615997) rotate(45)" fill="white"></rect>
                                         <rect width="15.6301" height="2.24494" rx="1.12247" transform="translate(13.3198 1.649) rotate(135)" fill="white"></rect>
@@ -209,8 +209,8 @@ if($hasWooCommerce) {
                     </div>
                 </div>
                 <div>
-                    <a href="javascript:;" class="create-rule border border-solid border-cht-gray-150/60 text-cht-gray-150 text-base px-3 py-1 rounded-lg inline-block hover:text-cht-primary hover:border-cht-primary mr-4" id="create-rule"><?php esc_html_e("Add Rule", "chaty") ?></a>
-                    <a href="javascript:;" class="remove-rules hidden rounded-lg bg-transparent  px-3 py-1 border border-red-500 text-red-500 hover:bg-red-500/10  focus:bg-red-500/10 hover:text-red-500 btn-primary"><?php esc_html_e("Remove Rules", "chaty") ?></a>
+                    <a href="#" class="create-rule border border-solid border-cht-gray-150/60 text-cht-gray-150 text-base px-3 py-1 rounded-lg inline-block hover:text-cht-primary hover:border-cht-primary mr-4" id="create-rule"><?php esc_html_e("Add Rule", "chaty") ?></a>
+                    <a href="#" class="remove-rules hidden rounded-lg bg-transparent  px-3 py-1 border border-red-500 text-red-500 hover:bg-red-500/10  focus:bg-red-500/10 hover:text-red-500 btn-primary"><?php esc_html_e("Remove Rules", "chaty") ?></a>
                 </div>
             </div>
         </div>
@@ -304,10 +304,10 @@ if($hasWooCommerce) {
                                 </a>
                             </div>
                         </div>
-                        <a href="javascript:;" class="remove-rules rounded-lg bg-transparent border-red-500 text-red-500 hover:bg-red-500/10  focus:bg-red-500/10 hover:text-red-500 px-3 py-1 border btn-primary inline-block mt-5" id="remove-date-rule"><?php esc_html_e('Remove Rules', 'chaty');?></a>
+                        <a href="#" class="remove-rules rounded-lg bg-transparent border-red-500 text-red-500 hover:bg-red-500/10  focus:bg-red-500/10 hover:text-red-500 px-3 py-1 border btn-primary inline-block mt-5" id="remove-date-rule"><?php esc_html_e('Remove Rules', 'chaty');?></a>
                     </div>
                     <div class="date-schedule-button">
-                        <a href="javascript:;" class="create-rule border border-solid border-cht-gray-150/60 text-cht-gray-150 text-base px-3 py-1 rounded-lg inline-block hover:text-cht-primary hover:border-cht-primary" id="create-date-rule"><?php esc_html_e('Add Rule', 'chaty');?></a>
+                        <a href="#" class="create-rule border border-solid border-cht-gray-150/60 text-cht-gray-150 text-base px-3 py-1 rounded-lg inline-block hover:text-cht-primary hover:border-cht-primary" id="create-date-rule"><?php esc_html_e('Add Rule', 'chaty');?></a>
                     </div>
                 </div>
             </div>
@@ -370,8 +370,8 @@ if($hasWooCommerce) {
                     </div>
                 </div>
                 <div>
-                    <a href="javascript:;" class="create-rule border border-solid border-cht-gray-150/60 text-cht-gray-150 text-base px-3 py-1 rounded-lg inline-block hover:text-cht-primary hover:border-cht-primary mr-4" id="create-data-and-time-rule"><?php esc_html_e("Add Rule", "chaty") ?></a>
-                    <a href="javascript:;" class="remove-rules hidden rounded-lg bg-transparent  px-3 py-1 border border-red-500 text-red-500 hover:bg-red-500/10  focus:bg-red-500/10 hover:text-red-500 btn-primary"><?php esc_html_e("Remove Rules", "chaty") ?></a>
+                    <a href="#" class="create-rule border border-solid border-cht-gray-150/60 text-cht-gray-150 text-base px-3 py-1 rounded-lg inline-block hover:text-cht-primary hover:border-cht-primary mr-4" id="create-data-and-time-rule"><?php esc_html_e("Add Rule", "chaty") ?></a>
+                    <a href="#" class="remove-rules hidden rounded-lg bg-transparent  px-3 py-1 border border-red-500 text-red-500 hover:bg-red-500/10  focus:bg-red-500/10 hover:text-red-500 btn-primary"><?php esc_html_e("Remove Rules", "chaty") ?></a>
                 </div>
             </div>
         </div>
@@ -396,7 +396,7 @@ if($hasWooCommerce) {
             ?>
             <div class="chaty-option-box traffic-options-box <?php echo ($checked == "yes") ? "active" : "" ?>">
                 <div class="traffic-default">
-                    <a href="javascript:;" class="create-rule border border-solid border-cht-gray-150/60 text-cht-gray-150 text-base px-3 py-1 rounded-lg inline-block hover:text-cht-primary hover:border-cht-primary" id="update-chaty-traffic-source-rule"><?php esc_html_e("Add Rule", "chaty") ?></a>
+                    <a href="#" class="create-rule border border-solid border-cht-gray-150/60 text-cht-gray-150 text-base px-3 py-1 rounded-lg inline-block hover:text-cht-primary hover:border-cht-primary" id="update-chaty-traffic-source-rule"><?php esc_html_e("Add Rule", "chaty") ?></a>
                     <input type="hidden" name="chaty_traffic_source" id="chaty_traffic_source" value="<?php echo esc_attr($checked) ?>">
                 </div>
                 <div class="traffic-active">
@@ -509,7 +509,7 @@ if($hasWooCommerce) {
                                                     <input type="text" name="chaty_custom_traffic_rules[<?php echo esc_attr($key) ?>][url_value]" value="<?php echo esc_attr($rule['url_value']) ?>" placeholder="https://www.example.com" />
                                                 </div>
                                                 <div class="traffic-action">
-                                                    <a class="remove-traffic-option" href="javascript:;">
+                                                    <a class="remove-traffic-option" href="#">
                                                         <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                             <rect width="15.6301" height="2.24494" rx="1.12247" transform="translate(2.26764 0.0615997) rotate(45)" fill="white"></rect>
                                                             <rect width="15.6301" height="2.24494" rx="1.12247" transform="translate(13.3198 1.649) rotate(135)" fill="white"></rect>
@@ -530,7 +530,7 @@ if($hasWooCommerce) {
                                                 <input type="text" name="chaty_custom_traffic_rules[0][url_value]" />
                                             </div>
                                             <div class="traffic-action">
-                                                <a class="remove-traffic-option" href="javascript:;">
+                                                <a class="remove-traffic-option" href="#">
                                                     <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <rect width="15.6301" height="2.24494" rx="1.12247" transform="translate(2.26764 0.0615997) rotate(45)" fill="white"></rect>
                                                         <rect width="15.6301" height="2.24494" rx="1.12247" transform="translate(13.3198 1.649) rotate(135)" fill="white"></rect>
@@ -550,8 +550,8 @@ if($hasWooCommerce) {
                         </div>
                         <div class="clear clearfix"></div>
                         <div class="traffic-rule-actions">
-                            <a href="javascript:;" class="create-rule border border-solid border-cht-gray-150/60 text-cht-gray-150 text-base px-3 py-1 rounded-lg inline-block hover:text-cht-primary hover:border-cht-primary mr-4" id="add-traffic-rule"><?php esc_html_e("Add Rule", "chaty") ?></a>
-                            <a href="javascript:;" class="remove-rules rounded-lg bg-transparent  px-3 py-1 border border-red-500 text-red-500 hover:bg-red-500/10  focus:bg-red-500/10 hover:text-red-500 btn-primary inline-block" id="remove-traffic-rules"><?php esc_html_e("Remove Rules", "chaty") ?></a>
+                            <a href="#" class="create-rule border border-solid border-cht-gray-150/60 text-cht-gray-150 text-base px-3 py-1 rounded-lg inline-block hover:text-cht-primary hover:border-cht-primary mr-4" id="add-traffic-rule"><?php esc_html_e("Add Rule", "chaty") ?></a>
+                            <a href="#" class="remove-rules rounded-lg bg-transparent  px-3 py-1 border border-red-500 text-red-500 hover:bg-red-500/10  focus:bg-red-500/10 hover:text-red-500 btn-primary inline-block" id="remove-traffic-rules"><?php esc_html_e("Remove Rules", "chaty") ?></a>
                         </div>
                     </div>
                 </div>
@@ -586,8 +586,8 @@ if($hasWooCommerce) {
                     </div>
                 </div>
                 <div>
-                    <a href="javascript:;" class="create-rule border border-solid border-cht-gray-150/60 text-cht-gray-150 text-base px-3 py-1 rounded-lg inline-block hover:text-cht-primary hover:border-cht-primary mr-4" id="add-traffic-rule"><?php esc_html_e('Add Rule', 'chaty');?></a>
-                    <a href="javascript:;" class="remove-rules rounded-lg bg-transparent  px-3 py-1 border border-red-500 text-red-500 hover:bg-red-500/10  focus:bg-red-500/10 hover:text-red-500 btn-primary hidden"><?php esc_html_e('Remove Rules', 'chaty');?></a>
+                    <a href="#" class="create-rule border border-solid border-cht-gray-150/60 text-cht-gray-150 text-base px-3 py-1 rounded-lg inline-block hover:text-cht-primary hover:border-cht-primary mr-4" id="add-traffic-rule"><?php esc_html_e('Add Rule', 'chaty');?></a>
+                    <a href="#" class="remove-rules rounded-lg bg-transparent  px-3 py-1 border border-red-500 text-red-500 hover:bg-red-500/10  focus:bg-red-500/10 hover:text-red-500 btn-primary hidden"><?php esc_html_e('Remove Rules', 'chaty');?></a>
                 </div>
             </div>
         </div>

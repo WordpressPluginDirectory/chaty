@@ -1048,14 +1048,14 @@ class CHT_Frontend extends CHT_Admin_Base
                                     $mobileTarget  = (isset($value['new_window']) && $value['new_window'] == 0) ? "" : "_blank";
                                 }
                             } else {
-                                $url       = "javascript:;";
+                                $url       = "#";
                                 $onClickFn     = str_replace('"', "'", $val);
                                 $onClickFn     = str_replace('`', "'", $onClickFn);
                                 $onClickFn     = urldecode($onClickFn);
                             }
                         } else if ($channelType == "wechat") {
                             // setting for WeChat
-                            $url = "javascript:;";
+                            $url = "#";
                             if (!empty($value['title'])) {
                                 $value['title'] .= ": ".$this->sanitize_xss($val);
                             } else {
@@ -1173,7 +1173,7 @@ class CHT_Frontend extends CHT_Admin_Base
                             $desktopTarget = $mobileTarget = "_blank";
                             $url           = esc_url($url);
                         } else if ($channelType == "chatway") {
-                            $url = "javascript:;";
+                            $url = "#";
                             $desktopTarget = $mobileTarget = "";
                         } //end if//end if
 
@@ -1206,7 +1206,7 @@ class CHT_Frontend extends CHT_Admin_Base
                         $valid = true;
 
                         if ($channelType == "contact_us") {
-                            $url           = "javascript:;";
+                            $url           = "#";
                             $desktopTarget = "";
                             $mobileTarget  = "";
                             if (isset($value['name']) || isset($value['email']) || isset($value['message'])) {

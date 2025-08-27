@@ -3,7 +3,7 @@
     <div class="chaty-popup-inner popup-pos-bottom step-1">
         <div class="chaty-popup-content">
             <div class="chaty-popup-close">
-                <a href="javascript:void(0)" class="close-delete-pop close-chaty-popup-btn right-2 top-2 relative">
+                <a href="#" class="close-delete-pop close-chaty-popup-btn right-2 top-2 relative">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M15.6 15.5c-.53.53-1.38.53-1.91 0L8.05 9.87 2.31 15.6c-.53.53-1.38.53-1.91 0s-.53-1.38 0-1.9l5.65-5.64L.4 2.4C-.13 1.87-.13 1.02.4.49s1.38-.53 1.91 0l5.64 5.63L13.69.39c.53-.53 1.38-.53 1.91 0s.53 1.38 0 1.91L9.94 7.94l5.66 5.65c.52.53.52 1.38 0 1.91z"></path></svg>
                 </a>
             </div>
@@ -48,7 +48,7 @@
                                 <svg class="ml-1" width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M1 9.5L5 5.5L1 1.5" stroke="white" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"></path> </svg>
                             </a>
                         <?php } else { ?>
-                            <a href="javascript:;" id="add-live-channel" class="inline-flex font-primary items-center gap-2.5 px-12 border border-solid text-center justify-center border-cht-primary h-10 text-base rounded-lg text-white hover:text-white bg-cht-primary hover:bg-cht-primary-100">
+                            <a href="#" id="add-live-channel" class="inline-flex font-primary items-center gap-2.5 px-12 border border-solid text-center justify-center border-cht-primary h-10 text-base rounded-lg text-white hover:text-white bg-cht-primary hover:bg-cht-primary-100">
                                 <?php esc_html_e("Add Live Chat", "chaty") ?>
                                 <svg class="ml-1" width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M1 9.5L5 5.5L1 1.5" stroke="white" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"></path> </svg>
                             </a>
@@ -112,7 +112,7 @@
     <div class="chaty-popup-inner popup-pos-bottom">
         <div class="chaty-popup-content">
             <div class="chaty-popup-close">
-                <a href="javascript:void(0)" class="close-delete-pop close-chaty-popup-btn relative top-5 right-5">
+                <a href="#" class="close-delete-pop close-chaty-popup-btn relative top-5 right-5">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M15.6 15.5c-.53.53-1.38.53-1.91 0L8.05 9.87 2.31 15.6c-.53.53-1.38.53-1.91 0s-.53-1.38 0-1.9l5.65-5.64L.4 2.4C-.13 1.87-.13 1.02.4.49s1.38-.53 1.91 0l5.64 5.63L13.69.39c.53-.53 1.38-.53 1.91 0s.53 1.38 0 1.91L9.94 7.94l5.66 5.65c.52.53.52 1.38 0 1.91z"/></svg>
                 </a>
             </div>
@@ -138,7 +138,7 @@
     <div class="chaty-popup-inner popup-pos-bottom w-[640px]">
         <div class="chaty-popup-content">
             <div class="chaty-popup-close">
-                <a href="javascript:void(0)" class="close-delete-pop close-chaty-popup-btn relative top-5 right-5">
+                <a href="#" class="close-delete-pop close-chaty-popup-btn relative top-5 right-5">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M15.6 15.5c-.53.53-1.38.53-1.91 0L8.05 9.87 2.31 15.6c-.53.53-1.38.53-1.91 0s-.53-1.38 0-1.9l5.65-5.64L.4 2.4C-.13 1.87-.13 1.02.4.49s1.38-.53 1.91 0l5.64 5.63L13.69.39c.53-.53 1.38-.53 1.91 0s.53 1.38 0 1.91L9.94 7.94l5.66 5.65c.52.53.52 1.38 0 1.91z"/></svg>
                 </a>
             </div>

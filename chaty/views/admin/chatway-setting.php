@@ -280,7 +280,7 @@ if($chtIcon != 'custom-image') {
 
             <!-- button for advance setting -->
             <div class="chaty-settings active" data-nonce="<?php echo esc_attr(wp_create_nonce($social['slug']."-settings")) ?>" id="<?php echo esc_attr($social['slug']); ?>-close-btn" onclick="toggle_chaty_setting('<?php echo esc_attr($social['slug']); ?>')">
-                <a class="flex items-center space-x-1.5" href="javascript:;">
+                <a class="flex items-center space-x-1.5" href="#">
                     <span>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                             <path d="M8 10C9.10457 10 10 9.10457 10 8C10 6.89543 9.10457 6 8 6C6.89543 6 6 6.89543 6 8C6 9.10457 6.89543 10 8 10Z" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/>

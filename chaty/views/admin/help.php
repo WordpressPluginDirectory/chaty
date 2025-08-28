@@ -441,6 +441,7 @@ $data = array(
 
 <script>
     jQuery(document).ready(function(){
+
         jQuery(".premio-help-btn").click(function(e){
             e.stopPropagation();
              jQuery(".premio-help-btn-wrap .tooltiptext").hide();

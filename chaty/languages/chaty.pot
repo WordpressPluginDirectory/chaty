@@ -2,10 +2,10 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Chaty 3.4.7\n"
+"Project-Id-Version: Chaty 3.4.8\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/chaty-free-uncompressed\n"
-"POT-Creation-Date: 2025-08-27 09:21:52+00:00\n"
+"POT-Creation-Date: 2025-08-28 09:27:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -709,7 +709,7 @@ msgid "Background color"
 msgstr ""
 
 #: views/admin/channel.php:805 views/admin/help.php:428
-#: views/admin/help.php:482
+#: views/admin/help.php:483
 msgid "Chat"
 msgstr ""
 
@@ -1854,19 +1854,19 @@ msgstr ""
 msgid "Visit our Help Center >>"
 msgstr ""
 
-#: views/admin/help.php:471
+#: views/admin/help.php:472
 msgid "Sending Request..."
 msgstr ""
 
-#: views/admin/help.php:488
+#: views/admin/help.php:489
 msgid "Done!"
 msgstr ""
 
-#: views/admin/help.php:495
+#: views/admin/help.php:496
 msgid "Your message is sent successfully."
 msgstr ""
 
-#: views/admin/help.php:501
+#: views/admin/help.php:502
 msgid "There is some problem in sending request. Please send us mail on %1$s"
 msgstr ""
 

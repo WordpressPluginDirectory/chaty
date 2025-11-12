@@ -18,11 +18,11 @@ if (defined('ABSPATH') === false) {
         <div class="px-7 py-8 flex-1">
             <h2 class="chaty-widgetanalytic-heading"><?php printf(esc_html__("Unlock Chaty %s 🚀", "chaty"), "<span>".esc_html__("Analytics", "chaty")."</span>") ?></h2>
 
-            <div class="flex items-center mt-5 space-x-3">
+            <!-- <div class="flex items-center mt-5 space-x-3">
                 <a class="btn rounded-lg drop-shadow-3xl font-normal" href="<?php echo esc_url($this->getUpgradeMenuItemUrl()); ?>" >
-                    <?php esc_html_e('Upgrade to Pro 🚀', 'chaty'); ?>
+                    <?php //esc_html_e('Upgrade to Pro 🚀', 'chaty'); ?>
                 </a>
-            </div>
+            </div> -->
 
             <div class="chaty-licenseimage">
                 <img class="h-full w-auto" src="<?php echo esc_url(CHT_PLUGIN_URL) ?>admin/assets/images/analytics-image.png" alt="Chaty analytics" />

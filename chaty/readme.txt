@@ -3,11 +3,11 @@ Contributors: galdub, tomeraharon, premio
 Tags: whatsapp, whatsapp chat, facebook messenger, chat, chat button
 Requires at least: 3.1
 Tested up to: 6.8
-Stable tag: 3.4.8
+Stable tag: 3.5.0
 Plugin URI: https://premio.io/downloads/chaty/
 License: GPLv3
 
-🔥 WhatsApp chat, Facebook Messenger, Telegram, TikTok, Instagram, Email, Line, WeChat Phone call, SMS, 20+ live chat icons & WhatsApp chat pop up 💬
+WhatsApp chat, Facebook Messenger, Telegram, TikTok, Instagram, Email, Line, WeChat Phone call, SMS, 20+ live chat icons & WhatsApp chat pop up 💬
 
 == Description ==
 
@@ -17,8 +17,8 @@ License: GPLv3
 <a href="https://premio.io/?utm_source=wordpressorg" target="_blank" title="WordPress plugins">Recommended Plugins</a> | <a href="https://premio.io/downloads/chaty/?utm_source=wordpressorg" target="_blank" title="Chaty Pro"><strong>Upgrade to Pro ⭐</strong></a>
 
 * Get WhatsApp, Facebook Messenger & 20+ chat channels
-* Chat with your visitors via their favorite channels like Facebook Messenger, WhatsApp, WhatsApp Business, Viber, Slack, Telegram, Instagram Direct Messenger, TikTok, Line Messenger, and more chat channels
-* Better customer support
+* Chat with your visitors on their favorite channels like Facebook Messenger, WhatsApp, WhatsApp Business, Viber, Slack, Telegram, Instagram Direct Messenger, TikTok, Line Messenger, and more chat channels
+* Better customer support using chat buttons
 
 [youtube  https://www.youtube.com/watch?v=i6t05AeuyWg]
 
@@ -37,7 +37,7 @@ Chaty is the perfect chat plugin to display a call widget, WhatsApp button, emai
 * Click to call - show a phone call icon & let your visitors click to call you.
 * Show different chat channels on different pages  - show separate widgets for different products on your website,  show different buttons based on URL for WPML or multi-language sites, display different channels for your landing pages, and more (Pro feature).
 * Available days & hours (Pro feature).
-* Launch your favorite live chat app - use JavaScript channel to launch live chat products like Chatway, Tawk.to, Tidio, Chatra, Formilla, Zoho, Zendesk, LiveChat, Crisp, Intercom, JivoChat, Olark & more.
+* Launch your favorite live chat app - use JavaScript to launch live chat apps like Chatway, Tawk.to, Tidio, Chatra, Formilla, Zoho, Zendesk, LiveChat, Crisp, Intercom, JivoChat, Olark & more.
 
 = 👩‍💻 Looking for a Live Chat plugin? =
 If you're not looking for WhatsApp, Facebook Messenger, and other chat buttons, and prefer to use a live chat solution for your website, <a href="https://chatway.app/?utm_source=chatylisting" target="_blank" title="Chatway Live Chat">Chatway Live Chat</a> is the perfect solution for you. Implementing Chatway, a WordPress live chat solution, enhances your customer engagement.
@@ -209,7 +209,7 @@ In the Pro version, Chaty has many WooCommerce integrations, including dynamic c
 Chaty works great with Elementor, Divi, Visual Composer, WPBakery, Beaver, SiteOrigin, Gutenberg, Oxygen, Zion, WooCommerce and more.
 Chaty common typos: Chatty & Chati.
 
-= 🔒 Chaty is GDPR complaint =
+= 🔒 Chaty is GDPR compliant =
 All data is stored on your website.
 
 = 🤗 Testimonials =
@@ -292,6 +292,13 @@ Yes! You can even decide what chat buttons will show up on each device (desktop/
 
 
 == Changelog ==
+
+= 3.5.0 =
+Live chat integration flow improvement
+
+= 3.4.9 =
+Menu structure improved
+Custom chat icon bug fixed
 
 = 3.4.8 =
 Navigation bug fixed

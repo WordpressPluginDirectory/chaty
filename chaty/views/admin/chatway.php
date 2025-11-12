@@ -7,24 +7,27 @@ $chatwayStatus = apply_filters('check_for_chatway_status', 'not-installed');
     </div>
     <div class="chatway-right flex-1 pl-4 sm:pl-0 ">
         <div class="add-live-chat-info">
-            <div class="chatway-title text-xl font-semibold pb-4 font-primary text-cht-gray-150"><?php esc_html_e("Add Chatway Live Chat widget to your website", "chaty"); ?></div>
+
+            <div class="chatway-title text-xl font-semibold pb-4 font-primary text-cht-gray-150"><?php esc_html_e("Connect effortlessly with customers through Live Chat!", "chaty"); ?></div>
+
+            <p class="text-cht-gray-150 text-base"><?php esc_html_e("Add the Chatway Live Chat widget to your website and effectively communicate with visitors with features such as:", "chaty") ?></p>
+            <br>
+            <?php 
+            $chatway_feature = [
+                esc_html__("Handle chats from your website, email, and Facebook Messenger in one place.", "chaty"),
+                esc_html__("Integrate with WooCommerce and create separate widgets and inboxes for multiple websites.", "chaty"),
+                esc_html__("Customize your widget, add FAQs, set up automated messages and canned responses to reply faster, and collaborate effortlessly with your team with notes and reminders.", "chaty"),
+                esc_html__("Access live visitor details, multilingual support, and unlimited conversations.", "chaty"),
+                esc_html__("Stay connected anywhere with Chatway’s iOS and Android apps.", "chaty"),
+             ]
+             ?>
             <ul>
-                <li class="text-cht-gray-150 text-base flex">
-                    <span class="flex-none inline-flex items-center w-6 h-6 bg-[#e4fff5] mr-2 rounded-full text-center"><svg class="mx-auto" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" svg-inline="" role="presentation" focusable="false" tabindex="-1"><path d="M13.333 4l-7.334 7.333L2.666 8" stroke="#68CB9B" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-                    <?php esc_html_e("Unlimited conversations, email, and Facebook Messenger integrations", "chaty"); ?>
-                </li>
-                <li class="text-cht-gray-150 text-base flex">
-                    <span class="flex-none inline-flex items-center w-6 h-6 bg-[#e4fff5] mr-2 rounded-full text-center"><svg class="mx-auto" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" svg-inline="" role="presentation" focusable="false" tabindex="-1"><path d="M13.333 4l-7.334 7.333L2.666 8" stroke="#68CB9B" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-                    <?php esc_html_e("Team collaboration with agents", "chaty"); ?>
-                </li>
-                <li class="text-cht-gray-150 text-base flex">
-                    <span class="flex-none inline-flex items-center w-6 h-6 bg-[#e4fff5] mr-2 rounded-full text-center"><svg class="mx-auto" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" svg-inline="" role="presentation" focusable="false" tabindex="-1"><path d="M13.333 4l-7.334 7.333L2.666 8" stroke="#68CB9B" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-                    <?php esc_html_e("Canned responses, private notes, reminders, and more", "chaty"); ?>
-                </li>
-                <li class="text-cht-gray-150 text-base flex">
-                    <span class="flex-none inline-flex items-center w-6 h-6 bg-[#e4fff5] mr-2 rounded-full text-center"><svg class="mx-auto" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" svg-inline="" role="presentation" focusable="false" tabindex="-1"><path d="M13.333 4l-7.334 7.333L2.666 8" stroke="#68CB9B" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-                    <?php esc_html_e("iOS & Android apps available", "chaty"); ?>
-                </li>
+                <?php foreach ($chatway_feature as $feature) { ?>
+                    <li class="text-cht-gray-150 text-base flex">
+                        <span class="flex-none inline-flex items-center w-6 h-6 bg-[rgba(39,184,54,0.16)] mr-2 rounded-full text-center"><svg class="mx-auto" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" svg-inline="" role="presentation" focusable="false" tabindex="-1"><path d="M13.333 4l-7.334 7.333L2.666 8" stroke="#68CB9B" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+                        <?php echo esc_html($feature); ?>
+                    </li> 
+                <?php } ?>
             </ul>
             <div class="chatway-footer mt-5 add-live-chat-link">
                 <a id="add-live-chat-btn" target="_blank" href="<?php echo self_admin_url("admin.php?page=chaty-live-chat") ?>" class="inline-flex font-primary items-center w-64 gap-2.5 py-1 border border-solid text-center justify-center border-[#0446de] rounded-lg text-[#0446de] hover:text-[#0446de] hover:bg-[#edf3f6]">
@@ -74,6 +77,6 @@ $chatwayStatus = apply_filters('check_for_chatway_status', 'not-installed');
                 </div>
             </div>
         </div>
-        <div class="font-primary w-64 text-center mt-1 text-cht-gray-150 text-xs"><?php esc_html_e("You can skip this step by saving the widget", "chaty") ?></div>
+        <div class="font-primary w-64 text-center mt-1 text-cht-gray-150 text-xs manage-live-chat-skip-text"><?php esc_html_e("You can skip this step by saving the widget", "chaty") ?></div>
     </div>
 </div>

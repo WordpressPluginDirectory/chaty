@@ -123,22 +123,6 @@ if ( $data && ! is_wp_error( $data ) ) {
 }
 
 
-/* Chaty Plugins */
-$args = [
-    'slug' => 'chaty',
-    'fields' => [
-        'short_description' => true,
-        'icons' => true,
-        'reviews'  => false, // excludes all reviews
-    ],
-];
-$data = plugins_api( 'plugin_information', $args );
-if ( $data && ! is_wp_error( $data ) ) {
-    $recommendedPlugins['chaty'] = $data;
-    $recommendedPlugins['chaty']->name = 'Chaty: WhatsApp, Facebook Messenger, and Many Other Chat Buttons For Your Website';
-    $recommendedPlugins['chaty']->short_description = 'Let your visitors contact you via Facebook Messenger, Whatsapp, Telegram, Viber, Email, Phone call, SMS and more with customizable chat & call bututons';
-}
-
 /* Folders Plugins */
 $args = [
     'slug' => 'folders',
@@ -152,8 +136,25 @@ $data = plugins_api( 'plugin_information', $args );
 if ( $data && ! is_wp_error( $data ) ) {
     $recommendedPlugins['folders'] = $data;
     $recommendedPlugins['folders']->name = 'Folders: Organize Your Media Library, Posts, Pages, and Custom posts Using Drag and Drop';
-    $recommendedPlugins['folders']->short_description = 'Folders is a powerful WordPress plugin that will help you quickly and easily organize and manage your Media library files, Pages, Posts, and Custom Posts in folders';
+    $recommendedPlugins['folders']->short_description = 'Folders is a powerful WordPress plugin that will help you quickly and easily organize and manage your Media Library files, Pages, Posts, and Custom posts in folders';
 }
+
+/* My Sticky Menu Plugin */
+$args = [
+    'slug' => 'mystickymenu',
+    'fields' => [
+        'short_description' => true,
+        'icons' => true,
+        'reviews'  => false, // excludes all reviews
+    ],
+];
+$data = plugins_api( 'plugin_information', $args );
+if ( $data && ! is_wp_error( $data ) ) {
+    $recommendedPlugins['mystickymenu'] = $data;
+    $recommendedPlugins['mystickymenu']->name = 'My Sticky Bar – Floating Notification Bar & Sticky Header (formerly myStickymenu)';
+    $recommendedPlugins['mystickymenu']->short_description = 'Create a welcome notification bar for your website. Also, My Sticky Bar plugin can make your menu or header sticky to the top when scrolled 📌';
+}
+
 ?>
 <div class="wrap mystickyelement-wrap recommended-plugins">
     <h2>

@@ -348,7 +348,7 @@ class CHT_Social_Icons
                 'example'     => 'Example: My-Name-512b1413b',
                 'placeholder' => esc_html__('My-Name-512b1413b', 'chaty'),
                 'slug'        => 'Linkedin',
-                'title'       => 'Linkedin',
+                'title'       => 'LinkedIn',
                 'color'       => '#0077b5',
                 'help'        => "To find your username and suffix, go to your <a href='https://www.linkedin.com/' target='_blank'>LinkedIn account</a> and click on your profile picture. Once you see your profile, copy the last part of the URL after https://www.linkedin.com/in/",
                 'svg'         => '<svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg"><circle class="color-element" cx="19.5" cy="19.5" r="19.5" fill="#0077b5"/>

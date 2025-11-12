@@ -185,8 +185,20 @@ class CHT_Admin_Base
                 exit;
             }
 
-            $page = isset($_GET['page']) ? $_GET['page'] : "";
+            $page = isset($_GET['page']) ? sanitize_text_field(wp_unslash($_GET['page'])) : "";
             if (!empty($page)) {
+                // Check if accessing contact form feed page with no leads
+                if ($page === 'chaty-contact-form-feed') { 
+                    $total_leads = $this->total_chaty_contact_form_leads(); // Total number of chaty contact form leads
+                    $contact_us_channel_active = $this->is_contact_us_channel_active(); // True if contact us channel is active, false otherwise
+
+                    // Redirect if no leads exist
+                    if ($total_leads == 0 && !$contact_us_channel_active) {
+                        wp_redirect(admin_url("admin.php?page=chaty-app"));
+                        exit;
+                    }
+                }
+                
                 if (in_array($page, ["widget-analytics", "chaty-contact-form-feed", "recommended-chaty-plugins", "chaty-app-upgrade"])) {
                
                     $is_shown = \CHT_SIGNUP_CLASS::check_modal_status();  
@@ -198,6 +210,42 @@ class CHT_Admin_Base
             }
         }
     }
+
+    /**
+     * Total number of chaty contact form leads 
+     *
+     * @return int Total number of chaty contact form leads
+     */
+    function total_chaty_contact_form_leads() {
+        global $wpdb;
+        $tableName = $wpdb->prefix . 'chaty_contact_form_leads';
+        $total_leads = 0;
+        // Check if table exists using prepared statement for security
+        $table_check = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $tableName));
+        if ($table_check === $tableName) { 
+            // Use prepared statement with identifier placeholder for table name
+            $total_leads = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM %i", $tableName));
+            $total_leads = absint($total_leads);
+        } 
+        return $total_leads;
+    }
+
+    
+    /**
+     * Is contact us channel active
+     *
+     * @return bool True if contact us channel is active, false otherwise 
+     */
+    function is_contact_us_channel_active() { 
+        $socialApp = $icons = get_option('cht_numb_slug', false);
+        $socialApp = ($socialApp == false) ? "whatsapp" : $socialApp;
+        $socialApp = trim($socialApp, ",");
+        $socialApp = explode(",", $socialApp); 
+
+        return in_array('Contact_Us', $socialApp);
+    }
+
+
 
     /**
      * Add custom CSS to the wp-admin head section
@@ -494,6 +542,24 @@ class CHT_Admin_Base
      */
     public function cht_inline_css_admin()
     {
+        $status = get_option("cht_active");
+
+        global $submenu;
+        $parent_slug = 'chaty-app'; // replace with your actual main menu slug
+    
+        if (isset($submenu[$parent_slug])) {
+            foreach ($submenu[$parent_slug] as &$item) {
+                if (isset($item[2]) && $item[2] === 'chaty-contact-form-feed') {
+                    $item[4] = 'cht-admin-menu-integration'; // add your class here
+                }
+                if (isset($item[2]) && $item[2] === 'chaty-upgrade') {
+                    $item[4] = 'cht-admin-menu-upgrade'; // add your class here
+                }
+            }
+        } 
+
+        $total_leads = $this->total_chaty_contact_form_leads(); // Total number of chaty contact form leads
+        $contact_us_channel_active = $this->is_contact_us_channel_active(); // True if contact us channel is active, false otherwise
         ?>
         <style>
             #toplevel_page_chaty-app img:hover, #toplevel_page_chaty-app img {
@@ -513,6 +579,22 @@ class CHT_Admin_Base
             .current#toplevel_page_chaty-app .dashicons-before {
                 background-color: #fff;
             }
+            #toplevel_page_chaty-app ul.wp-submenu .cht-admin-menu-upgrade {
+                display: none !important;
+            }
+            <?php  
+                if( ! $status){
+                    echo '#toplevel_page_chaty-app ul.wp-submenu .wp-first-item {
+                        display: none !important;
+                    }';
+                }
+
+                if( $total_leads == 0 && !$contact_us_channel_active) {
+                    echo '#toplevel_page_chaty-app ul.wp-submenu .cht-admin-menu-integration {
+                        display: none !important;
+                    }';
+                }
+            ?>
         </style>
         <?php
     }//end cht_inline_css_admin()
@@ -566,6 +648,13 @@ class CHT_Admin_Base
             wp_enqueue_style('google-poppins-fonts', add_query_arg($queryArgs, "//fonts.googleapis.com/css2"), [], CHT_VERSION);
         }
 
+        if ($page == 'chaty_page_recommended-chaty-plugins' || $page == "chaty_page_chaty-live-chat") { 
+            // include the thickbox styles
+            wp_enqueue_style('thickbox');
+        }
+        
+       
+
     }//end enqueue_styles()
 
 
@@ -596,11 +685,18 @@ class CHT_Admin_Base
      */
     public function enqueue_scripts($page)
     {
+ 
+        // include the javascript
         $minified = CHT_DEV_MODE ? '' : '.min';
         if ($page == 'chaty_page_widget-analytics' || $page == "chaty_page_chaty-contact-form-feed") {
             wp_enqueue_script('jquery-ui-datepicker');
             return;
         }
+        if ($page == 'chaty_page_recommended-chaty-plugins' || $page == "chaty_page_chaty-live-chat") {
+           
+            wp_enqueue_script('thickbox', null, array('jquery'));
+        }
+        
 
         if($page == "chaty_page_chaty-app-upgrade") {
             wp_enqueue_script($this->pluginSlug.'slick-script', plugins_url('../admin/assets/js/slick.min.js', __FILE__), ['jquery'], CHT_VERSION, true);
@@ -632,6 +728,7 @@ class CHT_Admin_Base
         wp_enqueue_script($this->pluginSlug. 'picmo-latest-js', plugins_url('../admin/assets/js/picmo-latest-umd.min.js', __FILE__), array('jquery'), CHT_VERSION, true);
 
 
+        
         wp_localize_script(
             $this->pluginSlug.'chaty',
             'cht_nonce_ajax',
@@ -682,6 +779,8 @@ class CHT_Admin_Base
         return $user_country;
     }
 
+ 
+
     /**
      * Displays the Chaty admin setting page.
      *
@@ -689,7 +788,10 @@ class CHT_Admin_Base
      */
     public function cht_admin_setting_page()
     {
+
         if (current_user_can('manage_options')) {
+            
+            $status    = get_option("cht_active"); 
             $this->page = add_menu_page(
                 esc_attr__('Chaty', 'chaty'),
                 esc_attr__('Chaty', 'chaty'),
@@ -702,31 +804,45 @@ class CHT_Admin_Base
                 plugins_url('chaty/admin/assets/images/chaty.svg')
             );
 
+            if ($status) {
+                add_submenu_page(
+                    $this->pluginSlug,
+                    esc_attr__('Dashboard', 'chaty'),
+                    esc_attr__('Dashboard', 'chaty'),
+                    'manage_options',
+                    $this->pluginSlug,
+                    [
+                        $this,
+                        'display_cht_admin_page',
+                    ]
+                );
+            } else {
+                $widget_page = add_submenu_page(
+                    $this->pluginSlug,
+                    esc_attr__('Settings Admin', 'chaty'),
+                    esc_attr__('+ Create New Widget', 'chaty'),
+                    'manage_options',
+                    $this->pluginSlug.'&widget=0&step=0',
+                    [
+                        $this,
+                        "chaty_widget_page",
+                    ]
+                );
+            }
             add_submenu_page(
                 $this->pluginSlug,
-                esc_attr__('Dashboard', 'chaty'),
-                esc_attr__('Dashboard', 'chaty'),
+                esc_attr__('Chaty upgrade', 'chaty'),
+                esc_attr__('Chaty Upgrade', 'chaty'),
                 'manage_options',
-                $this->pluginSlug,
+                'chaty-upgrade',
                 [
                     $this,
-                    'display_cht_admin_page',
+                    'chaty_widget_page',
                 ]
             );
-
-            $widget_page = add_submenu_page(
-                $this->pluginSlug,
-                esc_attr__('Settings Admin', 'chaty'),
-                esc_attr__('+ Create New Widget', 'chaty'),
-                'manage_options',
-                "chaty-upgrade",
-                [
-                    $this,
-                    "chaty_widget_page",
-                ]
-            );
-
+          
             $chatwayStatus = apply_filters('check_for_chatway', false);
+ 
             add_submenu_page(
                 $this->pluginSlug,
                 esc_attr__('Chatway Live Chat', 'chaty'),
@@ -736,17 +852,21 @@ class CHT_Admin_Base
                 array($this, 'manage_chatway')
             );
 
-            $integrationPage = add_submenu_page(
-                $this->pluginSlug,
-                esc_attr__('Settings Admin', 'chaty'),
-                esc_attr__('Integrations', 'chaty'),
-                'manage_options',
-                "chaty-integration",
-                [
-                    $this,
-                    "chaty_integration_page",
-                ]
-            );
+            // Get all activated channel slug
+            $contact_us_channel_active = $this->is_contact_us_channel_active(); // True if contact us channel is active, false otherwise 
+            if($contact_us_channel_active) {
+                $integrationPage = add_submenu_page(
+                    $this->pluginSlug,
+                    esc_attr__('Settings Admin', 'chaty'),
+                    esc_attr__('Integrations', 'chaty'),
+                    'manage_options',
+                    "chaty-integration",
+                    [
+                        $this,
+                        "chaty_integration_page",
+                    ]
+                ); 
+            }
 
             // creating admin sub menu for chaty
             $upgradePage = add_submenu_page(
@@ -761,7 +881,8 @@ class CHT_Admin_Base
                 ]
             );
             add_action('admin_print_styles-'.$upgradePage, [$this, 'enqueue_styles']);
-
+       
+ 
             // creating admin sub menu for chaty
             $feed_page = add_submenu_page(
                 $this->pluginSlug,
@@ -773,7 +894,8 @@ class CHT_Admin_Base
                     $this,
                     'chaty_contact_form_feed',
                 ]
-            );
+            ); 
+            
             add_action('admin_print_styles-'.$feed_page, [$this, 'enqueue_styles']);
             // creating admin sub menu for chaty
             $getData = filter_input_array(INPUT_GET);
@@ -817,6 +939,7 @@ class CHT_Admin_Base
 
         // Load public-facing style sheet and JavaScript.
         add_action('admin_print_styles-'.$this->page, [$this, 'enqueue_styles']);
+
 
     }//end cht_admin_setting_page()
 

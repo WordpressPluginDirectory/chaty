@@ -14,6 +14,7 @@ $chatyWidgets = [];
 $widget       = "";
 $dateStatus   = false;
 $isDeleted    = get_option("cht_is_default_deleted");
+
 $hasChatway   = false;
 if ($isDeleted === false) {
     $chtWidgetTitle = get_option("cht_widget_title");
@@ -62,6 +63,7 @@ $installed_plugins = get_plugins();
                 <img src="<?php echo esc_url(CHT_PLUGIN_URL.'admin/assets/images/logo-color.svg'); ?>" alt="Chaty" class="logo">   
             </a>
             <div class="flex items-center mt-8 sm:mt-0 space-x-3">
+            
                 <?php if (count($chatyWidgets)) { ?>
                     <?php if (!is_plugin_active($plugin) || !$hasChatway) { ?>
                         <a class="btn inline-flex items-center rounded-lg font-normal text-base bg-gray-100 border-gray-400 hover:bg-cht-gray-150/10 hover:text-cht-gray-150 brd-cht-blue !text-[#0446de]" href="#" id="add_chatyway_icon">

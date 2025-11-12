@@ -426,6 +426,7 @@ class CHT_Frontend extends CHT_Admin_Base
         if ($this->canInsertWidget()) :
             // Initialize widget if widget is enable for current page
             $social = $this->get_social_icon_list();
+
             // get active icon list
             $chtActive = get_option("cht_active");
 
@@ -736,7 +737,7 @@ class CHT_Frontend extends CHT_Admin_Base
                 if (!function_exists( 'is_plugin_active' ) ) {
                     require_once ABSPATH . 'wp-admin/includes/plugin.php';
                 }
- 
+
                  
                 wp_localize_script('chaty-front-end', 'chaty_settings',  $data);
 
@@ -1342,7 +1343,7 @@ class CHT_Frontend extends CHT_Admin_Base
                                 "channel_account_type"  => $this->sanitize_xss($channelAccountType),
                                 "contact_form_settings" => $contactFormSettings,
                                 "contact_fields"        => $contactFields,
-                                "url"                   => $url,
+                                "url"                   => esc_url($url),
                                 "mobile_target"         => $mobileTarget,
                                 "desktop_target"        => $desktopTarget,
                                 "target"                => $desktopTarget,

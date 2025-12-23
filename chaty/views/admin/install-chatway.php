@@ -448,7 +448,7 @@ if ( $data && ! is_wp_error( $data ) ) {
 				<p><?php esc_html_e("Add the Chatway Live Chat widget to your website and effectively communicate with visitors with features such as:", "chaty"); ?></p>
 				<?php
 				 $chatway_feature = [
-					esc_html__("Handle chats from your website, email, and Facebook Messenger in one place.", "chaty"),
+					esc_html__("Handle chats from your website, email, Facebook Messenger & Instagram in one place.", "chaty"),
 					esc_html__("Integrate with WooCommerce and create separate widgets and inboxes for multiple websites.", "chaty"),
 					esc_html__("Customize your widget, add FAQs, set up automated messages and canned responses to reply faster, and collaborate effortlessly with your team with notes and reminders.", "chaty"),
 					esc_html__("Access live visitor details, multilingual support, and unlimited conversations.", "chaty"),

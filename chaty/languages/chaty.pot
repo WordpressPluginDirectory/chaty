@@ -2,10 +2,10 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Chaty 3.5.0\n"
+"Project-Id-Version: Chaty 3.5.1\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/chaty-free-uncompressed\n"
-"POT-Creation-Date: 2025-11-11 10:55:45+00:00\n"
+"POT-Creation-Date: 2025-12-23 05:39:53+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1000,7 +1000,9 @@ msgid ""
 msgstr ""
 
 #: views/admin/chatway.php:17 views/admin/install-chatway.php:451
-msgid "Handle chats from your website, email, and Facebook Messenger in one place."
+msgid ""
+"Handle chats from your website, email, Facebook Messenger & Instagram in "
+"one place."
 msgstr ""
 
 #: views/admin/chatway.php:18 views/admin/install-chatway.php:452

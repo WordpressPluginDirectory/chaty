@@ -1043,7 +1043,7 @@ class CHT_Frontend extends CHT_Admin_Base
                             if ($isViber !== false) {
                                 $url = esc_attr($val);
                             } else if ($isExist === false) {
-                                $url = esc_url($val);
+                                $url = esc_url_raw($val);
                                 if ($channelType == "custom_link" || $channelType == "link" || $channelType == "custom_link_3" || $channelType == "custom_link_4" || $channelType == "custom_link_5") {
                                     $desktopTarget = (isset($value['new_window']) && $value['new_window'] == 0) ? "" : "_blank";
                                     $mobileTarget  = (isset($value['new_window']) && $value['new_window'] == 0) ? "" : "_blank";
@@ -1343,7 +1343,7 @@ class CHT_Frontend extends CHT_Admin_Base
                                 "channel_account_type"  => $this->sanitize_xss($channelAccountType),
                                 "contact_form_settings" => $contactFormSettings,
                                 "contact_fields"        => $contactFields,
-                                "url"                   => esc_url($url),
+                                "url"                   => $url,
                                 "mobile_target"         => $mobileTarget,
                                 "desktop_target"        => $desktopTarget,
                                 "target"                => $desktopTarget,

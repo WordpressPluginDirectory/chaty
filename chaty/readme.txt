@@ -2,8 +2,8 @@
 Contributors: galdub, tomeraharon, premio
 Tags: whatsapp, whatsapp chat, facebook messenger, chat, chat button
 Requires at least: 3.1
-Tested up to: 6.8
-Stable tag: 3.5.0
+Tested up to: 6.9
+Stable tag: 3.5.1
 Plugin URI: https://premio.io/downloads/chaty/
 License: GPLv3
 
@@ -44,8 +44,8 @@ If you're not looking for WhatsApp, Facebook Messenger, and other chat buttons, 
 Chatway integrates seamlessly with Chaty, allowing you to customize the live chat icon. You can include it as part of the Chaty chat icons, overlay it on the main Chaty icon, or position it anywhere you prefer on your site.
 <a href="https://wordpress.org/plugins/chatway-live-chat/" target="_blank" title="Chatway Live Chat"><strong>Try Chatway Now 🔗</strong></a>
 
-= ▶️ Chaty Live Demo =
-A live demo of Chaty is available at <a href="https://demo.premio.io/chaty/?utm_source=wordpressorg" target="_blank" title="Premio.io demo site">Premio's demo site</a>. Besides the chat buttons that appear on the demo site, use any other chat icons & also add your own custom chat buttons.
+= ▶️ Chaty Demo =
+A demo of Chaty is available at <a href="https://demo.premio.io/chaty/?utm_source=wordpressorg" target="_blank" title="Premio.io demo site">Premio's demo site</a>. Besides the chat buttons that appear on the demo site, use any other chat icons & also add your own custom chat buttons.
 The agents feature for WhatsApp (it can be used for any other chat channel) is also available on this <a href="https://demo.premio.io/agents/?utm_source=wordpressorg" target="_blank" title="Agents for WhatsApp demo">demo page</a>.
 
 = 🚀 Choose from 25 different channels =
@@ -59,7 +59,7 @@ Instagram Direct Messenger
 TikTok (Tik Tok)
 Snapchat
 Launch a <a href="https://www.poptin.com/?utm_source=chatylisting" target="_blank">Poptin pop up</a>
-Twitter
+X.com (Twitter)
 LinkedIn
 Slack
 Vkontakte (ВКонтакте)
@@ -174,7 +174,7 @@ In the Pro version, Chaty has many WooCommerce integrations, including dynamic c
 
 * TikTok (Tik Tok) button - add your TikTok handle and let your visitors find your TikTok page.
 
-* Twitter (X.com) button - add your Twitter handle and let your visitors chat with your using Twitter X.com messages
+* X.com (Twitter) button - add your X.com (Twitter) handle and let your visitors chat with your using X.com Twitter messages
 
 * Snapchat - add your Snapchat username and let your visitors find you easily on Snapchat.
 
@@ -292,6 +292,9 @@ Yes! You can even decide what chat buttons will show up on each device (desktop/
 
 
 == Changelog ==
+
+= 3.5.1 =
+WordPress 6.9 compatibility bug fixed
 
 = 3.5.0 =
 Live chat integration flow improvement

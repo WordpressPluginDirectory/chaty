@@ -1276,8 +1276,9 @@ class CHT_Admin_Base
             $postData = filter_input_array(INPUT_GET);
             if (isset($postData['download_chaty_file']) && $postData['download_chaty_file'] == "chaty_contact_leads" && isset($postData['nonce'])) {
                 if (wp_verify_nonce($postData['nonce'], "download_chaty_contact_leads")) {
+                    $file_name = "chaty-contact-leads-".uniqid().".csv";
                     $uploadDir = wp_upload_dir();
-                    $file      = $uploadDir['basedir']."/chaty_contact_leads.csv";
+                    $file      = $uploadDir['basedir']."/".$file_name;
                     $fp        = fopen($file, "w") or die("Error Couldn't open for writing!");
 
                     global $wpdb;
@@ -1330,6 +1331,8 @@ class CHT_Admin_Base
                     header("Content-Length: ".filesize($file));
                     header("Content-Type: application/octet-stream;");
                     readfile($file);
+
+                    unlink($file);
                     exit;
                 }//end if
             }//end if

@@ -1,15 +1,15 @@
-# Copyright (C) 2025 Premio
+# Copyright (C) 2026 Premio
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Chaty 3.5.1\n"
+"Project-Id-Version: Chaty 3.5.2\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/chaty-free-uncompressed\n"
-"POT-Creation-Date: 2025-12-23 05:39:53+00:00\n"
+"POT-Creation-Date: 2026-03-02 07:28:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2025-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2026-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: en\n"
@@ -121,54 +121,54 @@ msgstr ""
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: admin/class-admin-base.php:1289
+#: admin/class-admin-base.php:1290
 msgid "id"
 msgstr ""
 
-#: admin/class-admin-base.php:1290
+#: admin/class-admin-base.php:1291
 msgid "Widget"
 msgstr ""
 
-#: admin/class-admin-base.php:1291 includes/class-frontend.php:1218
+#: admin/class-admin-base.php:1292 includes/class-frontend.php:1218
 #: views/admin/channel.php:452 views/admin/channels-section.php:43
 #: views/admin/contact-form-feed.php:196 views/admin/contact-form-feed.php:234
 msgid "Name"
 msgstr ""
 
-#: admin/class-admin-base.php:1292 admin/class-admin-base.php:2601
+#: admin/class-admin-base.php:1293 admin/class-admin-base.php:2604
 #: includes/class-frontend.php:1230 views/admin/channel.php:459
 #: views/admin/contact-form-feed.php:197 views/admin/contact-form-feed.php:237
 #: views/admin/help.php:422
 msgid "Email"
 msgstr ""
 
-#: admin/class-admin-base.php:1293 admin/class-social-icons.php:142
+#: admin/class-admin-base.php:1294 admin/class-social-icons.php:142
 #: admin/class-social-icons.php:165 admin/class-social-icons.php:223
 #: admin/class-social-icons.php:290 views/admin/contact-form-feed.php:198
 #: views/admin/contact-form-feed.php:240 views/admin/popup.php:290
 msgid "Phone number"
 msgstr ""
 
-#: admin/class-admin-base.php:1294 includes/class-frontend.php:1252
+#: admin/class-admin-base.php:1295 includes/class-frontend.php:1252
 #: views/admin/channel.php:473 views/admin/contact-form-feed.php:199
 #: views/admin/contact-form-feed.php:243
 msgid "Message"
 msgstr ""
 
-#: admin/class-admin-base.php:1295 views/admin/contact-form-feed.php:201
+#: admin/class-admin-base.php:1296 views/admin/contact-form-feed.php:201
 #: views/admin/contact-form-feed.php:257
 msgid "Date"
 msgstr ""
 
-#: admin/class-admin-base.php:1296
+#: admin/class-admin-base.php:1297
 msgid "Reference Page"
 msgstr ""
 
-#: admin/class-admin-base.php:2584
+#: admin/class-admin-base.php:2587
 msgid "%1$s is required"
 msgstr ""
 
-#: admin/class-admin-base.php:2593
+#: admin/class-admin-base.php:2596
 msgid "Please enter your message"
 msgstr ""
 

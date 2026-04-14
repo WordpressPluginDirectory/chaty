@@ -9,10 +9,10 @@ $chatwayStatus = apply_filters('check_for_chatway_status', 'not-installed');
         <div class="chatway-notice-message">
             <div class="chatway--notice--info plugin-not-installed <?php echo esc_attr($chatwayStatus == 'not-installed'?'':'hidden') ?>">
                 <div class="text-sm pb-3">
-                    <strong>Please note</strong> that the Chatway plugin is not installed on your WordPress dashboard and Chatway widget will not be visible on your website. <a target="_blank" href="<?php echo admin_url("plugin-install.php?s=chatway&tab=search&type=author") ?>" class="text-cht-primary hover:text-cht-primary-100 underline">Go to plugins</a> and install the Chatway plugin.
+                    <strong>Please note</strong> that the Chatway plugin is not installed on your WordPress dashboard and Chatway widget will not be visible on your website. <a target="_blank" href="<?php echo admin_url("admin.php?page=chaty-live-chat") ?>" class="text-cht-primary hover:text-cht-primary-100 underline">Go to plugins</a> and install the Chatway plugin.
                 </div>
                 <div class="flex gap-2.5">
-                    <a target="_blank" href="<?php echo admin_url("plugin-install.php?s=chatway&tab=search&type=author") ?>" class="text-cht-primary text-sm hover:text-cht-primary hover:bg-[#f9f6fd] items-center gap-1 border border-solid border-cht-primary-100 rounded inline-flex py-1 px-3">
+                    <a target="_blank" href="<?php echo admin_url("admin.php?page=chaty-live-chat") ?>" class="text-cht-primary text-sm hover:text-cht-primary hover:bg-[#f9f6fd] items-center gap-1 border border-solid border-cht-primary-100 rounded inline-flex py-1 px-3">
                         Install Chatway plugin
                         <svg data-v-7dab8964="" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path data-v-7dab8964="" d="M12 8.66667V12.6667C12 13.0203 11.8595 13.3594 11.6095 13.6095C11.3594 13.8595 11.0203 14 10.6667 14H3.33333C2.97971 14 2.64057 13.8595 2.39052 13.6095C2.14048 13.3594 2 13.0203 2 12.6667V5.33333C2 4.97971 2.14048 4.64057 2.39052 4.39052C2.64057 4.14048 2.97971 4 3.33333 4H7.33333" stroke="#b78deb" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"></path><path data-v-7dab8964="" d="M10 2H14V6" stroke="#b78deb" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"></path><path data-v-7dab8964="" d="M6.66797 9.33333L14.0013 2" stroke="#b78deb" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                     </a>
@@ -23,10 +23,10 @@ $chatwayStatus = apply_filters('check_for_chatway_status', 'not-installed');
             </div>
             <div class="chatway--notice--info plugin-not-activated <?php echo esc_attr($chatwayStatus == 'not-activated'?'':'hidden') ?>">
                 <div class="text-sm pb-3">
-                    <strong>Please note</strong> that the Chatway plugin has not been activated. To activate it, <a target="_blank" href="<?php echo admin_url("plugin-install.php?s=chatway&tab=search&type=author") ?>" class="text-cht-primary hover:text-cht-primary-100 underline">go to plugins</a> and activate the Chatway again.
+                    <strong>Please note</strong> that the Chatway plugin has not been activated. To activate it, <a target="_blank" href="<?php echo admin_url("admin.php?page=chaty-live-chat") ?>" class="text-cht-primary hover:text-cht-primary-100 underline">go to plugins</a> and activate the Chatway again.
                 </div>
                 <div class="flex gap-2.5">
-                    <a target="_blank" href="<?php echo admin_url("plugin-install.php?s=chatway&tab=search&type=author") ?>" class="text-cht-primary text-sm hover:text-cht-primary hover:bg-[#f9f6fd] items-center gap-1 border border-solid border-cht-primary-100 rounded inline-flex py-1 px-3">
+                    <a target="_blank" href="<?php echo admin_url("admin.php?page=chaty-live-chat") ?>" class="text-cht-primary text-sm hover:text-cht-primary hover:bg-[#f9f6fd] items-center gap-1 border border-solid border-cht-primary-100 rounded inline-flex py-1 px-3">
                         Activate Chatway plugin
                         <svg data-v-7dab8964="" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path data-v-7dab8964="" d="M12 8.66667V12.6667C12 13.0203 11.8595 13.3594 11.6095 13.6095C11.3594 13.8595 11.0203 14 10.6667 14H3.33333C2.97971 14 2.64057 13.8595 2.39052 13.6095C2.14048 13.3594 2 13.0203 2 12.6667V5.33333C2 4.97971 2.14048 4.64057 2.39052 4.39052C2.64057 4.14048 2.97971 4 3.33333 4H7.33333" stroke="#b78deb" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"></path><path data-v-7dab8964="" d="M10 2H14V6" stroke="#b78deb" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"></path><path data-v-7dab8964="" d="M6.66797 9.33333L14.0013 2" stroke="#b78deb" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                     </a>

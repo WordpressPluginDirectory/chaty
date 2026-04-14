@@ -737,7 +737,9 @@ class CHT_Admin_Base
                 'has_js_access' => current_user_can("unfiltered_html")?true:false,
                 'js_message' => esc_html__("Please remove the JavaScript from the channels or ask the website's administrator to give you access to add JavaScript.", "chaty"),
                 'remove' => esc_html__("Remove", "chaty"),
-                'icon_img' => esc_url(CHT_PLUGIN_URL."admin/assets/images/icon-picker.png")
+                'icon_img' => esc_url(CHT_PLUGIN_URL."admin/assets/images/icon-picker.png"),
+                'chatway_install_url' => self_admin_url("admin.php?page=chaty-live-chat"),
+                'chatway_url' => self_admin_url('admin.php?page=chatway')
             ]
         );
         $whatsapp_settings = [];
@@ -2528,7 +2530,6 @@ class CHT_Admin_Base
     public function chaty_text()
     {
         load_plugin_textdomain("chaty", false, dirname(plugin_basename(__FILE__)).'/languages/');
-
     }//end chaty_text()
 
 

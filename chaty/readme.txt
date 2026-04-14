@@ -3,7 +3,7 @@ Contributors: galdub, tomeraharon, premio
 Tags: whatsapp, whatsapp chat, facebook messenger, chat, chat button
 Requires at least: 3.1
 Tested up to: 6.9
-Stable tag: 3.5.2
+Stable tag: 3.5.3
 Plugin URI: https://premio.io/downloads/chaty/
 License: GPLv3
 
@@ -39,8 +39,9 @@ Chaty is the perfect chat plugin to display a call widget, WhatsApp button, emai
 * Available days & hours (Pro feature).
 * Launch your favorite live chat app - use JavaScript to launch live chat apps like Chatway, Tawk.to, Tidio, Chatra, Formilla, Zoho, Zendesk, LiveChat, Crisp, Intercom, JivoChat, Olark & more.
 
-= 👩‍💻 Looking for a Live Chat plugin? =
-If you're not looking for WhatsApp, Facebook Messenger, and other chat buttons, and prefer to use a live chat solution for your website, <a href="https://chatway.app/?utm_source=chatylisting" target="_blank" title="Chatway Live Chat">Chatway Live Chat</a> is the perfect solution for you. Implementing Chatway, a WordPress live chat solution, enhances your customer engagement.
+= 👩‍💻 Looking for a Live Chat & AI Chatbot plugin? =
+If you're not looking for WhatsApp, Facebook Messenger, and other chat buttons, and prefer to use a live chat & AI chatbot solution for your website, <a href="https://chatway.app/?utm_source=chatylisting" target="_blank" title="Chatway Live Chat">Chatway Live Chat</a> is the perfect solution for you. Implementing Chatway, a WordPress live chat solution, enhances your customer engagement.
+Chatway also includes an AI chatbot that can automatically answer common questions, assist visitors instantly, and reduce your support workload. It helps you stay available 24/7, improve response times, and deliver better customer support even when your team is offline.
 Chatway integrates seamlessly with Chaty, allowing you to customize the live chat icon. You can include it as part of the Chaty chat icons, overlay it on the main Chaty icon, or position it anywhere you prefer on your site.
 <a href="https://wordpress.org/plugins/chatway-live-chat/" target="_blank" title="Chatway Live Chat"><strong>Try Chatway Now 🔗</strong></a>
 
@@ -292,6 +293,9 @@ Yes! You can even decide what chat buttons will show up on each device (desktop/
 
 
 == Changelog ==
+
+= 3.5.3 =
+Minor bug fixes
 
 = 3.5.2 =
 Contact form bug fixed

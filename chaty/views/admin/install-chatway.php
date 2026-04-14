@@ -45,8 +45,8 @@ $args = [
 $data = plugins_api( 'plugin_information', $args );
 if ( $data && ! is_wp_error( $data ) ) {
     $recommendedPlugins['chatway-live-chat'] = $data;
-    $recommendedPlugins['chatway-live-chat']->name = 'Free Live Chat: Chatway';
-    $recommendedPlugins['chatway-live-chat']->short_description = 'Live chat with your website’s visitors through your WordPress website. Chatway includes unlimited chats, iOS & Android mobile apps, team collaboration, saved replies, integrations, and more.';
+    $recommendedPlugins['chatway-live-chat']->name = esc_html__('Chatway: Free Live Chat, AI Chatbot', 'chaty');
+    $recommendedPlugins['chatway-live-chat']->short_description = esc_html__("Live chat with your website's visitors through your WordPress website. Chatway includes unlimited chats, an AI support agent chatbot, iOS & Android mobile apps, team collaboration, saved replies, integrations, and more.", "chaty");
 }
 ?> 
 <style>
@@ -54,7 +54,25 @@ if ( $data && ! is_wp_error( $data ) ) {
 		display: flex;
 		gap: 32px;
 	}
- 
+
+    .plugin-card {
+        margin: 0;
+    }
+
+    .recommended-plugins-wrapper {
+        min-height: calc(100vh - 136px);
+        display: flex;
+        align-items: center;
+    }
+
+    .wp-core-ui .button {
+        font-size: 16px;
+        padding: 5px 16px;
+    }
+
+    .plugin-card .column-description>p.authors {
+        font-style: italic;
+    }
 	
 	.plugin-card.plugin-card-chatway-live-chat {
 		width: 100% !important;
@@ -67,7 +85,8 @@ if ( $data && ! is_wp_error( $data ) ) {
 		margin-top: 32px;
 	}
 	.recommended-chatway-plugin-content > div {
-		width: 50% !important;
+		flex: 1;
+        width: auto !important;
 	}
 	.recommended-chatway-plugin-header h2 {
 		padding: 32px 28px;
@@ -80,44 +99,44 @@ if ( $data && ! is_wp_error( $data ) ) {
 	}
 	.recommended-chatway-plugin-content {
 		padding: 28px;
+        align-items: center;
 	}
 		
 	.recommended-chatway-plugin-content-inner h3 {
-		color: var(--Main-text, #092030);  
-		font-size: 20px; 
-		font-weight: 700;
+		color: #092030;
+		font-size: 24px;
+		font-weight: bold;
 		line-height: 100%;
 		margin-top: 0;
+        margin-bottom: 12px;
 	}
 	.recommended-chatway-plugin-content-inner p {
-		color: var(--Grey-2, #49687E);  
+		color: var(--Grey-2, #49687E);
 		font-size: 16px; 
 		font-weight: 400;
 		line-height: 137%;
 	}
 	.recommended-chatway-plugin-content-inner ul li {
 		display: flex;
-		color: var(--Grey-2, #49687E);
+		color: var(--Grey-2, #092030);
 		gap: 8px;
 		align-items: start;
-		margin: 0;
 		font-size: 14px;
 		font-weight: 400;
 		line-height: normal;
 		justify-content: start;
 		flex-direction: row;
 		flex-wrap: wrap;
-		margin-bottom: 14px;
+		margin: 0 0 12px;
+        display: flex;
+        align-items: center;
 	}
 	.recommended-chatway-plugin-content-inner ul li span {
 		width: calc(100% - 60px);
 	}
-    @media (max-width: 782px) {
+    @media (max-width: 900px) {
         .recommended-chatway-plugin-content{
             flex-direction: column;
-        }
-        .recommended-chatway-plugin-content > div {
-            width: 100% !important;
         }
     }
     @media (max-width: 380px) {
@@ -128,12 +147,7 @@ if ( $data && ! is_wp_error( $data ) ) {
 </style>
 <div class="wrap mystickyelement-wrap recommended-plugins-wrapper">
 	<div class="recommended-chatway-plugin-container">
-		<div class="recommended-chatway-plugin-header">
-			<h2>
-				<?php esc_html_e('Install Chatway Live Chat', 'chaty'); ?>				
-			</h2>
-		</div>
-		<div class="recommended-chatway-plugin-content">  
+		<div class="recommended-chatway-plugin-content">
 			<div class="wp-list-table widefat plugin-install">
                 <div class="the-list">
                     <?php
@@ -444,23 +458,24 @@ if ( $data && ! is_wp_error( $data ) ) {
                 </div>
 			</div>	
 			<div class="recommended-chatway-plugin-content-inner">
-				<h3><?php esc_html_e("Connect effortlessly with customers through Live Chat!", "chaty"); ?></h3>
-				<p><?php esc_html_e("Add the Chatway Live Chat widget to your website and effectively communicate with visitors with features such as:", "chaty"); ?></p>
+				<h3><?php esc_html_e("Install Chatway: Live Chat & AI", "chaty"); ?></h3>
+				<p><?php esc_html_e("Talk to visitors instantly. Automate support with AI. Turn chats into customers.", "chaty"); ?></p>
 				<?php
-				 $chatway_feature = [
-					esc_html__("Handle chats from your website, email, Facebook Messenger & Instagram in one place.", "chaty"),
-					esc_html__("Integrate with WooCommerce and create separate widgets and inboxes for multiple websites.", "chaty"),
-					esc_html__("Customize your widget, add FAQs, set up automated messages and canned responses to reply faster, and collaborate effortlessly with your team with notes and reminders.", "chaty"),
-					esc_html__("Access live visitor details, multilingual support, and unlimited conversations.", "chaty"),
-					esc_html__("Stay connected anywhere with Chatway’s iOS and Android apps.", "chaty"),
-				 ]
+                $chatway_feature = [
+                    esc_html__("24/7 AI support that handles repetitive questions", "chaty"),
+                    esc_html__("All chats in one inbox (Website, Email, Messenger, Instagram)", "chaty"),
+                    esc_html__("WooCommerce integration", "chaty"),
+                    esc_html__("Custom automations & canned replies", "chaty"),
+                    esc_html__("Multiple widgets & inboxes", "chaty"),
+                    esc_html__("Live visitor insights and Multilingual support", "chaty")
+                ]
 				?>
 				<ul>
                     <?php foreach ($chatway_feature as $feature) { ?>
 						<li> 
 							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<rect width="24" height="24" rx="12" fill="#27B836" fill-opacity="0.16"/>
-								<path d="M17.3346 8L10.0013 15.3333L6.66797 12" stroke="#27B836" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+								<path d="M17.3346 8L10.0013 15.3333L6.66797 12" stroke="#0C7C17" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
 							</svg>
 							<span><?php echo esc_html($feature); ?></span>
 						</li> 

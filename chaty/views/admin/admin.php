@@ -181,9 +181,9 @@ $proClass      = "none_pro";
                     <!--/* Chatway */-->
                     <div id="chaty-tab-chatway" class="social-channel-tabs <?php echo ($step == 3) ? "active" : "" ?>">
                         <h1 class="section-title font-primary text-cht-gray-150 text-2xl border-b border-gray-150/40 px-4 sm:px-8 py-5">
-                            <strong><?php esc_html_e("Step 4:", "chaty") ?></strong> <?php esc_html_e("Add live chat", "chaty") ?>
+                            <strong><?php esc_html_e("Step 4:", "chaty") ?></strong> <?php esc_html_e("Add live chat + AI support agent", "chaty") ?>
                         </h1>
-                        <div class="p-5 md:p-8 pl-0 md:pl-0">
+                        <div class="p-5 md:p-8">
                             <?php require_once 'chatway.php'; ?>
                         </div>
                     </div>

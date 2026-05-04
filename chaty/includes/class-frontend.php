@@ -741,7 +741,9 @@ class CHT_Frontend extends CHT_Admin_Base
                  
                 wp_localize_script('chaty-front-end', 'chaty_settings',  $data);
 
-                if (  !is_plugin_active( 'litespeed-cache/litespeed-cache.php' ) || !get_option( 'litespeed.conf.optm-js_defer', false )) { // Check if LSCache is active and defer is enabled
+                $add_defer = apply_filters('add_defer_to_chaty', true);
+
+                if ($add_defer &&  (!is_plugin_active( 'litespeed-cache/litespeed-cache.php' ) || !get_option( 'litespeed.conf.optm-js_defer', false ))) { // Check if LSCache is active and defer is enabled
                     // Only run this if WP version >= 6.3
                     if ( version_compare( get_bloginfo( 'version' ), '6.3', '>=' ) ) {
                         add_filter( 'script_loader_tag', function ( $tag, $handle ) {

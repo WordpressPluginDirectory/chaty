@@ -3,7 +3,7 @@ Contributors: galdub, tomeraharon, premio
 Tags: whatsapp, whatsapp chat, facebook messenger, chat, chat button
 Requires at least: 3.1
 Tested up to: 6.9
-Stable tag: 3.5.3
+Stable tag: 3.5.4
 Plugin URI: https://premio.io/downloads/chaty/
 License: GPLv3
 
@@ -78,7 +78,7 @@ Link to an external channel/contact page (New feature: add custom chat buttons a
 = 🆓 What do you get in the Free plan? =
 1. Unlimited click to chat channels like WhatsApp, Facebook Messenger, Telegram, Viber, phone click to call, SMS, and more
 2. Chat widget position
-3. Call to action message beside your chat widget
+3. Call to action message for the chat widget
 4. Display triggers
 5. Attention effects
 6. Pending messages icon
@@ -89,11 +89,11 @@ Link to an external channel/contact page (New feature: add custom chat buttons a
 10. Change widget size
 11. Beautiful chat button designs
 12. Show the widget on mobile & desktop or both
-13. Different channels for mobile and desktop
-14. Change chat icons’ order
+13. Different channels for mobile & desktop
+14. Change chat icons' order
 15. Change the font of your chat widget
 16. Custom chat buttons can be opened in a new tab
-17. Launch the Chaty chat button using a JavaScript
+17. Launch the Chaty chat button using JavaScript
 18. Use same chat channels more than once. For example, create two WhatsApp buttons
 19. Third custom chat button, link to any page or JavaScript code
 20. Select your country and add your local WhatsApp number
@@ -293,6 +293,10 @@ Yes! You can even decide what chat buttons will show up on each device (desktop/
 
 
 == Changelog ==
+
+= 3.5.4 =
+Improved the contact form and widget header design by using a solid background for a cleaner and more consistent look.
+Added a custom filter that allows removing defer from the Chaty script when needed, helping avoid compatibility issues with specific themes or setups.
 
 = 3.5.3 =
 Minor bug fixes
